@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1079459696123",
+    "project_id": "cachmoney-8f3b8",
+    "storage_bucket": "cachmoney-8f3b8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079459696123:android:a0d65f46e249d932a0cf5e",
+        "android_client_info": {
+          "package_name": "com.example.cash_money"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnROXOVwRD1Mrpoq33_0uovmSP_MB--sA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
