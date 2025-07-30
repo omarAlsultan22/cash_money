@@ -1,6 +1,32 @@
-# cash_money
+## Cash Money Quiz App (Flutter & Firebase)
 
-"A new Flutter project."
+💰 A competitive trivia game where players earn points for each correct answer
+
+## 🎯 Core Features (Exactly as Specified)
+
+• Question/Answer System: Displays questions with multiple-choice options
+• Point Scoring: +1 point for each correct answer
+
+• Firebase Integration:
+• Firestore: Stores all questions/answers
+• Authentication: Player login system
+• Local Storage: SharedPreferences saves player progress
+• State Management: BLoC pattern only
+
+## 📱 User Flow
+
+• Player logs in (Firebase Auth)
+• Questions load from Firestore
+• Each correct answer adds +1 point
+• Progress saves locally via SharedPreferences
+
+## 🎨 UI/UX Compliance
+
+• Clean Material Design interface
+• Responsive layouts for all devices
+• No unnecessary features beyond specified scope
+
+
 
 ## Getting Started
 
