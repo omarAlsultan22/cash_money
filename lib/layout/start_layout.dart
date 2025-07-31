@@ -4,6 +4,7 @@ import 'package:cash_money/shared/cubit/cubit.dart';
 import 'package:cash_money/shared/cubit/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
@@ -50,7 +51,16 @@ class _StartScreenState extends State<StartScreen> {
       }
       if (currentIndex < length) {
         startTimer(length);
-      } else {
+      } if(currentIndex == 2) {
+        QuickAlert.show(
+          context: context,
+          text: 'لقد حققت $points اجابات صحيحة من أصل $length',
+          type: currentIndex > length / 2 ?  QuickAlertType.success : QuickAlertType.error,
+          showConfirmBtn: true,
+          confirmBtnText:  'حسنا'
+        ).whenComplete((){
+          Navigator.pop(context);
+        });
         timer?.cancel();
       }
     });
