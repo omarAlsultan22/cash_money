@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../shared/cubit/cubit.dart';
 import '../shared/cubit/state.dart';
 
@@ -56,154 +55,172 @@ class AnswerScreen extends StatelessWidget {
   }
 }
 
-class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({Key? key}) : super(key: key);
+class BuildQuestionsScreen extends StatefulWidget {
+  final BuildContext context;
+  final AppDataStates state;
+  const BuildQuestionsScreen({
+    super.key,
+    required this.context,
+    required this.state,
+  });
 
   @override
-  State<QuestionsScreen> createState() => _QuestionsScreenState();
+  State<BuildQuestionsScreen> createState() => _BuildQuestionsScreenState();
 }
 
-class _QuestionsScreenState extends State<QuestionsScreen> {
+class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
+  final ScrollController _scrollController = ScrollController();
+  late AppDataCubit cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    cubit = AppDataCubit.get(widget.context);
+    _scrollController.addListener(_onScrollData);
+  }
+
+  void _onScrollData() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 50.0 &&
+        !cubit.isLoadingMore) {
+      cubit.getQuestionsData();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _scrollController.removeListener(_onScrollData);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-      AppDataCubit()
-        ..getData(),
-      child: BlocConsumer<AppDataCubit, AppDataStates>(
-        listener: (context, state) {
-          if (state is AppDataErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error),
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                backgroundColor: Colors.red[800],
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is AppDataLoadingState) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Loading Questions...',
-                    style: TextStyle(
-                      color: Colors.brown[200],
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          final questions = AppDataCubit
-              .get(context)
-              .dataList;
-
-          return state is AppDataListSuccessState
-              ? Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-              backgroundColor: Colors.brown[800],
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                scrolledUnderElevation: 0,
-                elevation: 0,
-                title: const Text(
-                  'الأسئلة',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                  splashRadius: 20,
-                ),
-              ),
-              body: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.brown[900]!,
-                      Colors.brown[700]!,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
-                  itemCount: questions.length,
-                  itemBuilder: (context, index) {
-                    final question = questions[index];
-                    final correctAnswer = question.answers.firstWhere(
-                          (a) => a.isCorrect,
-                      orElse: () => question.answers.first,
-                    );
-
-                    return Card(
-                      elevation: 4,
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      color: Colors.brown[600],
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) =>
-                                  AnswerScreen(
-                                    answer: correctAnswer.answer,
-                                    isCorrect: true,
-                                  ),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            question.question,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) =>
-                  const SizedBox(height: 8),
-                ),
-              ),
-            ),
-          )
-              : const Center(
-            child: CircularProgressIndicator(
+    if (widget.state is AppDataLoadingState) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
             ),
-          );
-        },
+            const SizedBox(height: 20),
+            Text(
+              'Loading Questions...',
+              style: TextStyle(
+                color: Colors.brown[200],
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final questions = cubit
+        .questionsData;
+
+    return widget.state is AppDataSuccessState
+        ? Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: Colors.brown[800],
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+          elevation: 0,
+          title: const Text(
+            'الأسئلة',
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.pop(context),
+            splashRadius: 20,
+          ),
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.brown[900]!,
+                Colors.brown[700]!,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: ListView.separated(
+            controller: _scrollController,
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            itemCount: questions.length + 1,
+            itemBuilder: (context, index) {
+              if (index < questions.length) {
+                final question = questions[index];
+                final correctAnswer = question.answers.firstWhere(
+                      (a) => a.isCorrect,
+                  orElse: () => question.answers.first,
+                );
+
+                return Card(
+                  elevation: 4,
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  color: Colors.brown[600],
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              AnswerScreen(
+                                answer: correctAnswer.answer,
+                                isCorrect: true,
+                              ),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        question.question,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Center(
+                  child: !cubit.isLoadingMore
+                      ? const CircularProgressIndicator()
+                      : const SizedBox(),
+                );
+              }
+            },
+            separatorBuilder: (context, index) =>
+            const SizedBox(height: 8),
+          ),
+        ),
+      ),
+    )
+        : const Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
       ),
     );
   }
 }
+
+

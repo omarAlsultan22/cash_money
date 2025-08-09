@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ..getInfo(UserDetails.uId),
       child: BlocConsumer<AppModelCubit, AppDataStates>(
         listener: (context, state) {
-          if (state is AppDataModelSuccessState) {
+          if (state is AppDataSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
               _buildSnackBar('تم التحديث بنجاح', Colors.green[800]!),
             );
@@ -76,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             );
           }
 
-          if (state is AppDataModelSuccessState) {
+          if (state is AppDataSuccessState) {
             _nameController.text = state.userModel.name;
             _phoneController.text = state.userModel.phone;
             _locationController.text = state.userModel.location;

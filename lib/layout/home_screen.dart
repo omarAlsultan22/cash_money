@@ -1,107 +1,87 @@
-import 'package:cash_money/layout/questions_layout.dart';
 import 'package:cash_money/modules/sttings_screen/settings_screen.dart';
-import 'package:cash_money/layout/start_layout.dart';
-import 'package:cash_money/shared/cubit/cubit.dart';
-import 'package:cash_money/shared/cubit/state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../modules/questions_screen/questions_screen.dart';
+import '../modules/start_screen/start_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppDataCubit()..getInfo(),
-      child: BlocConsumer<AppDataCubit, AppDataStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Scaffold(
-            backgroundColor: Colors.brown[900],
-            body: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.brown[900]!,
-                    Colors.brown[800]!,
-                    Colors.brown[700]!,
-                  ],
-                ),
-              ),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Logo Section
-                        Hero(
-                          tag: 'app-logo',
-                          child: Container(
-                            height: 200,
-                            width: 200,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/images/cm1.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+  Widget buildHomeScreen(BuildContext context){
+    return Scaffold(
+      backgroundColor: Colors.brown[900],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.brown[900]!,
+              Colors.brown[800]!,
+              Colors.brown[700]!,
+            ],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Logo Section
+                  Hero(
+                    tag: 'app-logo',
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 5),
                           ),
+                        ],
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/cm1.png',
+                          fit: BoxFit.cover,
                         ),
-                        const SizedBox(height: 40),
-
-                        // Buttons Section
-                        _buildMenuButton(
-                          context,
-                          title: 'Start',
-                          icon: Icons.play_arrow_rounded,
-                          page: const StartScreen(),
-                          color: Colors.green[800]!,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildMenuButton(
-                          context,
-                          title: 'Questions',
-                          icon: Icons.help_outline_rounded,
-                          page: const QuestionsScreen(),
-                          color: Colors.blue[800]!,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildMenuButton(
-                          context,
-                          title: 'Settings',
-                          icon: Icons.settings_rounded,
-                          page: const SettingsScreen(),
-                          color: Colors.orange[800]!,
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 40),
+
+                  // Buttons Section
+                  _buildMenuButton(
+                    context,
+                    title: 'Start',
+                    icon: Icons.play_arrow_rounded,
+                    page: const StartScreen(),
+                    color: Colors.green[800]!,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildMenuButton(
+                    context,
+                    title: 'Questions',
+                    icon: Icons.help_outline_rounded,
+                    page: const QuestionsScreen(),
+                    color: Colors.blue[800]!,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildMenuButton(
+                    context,
+                    title: 'Settings',
+                    icon: Icons.settings_rounded,
+                    page: const SettingsScreen(),
+                    color: Colors.orange[800]!,
+                  ),
+                ],
               ),
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -151,4 +131,3 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}

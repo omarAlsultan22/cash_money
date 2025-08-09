@@ -4,16 +4,21 @@ import 'package:bloc/bloc.dart';
 import 'package:cash_money/shared/local/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'layout/home_screen.dart';
 import 'shared/firebase_options.dart';
 
 void main() async{
 
-  await CacheHelper.init();
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform);
-  Bloc.observer = MyBlocObserver();
-
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    await CacheHelper.init();
+    Bloc.observer = MyBlocObserver();
+  }
+  catch(error){
+    rethrow;
+  }
   runApp(const MyApp());
 }
 

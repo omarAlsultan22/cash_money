@@ -20,7 +20,7 @@ class AppModelCubit extends Cubit<AppDataStates> {
         Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
         UserModel userModel = UserModel.fromJson(data);
         print('Document data: $data');
-        emit(AppDataModelSuccessState<UserModel>(userModel: userModel));
+        emit(AppDataSuccessState<UserModel>(userModel: userModel));
       } else {
         print('Document does not exist');
       }
@@ -48,7 +48,7 @@ class AppModelCubit extends Cubit<AppDataStates> {
       );
       await FirebaseFirestore.instance.collection('users').doc(uId).update(
           userModel.toMap());
-      emit(AppDataListSuccessState());
+      emit(AppDataSuccessState());
     }
     catch (error) {
       emit(AppDataErrorState(error.toString()));
@@ -69,9 +69,9 @@ class AppModelCubit extends Cubit<AppDataStates> {
       );
       try {
         await user.reauthenticateWithCredential(credential);
-        await user.updateEmail(newEmail).then((_) {
+        await user.verifyBeforeUpdateEmail(newEmail).then((_) {
           user.updatePassword(newPassword).then((_) {
-            emit(AppDataListSuccessState());
+            emit(AppDataSuccessState());
           });
         });
       } on FirebaseAuthException catch (e) {

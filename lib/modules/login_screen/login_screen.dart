@@ -1,10 +1,10 @@
-import 'package:cash_money/layout/home_screen.dart';
 import 'package:cash_money/shared/local/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/components/components.dart';
 import '../../shared/cubit/state.dart';
+import '../home_screen/home_screen.dart';
 import '../register_screen/register_screen.dart';
 import 'cubit.dart';
 
@@ -26,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _checkLoginStatus();
+    _emailController.text = 'omaralsultan22@gmail.com';
+    _passwordController.text = '254086aaa';
   }
 
   @override
@@ -74,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, AppDataStates>(
         listener: (context, state) {
-          if (state is AppDataModelSuccessState) {
+          if (state is AppDataSuccessState) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),

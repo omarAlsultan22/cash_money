@@ -1,4 +1,5 @@
 import 'package:cash_money/shared/components/components.dart';
+import 'package:cash_money/shared/components/constatnts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/cubit/state.dart';
@@ -24,10 +25,10 @@ class LoginCubit extends Cubit<AppDataStates> {
         email: email,
         password: password,
       ).then((value) {
-        CacheHelper.putValue(key: 'uId', value: value.user!.uid);
+        CacheHelper.putValue(key: 'uId', value: UserDetails.uId);
       });
       showToast('Login successful!');
-      emit(AppDataModelSuccessState());
+      emit(AppDataSuccessState());
     } on FirebaseAuthException catch (error) {
       String errorMessage = "Login failed. Please try again.";
       switch (error.code) {

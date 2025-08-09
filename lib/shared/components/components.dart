@@ -1,6 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../modles/user_data.dart';
 
+Future<List<QuestionModel>> getData({
+  required DocumentSnapshot? lastDocument,
+}) async {
+  Query query = FirebaseFirestore.instance.collection('data')
+      .doc('0Hv1zUWKuetw3eP7Nplt').collection('userData');
+  if (lastDocument != null) {
+    query = query.startAfterDocument(lastDocument);
+  }
+  final value = await query.limit(25).get();
+  if(value.docs.isEmpty) {
+    return [];
+  }
+
+  DataModel data = DataModel.fromQuerySnapshot(value);
+  lastDocument = value.docs.last;
+  return data.data;
+}
 
 Widget sizeBox() =>
     const SizedBox(

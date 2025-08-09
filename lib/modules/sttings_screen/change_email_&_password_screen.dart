@@ -93,8 +93,7 @@ class _ChangeEmailAndPasswordState extends State<ChangeEmailAndPassword> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(create: (context) => AppModelCubit(),
-      child: BlocConsumer<AppModelCubit, AppDataStates>(
-          listener: (context, state) {},
+      child: BlocBuilder<AppModelCubit, AppDataStates>(
           builder: (context, state) {
             var cubit = AppModelCubit.get(context);
             return Directionality(

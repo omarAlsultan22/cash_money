@@ -65,7 +65,7 @@ class _RegisterState extends State<Register> {
               ),
             );
           }
-          if (state is AppDataModelSuccessState) {
+          if (state is AppDataSuccessState) {
             Navigator.pop(context);
           }
         },

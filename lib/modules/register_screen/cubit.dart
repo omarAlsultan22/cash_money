@@ -49,7 +49,7 @@ class RegisterCubit extends Cubit<AppDataStates> {
     );
     FirebaseFirestore db = FirebaseFirestore.instance;
     await db.collection('users').doc(uId).set(userModel.toMap()).then((value) {
-      emit(AppDataModelSuccessState());
+      emit(AppDataSuccessState());
     })
         .catchError((error) {
       emit(AppDataErrorState(error.toString()));
