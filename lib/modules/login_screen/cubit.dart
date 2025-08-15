@@ -16,7 +16,7 @@ class LoginCubit extends Cubit<AppDataStates> {
   }) async {
     if (email.isEmpty || password.isEmpty) {
       showToast('Please fill in all fields.');
-      emit(AppDataErrorState('Fields cannot be empty.'));
+      emit(AppDataErrorState(error: 'Fields cannot be empty.'));
       return;
     }
     emit(AppDataLoadingState());
@@ -45,10 +45,10 @@ class LoginCubit extends Cubit<AppDataStates> {
           errorMessage = error.message ?? errorMessage;
       }
       showToast(errorMessage);
-      emit(AppDataErrorState(errorMessage));
+      emit(AppDataErrorState(error: errorMessage));
     } catch (error) {
       showToast('An unexpected error occurred.');
-      emit(AppDataErrorState(error.toString()));
+      emit(AppDataErrorState(error: error.toString()));
     }
   }
 }

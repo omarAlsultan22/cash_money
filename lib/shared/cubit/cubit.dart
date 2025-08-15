@@ -68,7 +68,7 @@ class AppDataCubit extends Cubit<AppDataStates> {
       emit(QuestionsDataSuccessState());
     }
     catch (e) {
-      emit(QuestionsDataErrorState(e.toString()));
+      emit(QuestionsDataErrorState(error: e.toString()));
     }
   }
   Future<void> getQuestionsData() async {
@@ -86,7 +86,7 @@ class AppDataCubit extends Cubit<AppDataStates> {
       emit(StartDataSuccessState());
     }
     catch (e) {
-      emit(StartDataErrorState(e.toString()));
+      emit(StartDataErrorState(error: e.toString()));
     }
   }
 
@@ -103,7 +103,7 @@ class AppDataCubit extends Cubit<AppDataStates> {
       emit(HomeInfoSuccessState());
     }
     catch (e) {
-      emit(HomeInfoErrorState(e.toString()));
+      emit(HomeInfoErrorState(error: e.toString()));
     }
   }
 }

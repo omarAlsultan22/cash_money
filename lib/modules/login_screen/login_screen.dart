@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is AppDataErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.error),
+                content: Text(state.error!),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.red,
               ),

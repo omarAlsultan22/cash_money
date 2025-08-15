@@ -19,7 +19,7 @@ class QuestionsScreen extends StatelessWidget {
             if (state is AppDataErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.error),
+                  content: Text(state.error!),
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

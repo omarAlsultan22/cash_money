@@ -30,7 +30,7 @@ class RegisterCubit extends Cubit<AppDataStates> {
         location: location,
       );
     }).catchError((error) {
-      emit(AppDataErrorState(error.toString()));
+      emit(AppDataErrorState(error: error.toString()));
     });
   }
 
@@ -52,7 +52,7 @@ class RegisterCubit extends Cubit<AppDataStates> {
       emit(AppDataSuccessState());
     })
         .catchError((error) {
-      emit(AppDataErrorState(error.toString()));
+      emit(AppDataErrorState(error: error.toString()));
     });
   }
 }

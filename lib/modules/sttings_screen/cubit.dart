@@ -26,7 +26,7 @@ class AppModelCubit extends Cubit<AppDataStates> {
       }
     } catch (error) {
       print('Error fetching document: $error');
-      emit(AppDataErrorState(error.toString()));
+      emit(AppDataErrorState(error: error.toString()));
     }
   }
 
@@ -51,7 +51,7 @@ class AppModelCubit extends Cubit<AppDataStates> {
       emit(AppDataSuccessState());
     }
     catch (error) {
-      emit(AppDataErrorState(error.toString()));
+      emit(AppDataErrorState(error: error.toString()));
     }
   }
 
@@ -75,10 +75,10 @@ class AppModelCubit extends Cubit<AppDataStates> {
           });
         });
       } on FirebaseAuthException catch (e) {
-        emit(AppDataErrorState(e.toString()));
+        emit(AppDataErrorState(error: e.toString()));
       }
     } else {
-      emit(AppDataErrorState('No user is currently logged in'));
+      emit(AppDataErrorState(error: 'No user is currently logged in'));
     }
   }
 }
