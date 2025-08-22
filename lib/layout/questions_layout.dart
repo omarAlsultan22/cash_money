@@ -96,7 +96,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.state is AppDataLoadingState) {
+    if (widget.state is AppDataLoadingState && widget.state.key == Screens.questions) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +120,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
     final questions = cubit
         .questionsData;
 
-    return widget.state is AppDataSuccessState
+    return widget.state is AppDataSuccessState && widget.state.key == Screens.questions
         ? Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(

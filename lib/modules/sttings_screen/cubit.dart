@@ -48,10 +48,10 @@ class AppModelCubit extends Cubit<AppDataStates> {
       );
       await FirebaseFirestore.instance.collection('users').doc(uId).update(
           userModel.toMap());
-      emit(AppDataSuccessState());
+      emit(AppDataSuccessState(key: Screens.update));
     }
     catch (error) {
-      emit(AppDataErrorState(error: error.toString()));
+      emit(AppDataErrorState(error: error.toString(), key: Screens.update));
     }
   }
 

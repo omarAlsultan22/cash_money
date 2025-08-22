@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ..getInfo(UserDetails.uId),
       child: BlocConsumer<AppModelCubit, AppDataStates>(
         listener: (context, state) {
-          if (state is AppDataSuccessState) {
+          if (state is AppDataSuccessState && state.key == Screens.update) {
             ScaffoldMessenger.of(context).showSnackBar(
               _buildSnackBar('تم التحديث بنجاح', Colors.green[800]!),
             );
@@ -48,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             });
           }
-          if (state is AppDataErrorState) {
+          if (state is AppDataErrorState && state.key == Screens.update) {
             ScaffoldMessenger.of(context).showSnackBar(
               _buildSnackBar('فشل التحديث: ${state.error}', Colors.red[800]!),
             );
@@ -57,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (context, state) {
           final cubit = AppModelCubit.get(context);
 
-          if (state is AppDataErrorState) {
+          if (state is AppDataErrorState && state.key != Screens.update) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             );
           }
 
-          if (state is AppDataSuccessState) {
+          if (state is AppDataSuccessState && state.key != Screens.update) {
             _nameController.text = state.userModel.name;
             _phoneController.text = state.userModel.phone;
             _locationController.text = state.userModel.location;

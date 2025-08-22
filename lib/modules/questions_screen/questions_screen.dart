@@ -16,7 +16,7 @@ class QuestionsScreen extends StatelessWidget {
         ..getQuestionsData(),
       child: BlocConsumer<AppDataCubit, AppDataStates>(
           listener: (context, state) {
-            if (state is AppDataErrorState) {
+            if (state is AppDataErrorState && state.key == Screens.start) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.error!),

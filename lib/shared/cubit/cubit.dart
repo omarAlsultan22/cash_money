@@ -54,44 +54,44 @@ class AppDataCubit extends Cubit<AppDataStates> {
   List<QuestionModel> questionsData = [];
 
   Future<void> getStartData() async {
-    emit(QuestionsDataLoadingState());
+    emit(AppDataLoadingState(key: Screens.questions));
     try {
       final dataList = await getData(
           lastDocument: lastDocument,
       );
       if(dataList.isNotEmpty) {
         questionsData.addAll(dataList);
-        emit(QuestionsDataSuccessState());
+        emit(AppDataSuccessState(key: Screens.questions));
         return;
       }
       isLoadingMore = true;
-      emit(QuestionsDataSuccessState());
+      emit(AppDataSuccessState(key: Screens.questions));
     }
     catch (e) {
-      emit(QuestionsDataErrorState(error: e.toString()));
+      emit(AppDataErrorState(error: e.toString(), key: Screens.questions));
     }
   }
   Future<void> getQuestionsData() async {
-    emit(StartDataLoadingState());
+    emit(AppDataLoadingState(key: Screens.start));
     try {
       final dataList = await getData(
           lastDocument: lastDocument,
       );
       if(dataList.isNotEmpty) {
         questionsData.addAll(dataList);
-        emit(StartDataSuccessState());
+        emit(AppDataSuccessState(key: Screens.start));
         return;
       }
       isLoadingMore = true;
-      emit(StartDataSuccessState());
+      emit(AppDataSuccessState(key: Screens.start));
     }
     catch (e) {
-      emit(StartDataErrorState(error: e.toString()));
+      emit(AppDataErrorState(error: e.toString(), key: Screens.start));
     }
   }
 
   Future getInfo() async {
-    emit(HomeInfoLoadingState());
+    emit(AppDataLoadingState(key: Screens.home));
     try {
       final uId = await CacheHelper.getValue(key: 'uId');
       FirebaseFirestore.instance.collection('users').doc(uId).get().then((
@@ -100,10 +100,10 @@ class AppDataCubit extends Cubit<AppDataStates> {
         UserDetails.uId = map['uId'];
         UserDetails.name = map['name'];
       });
-      emit(HomeInfoSuccessState());
+      emit(AppDataSuccessState(key: Screens.home));
     }
     catch (e) {
-      emit(HomeInfoErrorState(error: e.toString()));
+      emit(AppDataErrorState(error: e.toString(), key: Screens.home));
     }
   }
 }
