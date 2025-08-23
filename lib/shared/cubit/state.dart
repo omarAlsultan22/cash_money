@@ -8,18 +8,20 @@ abstract class AppDataStates<T>{
   AppDataStates({this.userModel, this.error, this.points, this.key});
 }
 
-class AppDataInitialState extends AppDataStates{}
-class AppDataLoadingState extends AppDataStates {
+class AppDataInitialState<T> extends AppDataStates<T>{
+  AppDataInitialState() : super();
+}
+class AppDataLoadingState<T> extends AppDataStates<T> {
   AppDataLoadingState({super.key});
 }
-class AppDataSuccessState<T> extends AppDataStates {
+class AppDataSuccessState<T> extends AppDataStates<T> {
   AppDataSuccessState({super.userModel, super.key});
 }
-class AppDataErrorState extends AppDataStates {
+class AppDataErrorState<T> extends AppDataStates<T> {
   AppDataErrorState({super.error, super.key});
 }
 
-class QuizFinishedState extends AppDataStates {
+class QuizFinishedState<T> extends AppDataStates<T> {
   QuizFinishedState({super.points});
 }
 
