@@ -171,7 +171,6 @@ class _LoginScreenState extends State<LoginScreen> {
       label: "Email Address",
       hint: "Enter your email",
       icon: Icons.email,
-      fillColor: true,
       keyboardType: TextInputType.emailAddress,
       autofillHints: const [AutofillHints.email],
       validator: (value) => validateInput(value!, 'email'),
@@ -184,7 +183,6 @@ class _LoginScreenState extends State<LoginScreen> {
       label: "Password",
       hint: "Enter your password",
       icon: Icons.lock,
-      fillColor: true,
       obscureText: _isObscure,
       suffixIcon: IconButton(
         icon: Icon(

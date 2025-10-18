@@ -234,7 +234,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         const SizedBox(height: 8),
         buildInputField(
-            fillColor: true,
             controller: controller,
             hint: hint,
             icon: icon,

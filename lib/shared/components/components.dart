@@ -63,7 +63,6 @@ String? validateInput(String value, String fieldName, {String? newPassword}) {
 
 Widget buildInputField({
   String? label,
-  bool? fillColor,
   Widget? suffixIcon,
   bool obscureText = false,
   List<String>? autofillHints,
@@ -89,7 +88,7 @@ Widget buildInputField({
       hintStyle: const TextStyle(color: Colors.grey),
       labelText: label,
       filled: true,
-      fillColor: fillColor! ? Colors.brown[700]!.withOpacity(0.5) : null,
+      fillColor: Colors.brown[700]!.withOpacity(0.5),
       labelStyle: const TextStyle(color: Colors.amber),
       prefixIcon: Icon(icon, color: Colors.amber),
       suffixIcon: suffixIcon,
