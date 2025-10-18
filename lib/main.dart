@@ -1,14 +1,14 @@
 import 'package:cash_money/modules/login_screen/login_screen.dart';
-import 'package:cash_money/shared/bloc_observer.dart';
-import 'package:bloc/bloc.dart';
 import 'package:cash_money/shared/local/shared_preferences.dart';
+import 'package:cash_money/shared/bloc_observer.dart';
+import 'package:cash_money/shared/cubit/cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'layout/home_screen.dart';
 import 'shared/firebase_options.dart';
 
-void main() async{
 
+void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
@@ -16,10 +16,18 @@ void main() async{
     await CacheHelper.init();
     Bloc.observer = MyBlocObserver();
   }
-  catch(error){
+  catch (error) {
     rethrow;
   }
-  runApp(const MyApp());
+
+  runApp(
+      MultiBlocProvider(
+          providers: [
+            BlocProvider<AppDataCubit>(create: (context) =>
+            AppDataCubit()
+              ..getData())
+          ],
+          child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -1,30 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../modles/user_data.dart';
+import 'package:flutter/material.dart';
+import '../cubit/state.dart';
 
-Future<List<QuestionModel>> getData({
-  required DocumentSnapshot? lastDocument,
-}) async {
-  Query query = FirebaseFirestore.instance.collection('data')
-      .doc('0Hv1zUWKuetw3eP7Nplt').collection('userData');
-  if (lastDocument != null) {
-    query = query.startAfterDocument(lastDocument);
-  }
-  final value = await query.limit(25).get();
-  if(value.docs.isEmpty) {
-    return [];
-  }
-
-  DataModel data = DataModel.fromQuerySnapshot(value);
-  lastDocument = value.docs.last;
-  return data.data;
-}
 
 Widget sizeBox() =>
     const SizedBox(
       height: 16.0,
     );
+
+void statesListener(BuildContext context, AppDataStates state) {
+  if (state is AppDataErrorState && state.key != Screens.questions) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(state.error!),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        backgroundColor: Colors.red[800],
+      ),
+    );
+  }
+}
 
 
 void showToast(msg) {
@@ -66,6 +63,7 @@ String? validateInput(String value, String fieldName, {String? newPassword}) {
 
 Widget buildInputField({
   String? label,
+  bool? fillColor,
   Widget? suffixIcon,
   bool obscureText = false,
   List<String>? autofillHints,
@@ -90,6 +88,8 @@ Widget buildInputField({
       hintText: hint,
       hintStyle: const TextStyle(color: Colors.grey),
       labelText: label,
+      filled: true,
+      fillColor: fillColor!? Colors.brown[700]!.withOpacity(0.5) : null,
       labelStyle: const TextStyle(color: Colors.amber),
       prefixIcon: Icon(icon, color: Colors.amber),
       suffixIcon: suffixIcon,

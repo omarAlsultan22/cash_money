@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/components/components.dart';
+import 'package:flutter/material.dart';
 import '../../shared/cubit/state.dart';
 import 'cubit.dart';
+
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -50,71 +51,79 @@ class _RegisterState extends State<Register> {
     }
   }
 
+  void _statesListener(AppDataStates state) {
+    if (state is AppDataErrorState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.error!),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+    if (state is AppDataSuccessState) {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, AppDataStates>(
         listener: (context, state) {
-          if (state is AppDataErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error!),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-          if (state is AppDataSuccessState) {
-            Navigator.pop(context);
-          }
+          _statesListener(state);
         },
         builder: (context, state) {
-          _isLoading = state is AppDataLoadingState;
+          return buildWidget(state);
+        },
+      ),
+    );
+  }
 
-          return Scaffold(
-            backgroundColor: Colors.brown.shade900,
-            appBar: _buildAppBar(),
-            body: SafeArea(
-              child: Center(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Form(
-                    key: _formKey,
-                    child: AutofillGroup(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeader(context),
-                          const SizedBox(height: 24),
+  Widget buildWidget(AppDataStates state) {
+    _isLoading = state is AppDataLoadingState;
 
-                          // حقول الإدخال
-                          _buildNameField(),
-                          sizeBox(),
+    return Scaffold(
+      backgroundColor: Colors.brown.shade900,
+      appBar: _buildAppBar(),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _formKey,
+              child: AutofillGroup(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(context),
+                    const SizedBox(height: 24),
 
-                          _buildEmailField(),
-                          sizeBox(),
+                    // حقول الإدخال
+                    _buildNameField(),
+                    sizeBox(),
 
-                          _buildPasswordField(),
-                          sizeBox(),
+                    _buildEmailField(),
+                    sizeBox(),
 
-                          _buildPhoneField(),
-                          sizeBox(),
+                    _buildPasswordField(),
+                    sizeBox(),
 
-                          _buildLocationField(),
-                          const SizedBox(height: 24),
+                    _buildPhoneField(),
+                    sizeBox(),
 
-                          // زر التسجيل
-                          _buildRegisterButton(),
-                        ],
-                      ),
-                    ),
-                  ),
+                    _buildLocationField(),
+                    const SizedBox(height: 24),
+
+                    // زر التسجيل
+                    _buildRegisterButton(),
+                  ],
                 ),
               ),
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -136,7 +145,11 @@ class _RegisterState extends State<Register> {
       children: [
         Text(
           'Create an Account',
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+          style: Theme
+              .of(context)
+              .textTheme
+              .headlineLarge
+              ?.copyWith(
             color: Colors.amber,
             fontWeight: FontWeight.bold,
           ),
@@ -144,7 +157,11 @@ class _RegisterState extends State<Register> {
         const SizedBox(height: 8),
         Text(
           'Register now to join the world of happiness',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(
             color: Colors.grey.shade400,
           ),
         ),

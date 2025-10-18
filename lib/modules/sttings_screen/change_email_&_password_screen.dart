@@ -1,10 +1,11 @@
 import 'package:cash_money/shared/components/components.dart';
 import 'package:cash_money/shared/local/shared_preferences.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../shared/cubit/state.dart';
 import '../login_screen/login_screen.dart';
+import 'package:flutter/material.dart';
+import '../../shared/cubit/state.dart';
 import 'cubit.dart';
+
 
 class ChangeEmailAndPassword extends StatefulWidget {
   const ChangeEmailAndPassword({super.key});
@@ -95,39 +96,43 @@ class _ChangeEmailAndPasswordState extends State<ChangeEmailAndPassword> {
     return BlocProvider(create: (context) => AppModelCubit(),
       child: BlocBuilder<AppModelCubit, AppDataStates>(
           builder: (context, state) {
-            var cubit = AppModelCubit.get(context);
-            return Directionality(
-              textDirection: TextDirection.rtl,
-              child: Scaffold(
-                backgroundColor: Colors.brown[900],
-                appBar: AppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    color: Colors.white,
-                    onPressed: _isLoading ? null : () => Navigator.pop(context),
-                  ),
-                  title: const Text(
-                    'تغيير البريد وكلمة المرور',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: _buildSaveButton(cubit, state),
-                    ),
-                  ],
-                ),
-                body: _buildFormContent(),
-              ),
-            );
+            return _widgetBuilder();
           }),
     );
   }
 
+  Widget _widgetBuilder() {
+    var cubit = AppModelCubit.get(context);
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: Colors.brown[900],
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: Colors.white,
+            onPressed: _isLoading ? null : () => Navigator.pop(context),
+          ),
+          title: const Text(
+            'تغيير البريد وكلمة المرور',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _buildSaveButton(cubit),
+            ),
+          ],
+        ),
+        body: _buildFormContent(),
+      ),
+    );
+  }
 
-  Widget _buildSaveButton(AppModelCubit cubit, AppDataStates state) {
+
+  Widget _buildSaveButton(AppModelCubit cubit) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.amber[700],

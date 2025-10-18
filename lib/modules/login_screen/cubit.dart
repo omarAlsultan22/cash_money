@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/cubit/state.dart';
 import '../../shared/local/shared_preferences.dart';
 
+
 class LoginCubit extends Cubit<AppDataStates> {
   LoginCubit() : super(AppDataInitialState());
 

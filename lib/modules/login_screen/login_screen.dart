@@ -1,12 +1,13 @@
 import 'package:cash_money/shared/local/shared_preferences.dart';
+import '../register_screen/register_screen.dart';
+import '../../shared/components/components.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../home_screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../shared/components/components.dart';
 import '../../shared/cubit/state.dart';
-import '../home_screen/home_screen.dart';
-import '../register_screen/register_screen.dart';
 import 'cubit.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -70,68 +71,77 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _statesListener(BuildContext context, AppDataStates state) {
+    if (state is AppDataSuccessState) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else if (state is AppDataErrorState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.error!),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Widget _widgetBuilder(BuildContext context, AppDataStates state){
+    final cubit = BlocProvider.of<LoginCubit>(context);
+    _isLoading = state is AppDataLoadingState;
+
+    return Scaffold(
+      backgroundColor: Colors.brown.shade900,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _formKey,
+              child: AutofillGroup(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(context),
+                    const SizedBox(height: 32),
+
+                    _buildEmailField(),
+                    sizeBox(),
+
+                    _buildPasswordField(),
+                    const SizedBox(height: 24),
+
+                    _buildLoginButton(cubit, state),
+                    sizeBox(),
+
+                    _buildRegisterLink(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginCubit>(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, AppDataStates>(
         listener: (context, state) {
-          if (state is AppDataSuccessState) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          } else if (state is AppDataErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error!),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
+          _statesListener(context, state);
         },
         builder: (context, state) {
-          final cubit = BlocProvider.of<LoginCubit>(context);
-          _isLoading = state is AppDataLoadingState;
-
-          return Scaffold(
-            backgroundColor: Colors.brown.shade900,
-            body: SafeArea(
-              child: Center(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Form(
-                    key: _formKey,
-                    child: AutofillGroup(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeader(context),
-                          const SizedBox(height: 32),
-
-                          _buildEmailField(),
-                          sizeBox(),
-
-                          _buildPasswordField(),
-                          const SizedBox(height: 24),
-
-                          _buildLoginButton(cubit, state),
-                          sizeBox(),
-
-                          _buildRegisterLink(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
+          return _widgetBuilder(context, state);
         },
       ),
     );
   }
+
 
   Widget _buildHeader(BuildContext context) {
     return Column(

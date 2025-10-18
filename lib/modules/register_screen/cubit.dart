@@ -1,8 +1,9 @@
-import 'package:cash_money/modles/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../models/user_info_model.dart';
 import '../../shared/cubit/state.dart';
+
 
 class RegisterCubit extends Cubit<AppDataStates> {
   RegisterCubit() : super(AppDataInitialState());

@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../modles/user_model.dart';
 import '../../shared/components/constatnts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../models/user_info_model.dart';
 import '../../shared/cubit/state.dart';
+
 
 class AppModelCubit extends Cubit<AppDataStates> {
   AppModelCubit() : super((AppDataInitialState()));

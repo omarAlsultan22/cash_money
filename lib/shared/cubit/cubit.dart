@@ -1,10 +1,10 @@
-import 'package:cash_money/modles/user_data.dart';
 import 'package:cash_money/shared/components/constatnts.dart';
-import 'package:cash_money/shared/cubit/state.dart';
 import 'package:cash_money/shared/local/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cash_money/shared/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../components/components.dart';
+import '../../models/user_data_model.dart';
+
 
 class AppDataCubit extends Cubit<AppDataStates> {
   AppDataCubit() : super(AppDataInitialState());
@@ -15,8 +15,6 @@ class AppDataCubit extends Cubit<AppDataStates> {
   int points = 0;
   String userName = 'User';
   bool showAnswer = false;
-  bool isLoadingMore = false;
-  DocumentSnapshot? lastDocument;
 
 
   void resetQuiz() {
@@ -25,6 +23,7 @@ class AppDataCubit extends Cubit<AppDataStates> {
     showAnswer = false;
     emit(AppDataInitialState());
   }
+
 
   void submitAnswer(bool isCorrect, int totalQuestions) {
     if (showAnswer) return;
@@ -36,6 +35,7 @@ class AppDataCubit extends Cubit<AppDataStates> {
       moveToNextQuestion(totalQuestions);
     });
   }
+
 
   void moveToNextQuestion([int? totalQuestions]) {
     if (state is! AppDataSuccessState) return;
@@ -51,44 +51,45 @@ class AppDataCubit extends Cubit<AppDataStates> {
     }
   }
 
-  List<QuestionModel> questionsData = [];
 
-  Future<void> getStartData() async {
-    emit(AppDataLoadingState(key: Screens.questions));
+  List<QuestionModel> questionsData = [];
+  DocumentSnapshot? lastDocument;
+  bool isLoadingMore = false;
+
+
+  Future<void> getData({Screens? key}) async {
+    if(isLoadingMore) return;
+
+    emit(AppDataLoadingState());
     try {
-      final dataList = await getData(
-          lastDocument: lastDocument,
-      );
-      if(dataList.isNotEmpty) {
-        questionsData.addAll(dataList);
-        emit(AppDataSuccessState(key: Screens.questions));
+      Query query = FirebaseFirestore.instance.collection('data')
+          .doc('0Hv1zUWKuetw3eP7Nplt').collection('userData');
+      if (lastDocument != null) {
+        query = query.startAfterDocument(lastDocument!);
+      }
+      final value = await query.limit(25).get();
+      if (value.docs.isEmpty) {
         return;
       }
-      isLoadingMore = true;
-      emit(AppDataSuccessState(key: Screens.questions));
-    }
-    catch (e) {
-      emit(AppDataErrorState(error: e.toString(), key: Screens.questions));
-    }
-  }
-  Future<void> getQuestionsData() async {
-    emit(AppDataLoadingState(key: Screens.start));
-    try {
-      final dataList = await getData(
-          lastDocument: lastDocument,
-      );
-      if(dataList.isNotEmpty) {
-        questionsData.addAll(dataList);
-        emit(AppDataSuccessState(key: Screens.start));
+
+      DataModel dataModel = DataModel.fromQuerySnapshot(value);
+      final data = dataModel.data;
+      lastDocument = value.docs.last;
+
+      if(data.isEmpty) {
+        isLoadingMore = true;
+        emit(AppDataSuccessState());
         return;
       }
-      isLoadingMore = true;
-      emit(AppDataSuccessState(key: Screens.start));
+
+      questionsData.addAll(data);
+      emit(AppDataSuccessState());
     }
     catch (e) {
-      emit(AppDataErrorState(error: e.toString(), key: Screens.start));
+      emit(AppDataErrorState(key: key));
     }
   }
+
 
   Future getInfo() async {
     emit(AppDataLoadingState(key: Screens.home));

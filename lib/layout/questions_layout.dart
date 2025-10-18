@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../shared/cubit/cubit.dart';
 import '../shared/cubit/state.dart';
 
+
 class AnswerScreen extends StatelessWidget {
   final String answer;
   final bool isCorrect;
@@ -13,8 +14,7 @@ class AnswerScreen extends StatelessWidget {
     required this.isCorrect,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.brown[900],
       appBar: AppBar(
@@ -53,6 +53,11 @@ class AnswerScreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildWidget(context);
+  }
 }
 
 class BuildQuestionsScreen extends StatefulWidget {
@@ -83,7 +88,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 50.0 &&
         !cubit.isLoadingMore) {
-      cubit.getQuestionsData();
+      cubit.getData(key: Screens.questions);
     }
   }
 
@@ -94,9 +99,11 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (widget.state is AppDataLoadingState && widget.state.key == Screens.questions) {
+  Widget _widgetBuilder() {
+    final questions = cubit
+        .questionsData;
+
+    if (questions.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -117,11 +124,8 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
       );
     }
 
-    final questions = cubit
-        .questionsData;
 
-    return widget.state is AppDataSuccessState && widget.state.key == Screens.questions
-        ? Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.brown[800],
@@ -214,12 +218,12 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
           ),
         ),
       ),
-    )
-        : const Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
-      ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _widgetBuilder();
   }
 }
 

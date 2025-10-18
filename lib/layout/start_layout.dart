@@ -1,9 +1,10 @@
-import 'dart:async';
 import 'package:cash_money/shared/components/constatnts.dart';
 import 'package:cash_money/shared/cubit/cubit.dart';
 import 'package:cash_money/shared/cubit/state.dart';
-import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+
 
 class BuildStartScreen extends StatefulWidget {
   final BuildContext context;
@@ -72,7 +73,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
         timer?.cancel();
       }
       else if (currentIndex == length - 1 && !cubit.isLoadingMore) {
-        cubit.getStartData();
+        cubit.getData(key: Screens.start);
       }
     });
   }
@@ -91,35 +92,38 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  AppBar _buildAppBar(){
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        onPressed: () => Navigator.of(context).pop(),
+        splashRadius: 20,
+      ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.brown[900]!,
+              Colors.brown[800]!,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _widgetBuilder(){
     final questionsData = cubit.questionsData;
     return questionsData.isEmpty
         ? Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.brown[800],
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-            splashRadius: 20,
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.brown[900]!,
-                  Colors.brown[800]!,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
-        ),
+        appBar: _buildAppBar(),
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -288,9 +292,12 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _widgetBuilder();
+  }
 }
-
-
 
 
 class AnswerButton extends StatelessWidget {
