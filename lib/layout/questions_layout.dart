@@ -208,7 +208,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
               } else {
                 return Center(
                   child: !cubit.isLoadingMore
-                      ? const CircularProgressIndicator()
+                      ? const CircularProgressIndicator(color: Colors.white)
                       : const SizedBox(),
                 );
               }

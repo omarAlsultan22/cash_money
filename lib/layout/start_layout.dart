@@ -19,9 +19,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
   Timer? timer;
   int timeLeft = 1;
-  int points = 0;
   bool colors = false;
-  int currentIndex = 0;
   late AppDataCubit cubit;
 
   void startTimer(int length) {
@@ -35,8 +33,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
         timer.cancel();
         setState(() {
           colors = false;
-          if (currentIndex < length) {
-            currentIndex++;
+          if (cubit.currentIndex < length) {
+            cubit.currentIndex++;
           }
           timeLeft = 1;
         });
@@ -45,23 +43,23 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   void questionIndex(bool isCorrect, int length) {
-    if (currentIndex >= length) return;
+    if (cubit.currentIndex >= length) return;
 
     setState(() {
       colors = false;
       colors = true;
       if (isCorrect) {
-        points++;
+        cubit.points++;
       }
-      if (currentIndex < length) {
+      if (cubit.currentIndex < length) {
         startTimer(length);
       }
-      if (currentIndex == length) {
-        bool isFinished = currentIndex > length / 2;
-        String value = points < 2 ? 'اجابة' : 'اجابات';
+      if (cubit.currentIndex == length) {
+        bool isFinished = cubit.currentIndex > length / 2;
+        String value = cubit.points < 2 ? 'اجابة' : 'اجابات';
         QuickAlert.show(
             context: context,
-            text: 'لقد حققت $points $value صحيحة من أصل $length',
+            text: 'لقد حققت $cubit.points $value صحيحة من أصل $length',
             type: isFinished ? QuickAlertType.success : QuickAlertType.error,
             title: isFinished ? 'تهانينا' : 'حاول مجددا',
             showConfirmBtn: true,
@@ -72,7 +70,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
         });
         timer?.cancel();
       }
-      else if (currentIndex == length - 1 && !cubit.isLoadingMore) {
+      else if (cubit.currentIndex == length - 1 && !cubit.isLoadingMore) {
         cubit.getData(key: Screens.start);
       }
     });
@@ -82,7 +80,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   void initState() {
     super.initState();
     cubit = AppDataCubit.get(widget.context);
-    currentIndex = 0;
+    cubit.currentIndex = 0;
     colors = false;
   }
 
@@ -118,7 +116,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
   Widget _widgetBuilder(){
     final questionsData = cubit.questionsData;
-    return questionsData.isEmpty
+    return questionsData.isNotEmpty
         ? Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -194,7 +192,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                       child: Row(
                         children: [
                           Text(
-                            '$points',
+                            '${cubit.points}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -227,7 +225,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: Text(
-                        questionsData[currentIndex].question,
+                        questionsData[cubit.currentIndex].question,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -246,7 +244,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                 Expanded(
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
-                    children: questionsData[currentIndex].answers.map((e) =>
+                    children: questionsData[cubit.currentIndex].answers.map((e) =>
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8),

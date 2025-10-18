@@ -13,42 +13,12 @@ class AppDataCubit extends Cubit<AppDataStates> {
 
   int currentIndex = 0;
   int points = 0;
-  String userName = 'User';
-  bool showAnswer = false;
 
 
   void resetQuiz() {
     currentIndex = 0;
     points = 0;
-    showAnswer = false;
     emit(AppDataInitialState());
-  }
-
-
-  void submitAnswer(bool isCorrect, int totalQuestions) {
-    if (showAnswer) return;
-
-    showAnswer = true;
-    if (isCorrect) points++;
-    Future.delayed(const Duration(seconds: 1), () {
-      showAnswer = false;
-      moveToNextQuestion(totalQuestions);
-    });
-  }
-
-
-  void moveToNextQuestion([int? totalQuestions]) {
-    if (state is! AppDataSuccessState) return;
-
-    final questions = questionsData;
-    totalQuestions ??= questions.length;
-
-    if (currentIndex < totalQuestions - 1) {
-      currentIndex++;
-      emit(AppDataSuccessState());
-    } else {
-      emit(QuizFinishedState(points: points));
-    }
   }
 
 
@@ -67,7 +37,7 @@ class AppDataCubit extends Cubit<AppDataStates> {
       if (lastDocument != null) {
         query = query.startAfterDocument(lastDocument!);
       }
-      final value = await query.limit(25).get();
+      final value = await query.limit(10).get();
       if (value.docs.isEmpty) {
         return;
       }
