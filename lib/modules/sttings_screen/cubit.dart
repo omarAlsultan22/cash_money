@@ -48,7 +48,7 @@ class AppModelCubit extends Cubit<AppDataStates> {
         isEmailVerified: false,
       );
       await FirebaseFirestore.instance.collection('users').doc(uId).update(
-          userModel.toMap());
+          userModel.toJson());
       emit(AppDataSuccessState(key: Screens.update));
     }
     catch (error) {

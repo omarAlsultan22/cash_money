@@ -8,6 +8,7 @@ Widget sizeBox() =>
       height: 16.0,
     );
 
+
 void statesListener(BuildContext context, AppDataStates state) {
   if (state is AppDataErrorState && state.key != Screens.questions) {
     ScaffoldMessenger.of(context).showSnackBar(

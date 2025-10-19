@@ -49,7 +49,7 @@ class RegisterCubit extends Cubit<AppDataStates> {
         isEmailVerified: false,
     );
     FirebaseFirestore db = FirebaseFirestore.instance;
-    await db.collection('users').doc(uId).set(userModel.toMap()).then((value) {
+    await db.collection('users').doc(uId).set(userModel.toJson()).then((value) {
       emit(AppDataSuccessState());
     })
         .catchError((error) {

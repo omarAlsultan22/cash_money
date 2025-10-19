@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'json_model.dart';
 
-class QuestionModel {
+
+class QuestionModel implements JsonModel{
   final String question;
   final bool isChecked;
   final List<AnswerModel> answers;
@@ -22,7 +24,8 @@ class QuestionModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  @override
+  Map<String, dynamic> toJson() {
     return {
       'question': question,
       'isChecked': isChecked,
