@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cash_money/shared/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../models/user_data_model.dart';
-import '../../models/answer_model.dart';
+import '../../models/data_model.dart';
 
 
 class AppDataCubit extends Cubit<AppDataStates> {

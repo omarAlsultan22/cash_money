@@ -1,8 +1,7 @@
 import 'answer_model.dart';
-import 'json_model.dart';
 
 
-class QuestionModel implements JsonModel{
+class QuestionModel{
   final String question;
   final bool isChecked;
   final List<AnswerModel> answers;
@@ -22,15 +21,6 @@ class QuestionModel implements JsonModel{
       isChecked: json['isChecked'],
       answers: answerList,
     );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      'question': question,
-      'isChecked': isChecked,
-      'answers': answers.map((e) => e.toJson()).toList(),
-    };
   }
 }
 

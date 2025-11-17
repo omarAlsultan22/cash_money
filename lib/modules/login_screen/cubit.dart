@@ -1,5 +1,4 @@
 import 'package:cash_money/shared/components/components.dart';
-import 'package:cash_money/shared/components/constatnts.dart';
 import '../../shared/local/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +25,7 @@ class LoginCubit extends Cubit<AppDataStates> {
         email: email,
         password: password,
       ).then((value) {
-        CacheHelper.putValue(key: 'uId', value: UserDetails.uId);
+        CacheHelper.putValue(key: 'uId', value: value.user!.uid);
       });
       showToast('Login successful!');
       emit(AppDataSuccessState());

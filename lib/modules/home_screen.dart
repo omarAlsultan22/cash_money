@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
-import '../../layout/home_screen.dart';
-import '../../shared/cubit/cubit.dart';
-import '../../shared/cubit/state.dart';
+import '../layout/home_layout.dart';
+import '../shared/cubit/cubit.dart';
+import '../shared/cubit/state.dart';
 
 
 class HomeScreen extends StatefulWidget {

@@ -1,9 +1,9 @@
-import '../../shared/components/components.dart';
+import '../shared/components/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../layout/questions_layout.dart';
+import '../layout/questions_layout.dart';
 import 'package:flutter/material.dart';
-import '../../shared/cubit/cubit.dart';
-import '../../shared/cubit/state.dart';
+import '../shared/cubit/cubit.dart';
+import '../shared/cubit/state.dart';
 
 
 class QuestionsScreen extends StatelessWidget {

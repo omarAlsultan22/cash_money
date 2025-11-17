@@ -1,12 +1,13 @@
+import 'package:cash_money/shared/components/constatnts.dart';
 import 'package:cash_money/shared/local/shared_preferences.dart';
 import '../modules/register_screen/register_screen.dart';
 import '../../shared/components/components.dart';
-import '../modules/home_screen/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../modules/login_screen/cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../shared/cubit/state.dart';
+import '../modules/home_screen.dart';
 
 
 class LoginLayout extends StatefulWidget {
@@ -27,7 +28,6 @@ class _LoginLayoutState extends State<LoginLayout> {
   @override
   void initState() {
     super.initState();
-    _initializeForm();
     _checkLoginStatus();
   }
 
@@ -202,15 +202,10 @@ class _LoginLayoutState extends State<LoginLayout> {
     }
   }
 
-  void _initializeForm() {
-    // إزالة القيم الثابتة في production - هذه للاختبار فقط
-    _emailController.text = 'omaralsultan22@gmail.com';
-    _passwordController.text = '254086aaa';
-  }
-
   Future<void> _checkLoginStatus() async {
     final value = await CacheHelper.getValue(key: 'uId');
     if (value?.isNotEmpty ?? false) {
+      UserDetails.uId = value!;
       _navigateToHome();
     }
   }

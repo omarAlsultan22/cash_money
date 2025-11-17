@@ -1,8 +1,8 @@
 import 'package:cash_money/modules/sttings_screen/settings_screen.dart';
-import '../modules/questions_screen/questions_screen.dart';
-import '../modules/start_screen/start_screen.dart';
+import '../modules/questions_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../modules/start_screen.dart';
 
 
   Widget buildHomeScreen(BuildContext context){
