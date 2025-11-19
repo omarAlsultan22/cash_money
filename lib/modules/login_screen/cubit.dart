@@ -1,5 +1,5 @@
 import 'package:cash_money/shared/components/components.dart';
-import '../../shared/local/shared_preferences.dart';
+import '../../shared/networks/local/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/cubit/state.dart';

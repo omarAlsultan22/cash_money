@@ -1,4 +1,5 @@
-enum Screens {home, start, questions, update}
+import '../constants/state_keys.dart';
+
 
 abstract class AppDataStates<T>{
   final T? userModel;

@@ -1,10 +1,11 @@
-import 'package:cash_money/shared/local/shared_preferences.dart';
 import 'package:cash_money/shared/components/constatnts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cash_money/shared/cubit/state.dart';
+import '../networks/local/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../models/user_data_model.dart';
-import '../../models/data_model.dart';
+import '../../helpers/data_converter.dart';
+import '../constants/state_keys.dart';
 
 
 class AppDataCubit extends Cubit<AppDataStates> {
@@ -43,7 +44,7 @@ class AppDataCubit extends Cubit<AppDataStates> {
         return;
       }
 
-      DataModel dataModel = DataModel.fromQuerySnapshot(value);
+      DataConverter dataModel = DataConverter.fromQuerySnapshot(value);
       final data = dataModel.data;
       lastDocument = value.docs.last;
 

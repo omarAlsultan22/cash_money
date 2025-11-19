@@ -1,11 +1,11 @@
+import 'package:cash_money/shared/networks/local/shared_preferences.dart';
 import 'package:cash_money/modules/login_screen/login_screen.dart';
-import 'package:cash_money/shared/local/shared_preferences.dart';
 import 'package:cash_money/shared/bloc_observer.dart';
 import 'package:cash_money/shared/cubit/cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'shared/firebase_options.dart';
+import 'shared/networks/remote/firebase_options.dart';
 
 
 void main() async {

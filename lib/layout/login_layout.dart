@@ -1,5 +1,5 @@
-import 'package:cash_money/shared/local/shared_preferences.dart';
 import 'package:cash_money/shared/components/constatnts.dart';
+import '../shared/networks/local/shared_preferences.dart';
 import '../modules/register_screen/register_screen.dart';
 import '../../shared/components/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

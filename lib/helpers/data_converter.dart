@@ -1,13 +1,13 @@
 import 'package:cash_money/models/user_data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'answer_model.dart';
+import '../models/answer_model.dart';
 
 
-class DataModel {
+class DataConverter {
   List<QuestionModel> data;
-  DataModel({required this.data});
+  DataConverter({required this.data});
 
-  factory DataModel.fromQuerySnapshot(QuerySnapshot snapshot) {
+  factory DataConverter.fromQuerySnapshot(QuerySnapshot snapshot) {
     List<QuestionModel> data = [];
     for (var doc in snapshot.docs) {
       final docData = doc.data() as Map<String, dynamic>;
@@ -21,6 +21,6 @@ class DataModel {
         answers: answers,
       ));
     }
-    return DataModel(data: data);
+    return DataConverter(data: data);
   }
 }

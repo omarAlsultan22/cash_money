@@ -1,5 +1,5 @@
-import 'package:cash_money/shared/local/shared_preferences.dart';
 import 'package:cash_money/shared/components/components.dart';
+import '../shared/networks/local/shared_preferences.dart';
 import '../modules/login_screen/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../modules/sttings_screen/cubit.dart';
