@@ -2,7 +2,7 @@ import '../../cubits/data_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../states/questions_state.dart';
-import '../../../../../core/widgets/connection_banner.dart';
+import '../../../../../core/presentation/widgets/connection_banner.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
 
 

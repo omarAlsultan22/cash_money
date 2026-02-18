@@ -1,9 +1,9 @@
-import '../../../../core/widgets/states/error_states/no_internet_connection_state.dart';
+import '../../../../core/presentation/widgets/states/error_states/no_internet_connection_state.dart';
 import 'package:cash_money/features/user_info/domain/useCases/user_info_useCase.dart';
+import '../../../../core/presentation/widgets/states/error_states/error_state.dart';
 import '../../data/repositories_impl/firestore_user_info_repository.dart';
-import '../../../../core/widgets/states/error_states/error_state.dart';
-import 'package:cash_money/core/widgets/states/loading_state.dart';
-import '../../../../core/widgets/states/initial_state.dart';
+import '../../../../core/presentation/widgets/states/initial_state.dart';
+import '../../../../core/presentation/widgets/states/loading_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/layouts/settings_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

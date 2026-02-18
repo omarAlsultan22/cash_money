@@ -1,9 +1,9 @@
+import '../../../../../core/presentation/widgets/navigation/navigator.dart';
+import '../../../../../core/presentation/widgets/text_form_field.dart';
+import '../../../../../core/presentation/widgets/build_snack_bar.dart';
+import '../../../../../core/presentation/utils/validate_input.dart';
 import '../../../../../core/data/models/message_result_model.dart';
-import '../../../../../core/widgets/navigation/navigator.dart';
-import '../../../../../core/widgets/build_snack_bar.dart';
-import '../../../../../core/widgets/text_form_field.dart';
-import '../../../../../core/utils/validate_input.dart';
-import '../../../../../core/widgets/sized_box.dart';
+import '../../../../../core/presentation/widgets/sized_box.dart';
 import '../../cubits/auth_operations.dart';
 import 'package:flutter/material.dart';
 

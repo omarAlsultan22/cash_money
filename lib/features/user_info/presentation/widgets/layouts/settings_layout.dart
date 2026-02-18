@@ -1,10 +1,10 @@
-import 'package:cash_money/core/data/models/message_result_model.dart';
 import '../../../../auth/presentation/screens/change_email_&_password_screen.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
-import 'package:cash_money/core/widgets/navigation/navigator.dart';
-import '../../../../../core/widgets/build_snack_bar.dart';
-import '../../../../../core/widgets/text_form_field.dart';
-import '../../../../../core/widgets/sized_box.dart';
+import '../../../../../core/presentation/widgets/navigation/navigator.dart';
+import '../../../../../core/presentation/widgets/text_form_field.dart';
+import 'package:cash_money/core/data/models/message_result_model.dart';
+import '../../../../../core/presentation/widgets/build_snack_bar.dart';
+import '../../../../../core/presentation/widgets/sized_box.dart';
 import '../../cubits/Updateuser_Info_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';

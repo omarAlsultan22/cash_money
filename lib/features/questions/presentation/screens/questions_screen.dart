@@ -1,8 +1,8 @@
+import '../../../../core/presentation/widgets/states/error_states/no_internet_connection_state.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
-import '../../../../core/widgets/states/error_states/no_internet_connection_state.dart';
-import '../../../../core/widgets/states/error_states/error_state.dart';
-import 'package:cash_money/core/widgets/states/initial_state.dart';
-import '../../../../core/widgets/states/loading_state.dart';
+import '../../../../core/presentation/widgets/states/error_states/error_state.dart';
+import '../../../../core/presentation/widgets/states/initial_state.dart';
+import '../../../../core/presentation/widgets/states/loading_state.dart';
 import '../widgets/connectivity_aware_screen.dart';
 import '../widgets/layouts/questions_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

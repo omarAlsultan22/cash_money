@@ -1,9 +1,9 @@
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
+import '../../../../../core/presentation/widgets/navigation/navigator.dart';
+import '../../../../../core/presentation/widgets/text_form_field.dart';
+import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/data/models/message_result_model.dart';
-import '../../../../../core/widgets/navigation/navigator.dart';
-import '../../../../../core/widgets/build_snack_bar.dart';
-import '../../../../../core/widgets/text_form_field.dart';
-import '../../../../../core/widgets/sized_box.dart';
+import '../../../../../core/presentation/widgets/sized_box.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../screens/register_screen.dart';
 import '../../cubits/auth_operations.dart';
