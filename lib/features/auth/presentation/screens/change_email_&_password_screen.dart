@@ -1,7 +1,6 @@
 import '../../../user_info/data/repositories_impl/firestore_user_info_repository.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
 import '../widgets/layouts/change_email_and_password_layout.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/useCases/auth_useCase.dart';
 import '../operations/auth_operations.dart';
@@ -14,11 +13,9 @@ class ChangeEmailAndPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
-    final repository = FirebaseFirestore.instance;
     final authRepository = FirebaseAuthRepository(auth: auth);
-    final userInfoRepository = FirestoreInfoRepository(repository: repository);
     final authUseCase = AuthUseCase(
-        authRepository: authRepository, userInfoRepository: userInfoRepository);
+        authRepository: authRepository);
     final authOperations = AuthOperations(authUseCase: authUseCase);
     return ChangeEmailAndPasswordLayout(authOperations);
   }

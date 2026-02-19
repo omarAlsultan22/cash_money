@@ -11,11 +11,11 @@ class AuthUseCase {
 
   AuthUseCase({
     required AuthRepository authRepository,
-    required UserInfoRepository userInfoRepository
+    UserInfoRepository? userInfoRepository
   })
       :
         _authRepository = authRepository,
-        _userInfoRepository = userInfoRepository;
+        _userInfoRepository = userInfoRepository!;
 
 
   Future<void> signInExecute({
