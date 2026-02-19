@@ -4,7 +4,7 @@ import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/presentation/utils/validate_input.dart';
 import '../../../../../core/data/models/message_result_model.dart';
 import '../../../../../core/presentation/widgets/sized_box.dart';
-import '../../cubits/auth_operations.dart';
+import '../../operations/auth_operations.dart';
 import 'package:flutter/material.dart';
 
 

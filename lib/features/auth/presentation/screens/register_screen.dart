@@ -1,10 +1,10 @@
 import '../../../user_info/data/repositories_impl/firestore_user_info_repository.dart';
-import 'package:cash_money/features/auth/presentation/cubits/auth_operations.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/useCases/auth_useCase.dart';
 import '../widgets/layouts/register_layout.dart';
+import '../operations/auth_operations.dart';
 import 'package:flutter/material.dart';
 
 
