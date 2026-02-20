@@ -7,7 +7,7 @@ import '../../../user_info/domain/repositories/user_info_repository.dart';
 
 class AuthUseCase {
   final AuthRepository _authRepository;
-  final UserInfoRepository _userInfoRepository;
+  final UserInfoRepository? _userInfoRepository;
 
   AuthUseCase({
     required AuthRepository authRepository,
@@ -54,7 +54,7 @@ class AuthUseCase {
         isEmailVerified: false,
       );
 
-      await _userInfoRepository.setInfo(
+      await _userInfoRepository!.setInfo(
           userModel: userModel, userCredential: userCredential);
 
       await CacheHelper.putValue(key: 'userName', value: userName);
