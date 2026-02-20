@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../domain/repositories/auth_repository.dart';
 
 
@@ -13,12 +12,17 @@ class FirebaseAuthRepository implements AuthRepository {
     required String userEmail,
     required String userPassword
   }) async {
-    return await _auth.signInWithEmailAndPassword(
-      email: userEmail,
-      password: userPassword,
-    ).then((value) {
-      return value;
-    });
+    try {
+      return await _auth.signInWithEmailAndPassword(
+        email: userEmail,
+        password: userPassword,
+      ).then((value) {
+        return value;
+      });
+    }
+    catch (e) {
+      rethrow;
+    }
   }
 
 
@@ -27,13 +31,18 @@ class FirebaseAuthRepository implements AuthRepository {
     required String email,
     required String password
   }) async {
-    return await _auth
-        .createUserWithEmailAndPassword(
-        email: email,
-        password: password
-    ).then((value) {
-      return value;
-    });
+    try {
+      return await _auth
+          .createUserWithEmailAndPassword(
+          email: email,
+          password: password
+      ).then((value) {
+        return value;
+      });
+    }
+    catch (e) {
+      rethrow;
+    }
   }
 
 
@@ -43,8 +52,13 @@ class FirebaseAuthRepository implements AuthRepository {
     required String currentPassword,
     required String newPassword
   }) async {
-    final user = _auth.currentUser;
-    return user;
+    try {
+      final user = _auth.currentUser;
+      return user;
+    }
+    catch (e) {
+      rethrow;
+    }
   }
 
 

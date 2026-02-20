@@ -11,7 +11,12 @@ class UserInfoUseCase {
       :_repository = userInfoRepository;
 
   Future<UserModel> getInfoExecute() async {
-    return await _repository.getInfo();
+    try {
+      return await _repository.getInfo();
+    }
+    catch (e) {
+      rethrow;
+    }
   }
 
 
@@ -20,12 +25,17 @@ class UserInfoUseCase {
     required String userPhone,
     required String userLocation
   }) async {
-    return await _repository.updateInfo(
-        userName: userName,
-        userPhone: userPhone,
-        userLocation: userLocation
+    try {
+      return await _repository.updateInfo(
+          userName: userName,
+          userPhone: userPhone,
+          userLocation: userLocation
 
-    );
+      );
+    }
+    catch (e) {
+      rethrow;
+    }
   }
 }
 

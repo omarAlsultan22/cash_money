@@ -16,10 +16,16 @@ class QuestionsDataUseCase {
   Future<GetQuestionsResult?> execute({
     required GetQuestionsParams params
   }) async {
-    return _repository.getData(
-        lastDocument: params.lastDocument!,
-        limit: params.limit
-    );
+    try {
+      return _repository.getData(
+          lastDocument: params.lastDocument!,
+          limit: params.limit
+      );
+    }
+    catch (e) {
+      rethrow;
+    }
   }
 }
+
 

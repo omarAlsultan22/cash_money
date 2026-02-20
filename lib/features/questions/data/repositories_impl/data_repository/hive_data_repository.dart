@@ -17,21 +17,15 @@ class HiveDataRepository implements AppDataRepository, DataOperations {
       if (result == null) return null;
 
       if (result is List<GetQuestionsResult>) {
-        print('Get data is done..................data ${result.questions
-            .length}');
         return result;
       }
 
       if (result is List) {
-        print('Get data is done..................data');
         return result;
       }
-
-      print('Get data is done..................empty');
       return null;
     } catch (e) {
-      print("Error getting local data: $e");
-      return null;
+      rethrow;
     }
   }
 
@@ -40,6 +34,11 @@ class HiveDataRepository implements AppDataRepository, DataOperations {
   Future<void> putData({
     required GetQuestionsResult result
   }) async {
-    await HiveOperations.putLocalData(result: result);
+    try {
+      await HiveOperations.putLocalData(result: result);
+    }
+    catch (e) {
+      rethrow;
+    }
   }
 }
