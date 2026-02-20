@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/layouts/settings_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../states/update_user_info_state.dart';
-import '../cubits/Updateuser_Info_cubit.dart';
+import '../cubits/update_user_Info_cubit.dart';
 import 'package:flutter/material.dart';
 
 

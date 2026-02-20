@@ -5,7 +5,7 @@ import '../../../../../core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/core/data/models/message_result_model.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/presentation/widgets/sized_box.dart';
-import '../../cubits/Updateuser_Info_cubit.dart';
+import '../../cubits/update_user_Info_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
