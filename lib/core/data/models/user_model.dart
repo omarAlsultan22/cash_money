@@ -30,17 +30,17 @@ class UserModel {
   factory UserModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
     return UserModel(
-      userName: data['name'] ?? '',
-      userPhone: data['phone'] ?? '',
-      userLocation: data['location'] ?? '',
+      userName: data['name']?.toString() ?? '',
+      userPhone: data['phone']?.toString() ?? '',
+      userLocation: data['location']?.toString() ?? '',
       isEmailVerified: data['isEmailVerified'] ?? false,
     );
   }
 
   UserModel.fromJson(Map<String, dynamic> json)
-       : userName = json['name'] ?? '',
-        userPhone = json['phone'] ?? '',
-        userLocation = json['location'] ?? '',
+       : userName = json['name']?.toString() ?? '',
+        userPhone = json['phone']?.toString() ?? '',
+        userLocation = json['location']?.toString() ?? '',
         isEmailVerified = json['isEmailVerified'] ?? false;
 
 
