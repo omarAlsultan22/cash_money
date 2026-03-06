@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 
 Widget buildInputField({
-  String? label,
+  String? labelText,
   Widget? suffixIcon,
   bool obscureText = false,
   List<String>? autofillHints,
   TextInputType? keyboardType,
   required TextEditingController controller,
-  required String hint,
-  required IconData icon,
+  required String hintText,
+  required IconData prefixIcon,
   required String? Function(dynamic value) validator,
 }) {
   return TextFormField(
@@ -24,13 +24,13 @@ Widget buildInputField({
       enabledBorder: const UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.white),
       ),
-      hintText: hint,
+      hintText: hintText,
       hintStyle: const TextStyle(color: Colors.grey),
-      labelText: label,
+      labelText: labelText,
       filled: true,
       fillColor: Colors.brown[700]!.withOpacity(0.5),
       labelStyle: const TextStyle(color: Colors.amber),
-      prefixIcon: Icon(icon, color: Colors.amber),
+      prefixIcon: Icon(prefixIcon, color: Colors.amber),
       suffixIcon: suffixIcon,
     ),
     style: const TextStyle(color: Colors.white),

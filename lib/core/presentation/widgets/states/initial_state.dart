@@ -6,16 +6,16 @@ class InitialStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.menu,
             size: 100.0,
-            color: Colors.grey[300],
+            color: Color(0xFFE0E0E0),
           ),
-          const Text(
+          Text(
             'No Tasks Yet, Please Add Some Tasks',
             style: TextStyle(
               fontSize: 16.0,

@@ -28,6 +28,8 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   late double _height;
   Timer? _timer;
 
+  static const zero = 0;
+
   @override
   void initState() {
     super.initState();
@@ -46,7 +48,7 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   void _startTimer() {
     _timer?.cancel();
 
-    if (widget.duration > 0) {
+    if (widget.duration > zero) {
       _timer = Timer(Duration(seconds: widget.duration), () {
         _hideBanner();
       });
@@ -69,7 +71,7 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
       curve: Curves.easeInOut,
       height: _height,
       color: widget.bgColor,
-      child: _height > 0
+      child: _height > zero
           ? Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

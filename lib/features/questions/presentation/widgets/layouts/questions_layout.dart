@@ -2,7 +2,9 @@ import '../../cubits/data_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../states/questions_state.dart';
+import '../../../../../core/constants/numbers_constants.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
+import 'package:cash_money/core/presentation/widgets/app_sized_boxes.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
 
 
@@ -18,14 +20,14 @@ class AnswerScreen extends StatelessWidget {
 
   Widget _buildWidget(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[900],
+      backgroundColor: const Color(0xFF3E2723),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        elevation: NumbersConstants.zero,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
-          splashRadius: 20,
+          splashRadius: NumbersConstants.twenty,
         ),
       ),
       body: Center(
@@ -33,7 +35,7 @@ class AnswerScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: Card(
             elevation: 8,
-            color: isCorrect ? Colors.green[800] : Colors.red[800],
+            color: isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFC62828),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -81,6 +83,9 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   final ScrollController _scrollController = ScrollController();
   late DataCubit cubit;
 
+  static const zero = NumbersConstants.zero;
+  static const twelve = NumbersConstants.twelve;
+
   @override
   void initState() {
     super.initState();
@@ -90,7 +95,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
 
   void _onScrollData() {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 50.0 &&
+        _scrollController.position.maxScrollExtent - NumbersConstants.fifty &&
         widget.hasMore) {
       final state = QuestionsScreenState();
       cubit.getData(state);
@@ -110,11 +115,11 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.brown[800],
+        backgroundColor: const Color(0xFF4E342E),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          scrolledUnderElevation: 0,
-          elevation: 0,
+          scrolledUnderElevation: zero,
+          elevation: zero,
           title: const Text(
             'الأسئلة',
             style: TextStyle(
@@ -126,15 +131,15 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () => Navigator.pop(context),
-            splashRadius: 20,
+            splashRadius: NumbersConstants.twelve,
           ),
         ),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.brown[900]!,
-                Colors.brown[700]!,
+                Color(0xFF3E2723),
+                Color(0xFF5D4037),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -157,11 +162,11 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                   elevation: 4,
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(twelve),
                   ),
-                  color: Colors.brown[600],
+                  color: const Color(0xFF6D4C41),
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(twelve),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -196,7 +201,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
               }
             },
             separatorBuilder: (context, index) =>
-            const SizedBox(height: 8),
+            AppSizedBoxes.height_8,
           ),
         ),
       ),
@@ -209,8 +214,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
         children: [
           ConnectionBanner(
               isVisible: widget.isConnected,
-              bgColor: widget.isConnected ? Colors.green.shade700 : Colors.red
-                  .shade700,
+              bgColor: widget.isConnected ? const Color(0xFF388E3C) : const Color(0xFFD32F2F),
               icon: widget.isConnected ? Icons.wifi : Icons.signal_wifi_off,
               text: widget.isConnected ? 'online' : 'offline'
           ),

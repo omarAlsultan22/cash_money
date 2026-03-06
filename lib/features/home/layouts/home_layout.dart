@@ -8,19 +8,21 @@ import '../../questions/presentation/screens/questions_screen.dart';
 class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
 
+  static const value = 200.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[900],
+      backgroundColor: const Color(0xFF3E2723),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.brown[900]!,
-              Colors.brown[800]!,
-              Colors.brown[700]!,
+              Color(0xFF3E2723),
+              Color(0xFF4E342E),
+              Color(0xFF5D4037),
             ],
           ),
         ),
@@ -35,8 +37,8 @@ class HomeLayout extends StatelessWidget {
                   Hero(
                     tag: 'app-logo',
                     child: Container(
-                      height: 200,
-                      width: 200,
+                      height: value,
+                      width: value,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
@@ -64,7 +66,7 @@ class HomeLayout extends StatelessWidget {
                     title: 'Start',
                     icon: Icons.play_arrow_rounded,
                     page: const StartScreen(),
-                    color: Colors.green[800]!,
+                    color: const Color(0xFF2E7D32),
                   ),
                   const SizedBox(height: 20),
                   _buildMenuButton(
@@ -72,7 +74,7 @@ class HomeLayout extends StatelessWidget {
                     title: 'Questions',
                     icon: Icons.help_outline_rounded,
                     page: const QuestionsScreen(),
-                    color: Colors.blue[800]!,
+                    color: const Color(0xFF1565C0),
                   ),
                   const SizedBox(height: 20),
                   _buildMenuButton(
@@ -80,7 +82,7 @@ class HomeLayout extends StatelessWidget {
                     title: 'Settings',
                     icon: Icons.settings_rounded,
                     page: const SettingsScreen(),
-                    color: Colors.orange[800]!,
+                    color: const Color(0xFFEF6C00),
                   ),
                 ],
               ),

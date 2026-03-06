@@ -1,6 +1,7 @@
 import '../repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/data/models/user_model.dart';
+import 'package:cash_money/core/constants/texts_constants.dart';
 import '../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../user_info/domain/repositories/user_info_repository.dart';
 
@@ -27,7 +28,7 @@ class AuthUseCase {
           userEmail: userEmail,
           userPassword: userPassword
       );
-      CacheHelper.putValue(key: 'uId', value: userCredential.user!.uid);
+      CacheHelper.putValue(key: TextsConstants.uId, value: userCredential.user!.uid);
     } catch (e) {
       rethrow;
     }

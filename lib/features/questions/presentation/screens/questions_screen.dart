@@ -1,4 +1,3 @@
-import '../../../../core/presentation/widgets/states/error_states/no_internet_connection_state.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
 import '../../../../core/presentation/widgets/states/error_states/error_state.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
@@ -37,10 +36,7 @@ class QuestionsScreen extends StatelessWidget {
                               isConnected: connectivityProvider.isConnected
                           ),
                       onError: (error) =>
-                      error.isConnectionError
-                          ? ConnectionErrorStateWidget(error: error.message,
-                          onRetry: () => cubit.getData(currentState))
-                          : ErrorStateWidget(error: error.message,
+                      ErrorStateWidget(error: error.message,
                           onRetry: () => cubit.getData(currentState)),
                     );
                   }

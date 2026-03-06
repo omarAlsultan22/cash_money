@@ -4,7 +4,9 @@ import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/core/data/models/message_result_model.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
-import '../../../../../core/presentation/widgets/sized_box.dart';
+import '../../../../../core/presentation/widgets/app_sized_boxes.dart';
+import 'package:cash_money/core/constants/numbers_constants.dart';
+import 'package:cash_money/core/constants/texts_constants.dart';
 import '../../cubits/update_user_Info_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   bool _isLoading = false;
   late UpdateUserInfoCubit cubit;
+
+  static const twelve = NumbersConstants.twelve;
+  static const height_16 = AppSizedBoxes.height_16;
 
   @override
   void initState() {
@@ -68,7 +73,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.brown[900],
+        backgroundColor: const Color(0xFF3E2723),
         appBar: _buildAppBar(),
         body: _buildBody(context, cubit),
       ),
@@ -79,7 +84,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.transparent,
-      elevation: 0,
+      elevation: NumbersConstants.zero,
       title: const Text(
         'الإعدادات',
         style: TextStyle(color: Colors.white),
@@ -112,13 +117,13 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               _buildHeaderSection(),
               const SizedBox(height: 32),
               _buildNameField(),
-              sizeBox(),
+              height_16,
               _buildPhoneField(),
-              sizeBox(),
+              height_16,
               _buildLocationField(),
-              const SizedBox(height: 24),
+              AppSizedBoxes.height_24,
               _buildChangePasswordButton(),
-              const SizedBox(height: 16),
+              AppSizedBoxes.height_16,
               _buildUpdateButton(cubit),
               if (_isLoading) _buildLoadingIndicator(),
             ],
@@ -129,7 +134,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   Widget _buildHeaderSection() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -137,15 +142,15 @@ class _SettingsLayoutState extends State<SettingsLayout> {
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: Colors.amber[400],
+            color: Color(0xFFFFCA28),
           ),
         ),
-        const SizedBox(height: 8),
+        AppSizedBoxes.height_8,
         Text(
           'قم بتحديث معلوماتك الشخصية',
           style: TextStyle(
             fontSize: 16,
-            color: Colors.grey[400],
+            color: Color(0xFFBDBDBD),
           ),
         ),
       ],
@@ -196,16 +201,16 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       children: [
         Text(
           label,
-          style: TextStyle(
-            color: Colors.grey[300],
+          style: const TextStyle(
+            color: Color(0xFFE0E0E0),
             fontSize: 16,
           ),
         ),
-        const SizedBox(height: 8),
+        AppSizedBoxes.height_8,
         buildInputField(
           controller: controller,
-          hint: hint,
-          icon: icon,
+          hintText: hint,
+          prefixIcon: icon,
           validator: validator,
         ),
       ],
@@ -218,11 +223,11 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       child: OutlinedButton(
         style: _changePasswordButtonStyle(),
         onPressed: _navigateToChangePassword,
-        child: Text(
+        child: const Text(
           'تغيير البريد وكلمة المرور',
           style: TextStyle(
             fontSize: 18,
-            color: Colors.amber[700],
+            color: Color(0xFFFFB300),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -263,7 +268,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   Future<void> _onUpdatePressed(UpdateUserInfoCubit cubit) async {
     if (_formKey.currentState!.validate()) {
-      final uId = await CacheHelper.getValue(key: 'uId') ?? '';
+      final uId = await CacheHelper.getValue(key: TextsConstants.uId) ?? '';
       setState(() => _isLoading = true);
       final message = await cubit.updateInfo(
         userName: _nameController.text,
@@ -279,13 +284,13 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar('تم التحديث بنجاح', Colors.green[800]!)
+          buildSnackBar(TextsConstants.success, const Color(0xFF2E7D32))
       );
       navigator(context: context);
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar('فشل التحديث: ${message.error}', Colors.red[800]!)
+          buildSnackBar(' ${TextsConstants.failed}${message.error}', const Color(0xFFC62828))
       );
     }
   }
@@ -307,13 +312,13 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   BoxDecoration _buildBackgroundDecoration() {
-    return BoxDecoration(
+    return const BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Colors.brown[900]!,
-          Colors.brown[800]!,
+          Color(0xFF3E2723),
+          Color(0xFF4E342E),
         ],
       ),
     );
@@ -322,19 +327,19 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   ButtonStyle _changePasswordButtonStyle() {
     return OutlinedButton.styleFrom(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      side: BorderSide(color: Colors.amber[700]!),
+      side: const BorderSide(color: Color(0xFFFFB300)),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(twelve),
       ),
     );
   }
 
   ButtonStyle _updateButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.amber[700],
+      backgroundColor: const Color(0xFFFFB300),
       padding: const EdgeInsets.symmetric(vertical: 16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(twelve),
       ),
       elevation: 4,
     );

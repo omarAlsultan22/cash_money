@@ -1,9 +1,12 @@
+import 'package:cash_money/features/auth/presentation/widgets/auth_sized_boxes.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
+import '../../../../../core/presentation/widgets/app_sized_boxes.dart';
 import '../../../../../core/data/models/message_result_model.dart';
-import '../../../../../core/presentation/widgets/sized_box.dart';
+import 'package:cash_money/core/constants/texts_constants.dart';
+import '../../../../../core/constants/numbers_constants.dart';
 import '../../operations/auth_operations.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +25,8 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   final currentPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
   final repeatNewPasswordController = TextEditingController();
+
+  static const height_16 = AppSizedBoxes.height_16;
 
   bool isObscure = true;
   bool _isLoading = false;
@@ -44,7 +49,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.brown[900],
+        backgroundColor: const Color(0xFF3E2723),
         appBar: _buildAppBar(),
         body: _buildBody(),
       ),
@@ -54,7 +59,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.transparent,
-      elevation: 0,
+      elevation: NumbersConstants.zero,
       leading: _buildBackButton(),
       title: const Text(
         'تغيير البريد وكلمة المرور',
@@ -116,11 +121,11 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
               child: Column(
                 children: [
                   _buildEmailField(),
-                  sizeBox(),
+                  height_16,
                   _buildCurrentPasswordField(),
-                  sizeBox(),
+                  height_16,
                   _buildNewPasswordField(),
-                  sizeBox(),
+                  height_16,
                   _buildConfirmPasswordField(),
                   if (_isLoading) _buildLoadingIndicator(),
                 ],
@@ -135,39 +140,41 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   Widget _buildEmailField() {
     return buildInputField(
       controller: newEmailController,
-      hint: "البريد الإلكتروني الجديد",
-      icon: Icons.email,
+      hintText: 'يمكنك اضافة بريد إلكتروني الجديد',
+      prefixIcon: Icons.email,
       validator: (value) => _validateInput(value, 'البريد الإلكتروني'),
     );
   }
 
   Widget _buildCurrentPasswordField() {
+    const currentPassword = 'كلمة المرور الحالية';
     return buildInputField(
       controller: currentPasswordController,
-      hint: "كلمة المرور الحالية",
-      icon: Icons.lock,
+      hintText: currentPassword,
+      prefixIcon: Icons.lock,
       obscureText: isObscure,
       suffixIcon: _buildVisibilityToggle(),
-      validator: (value) => _validateInput(value, 'كلمة المرور الحالية'),
+      validator: (value) => _validateInput(value, currentPassword),
     );
   }
 
   Widget _buildNewPasswordField() {
+    const newPassword = 'كلمة المرور الجديدة';
     return buildInputField(
       controller: newPasswordController,
-      hint: "كلمة المرور الجديدة",
-      icon: Icons.lock,
+      hintText: newPassword,
+      prefixIcon: Icons.lock,
       obscureText: isObscure,
       suffixIcon: _buildVisibilityToggle(),
-      validator: (value) => _validateInput(value, 'كلمة المرور الجديدة'),
+      validator: (value) => _validateInput(value, newPassword),
     );
   }
 
   Widget _buildConfirmPasswordField() {
     return buildInputField(
       controller: repeatNewPasswordController,
-      hint: "تأكيد كلمة المرور الجديدة",
-      icon: Icons.lock_reset,
+      hintText: "تأكيد كلمة المرور الجديدة",
+      prefixIcon: Icons.lock_reset,
       obscureText: isObscure,
       suffixIcon: _buildVisibilityToggle(),
       validator: _validatePasswordConfirmation,
@@ -177,7 +184,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   Widget _buildLoadingIndicator() {
     return const Column(
       children: [
-        SizedBox(height: 24),
+        AppSizedBoxes.height_24,
         CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
         ),
@@ -189,7 +196,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     return IconButton(
       icon: Icon(
         isObscure ? Icons.visibility_off : Icons.visibility,
-        color: Colors.amber[700],
+        color: const Color(0xFFFFB300),
       ),
       onPressed: () => setState(() => isObscure = !isObscure),
     );
@@ -204,7 +211,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     if (!formKey.currentState!.validate()) return false;
 
     if (newPasswordController.text != repeatNewPasswordController.text) {
-      buildSnackBar('كلمة المرور الجديدة غير متطابقة', Colors.red[800]!);
+      buildSnackBar('كلمة المرور الجديدة غير متطابقة', const Color(0xFFC62828));
       return false;
     }
 
@@ -227,7 +234,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
 
 
   void _clearUserData() {
-    CacheHelper.removeData(key: 'uId');
+    CacheHelper.removeData(key: TextsConstants.uId);
   }
 
   String? _validateInput(String? value, String fieldName) {
@@ -250,25 +257,25 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar('تم التحديث بنجاح', Colors.green[800]!)
+          buildSnackBar(TextsConstants.success, const Color(0xFF2E7D32))
       );
       navigator(context: context);
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
-        buildSnackBar('فشل التحديث: ${message.error}', Colors.red[800]!),
+        buildSnackBar(' ${TextsConstants.failed}${message.error}', const Color(0xFFC62828)),
       );
     }
   }
 
   BoxDecoration _buildBackgroundDecoration() {
-    return BoxDecoration(
+    return const BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Colors.brown[900]!,
-          Colors.brown[800]!,
+          Color(0xFF3E2723),
+          Color(0xFF4E342E),
         ],
       ),
     );
@@ -276,7 +283,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
 
   ButtonStyle _saveButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.amber[700],
+      backgroundColor: const Color(0xFFFFB300),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),

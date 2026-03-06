@@ -1,4 +1,3 @@
-import '../../../user_info/data/repositories_impl/firestore_user_info_repository.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
 import '../widgets/layouts/change_email_and_password_layout.dart';
 import 'package:firebase_auth/firebase_auth.dart';

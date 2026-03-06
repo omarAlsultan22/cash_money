@@ -1,6 +1,8 @@
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
+import 'package:cash_money/core/presentation/widgets/app_sized_boxes.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
+import 'package:cash_money/core/constants/numbers_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,10 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   int timeLeft = 1;
   bool colors = false;
   late DataCubit cubit;
+
+  static const tow = 2;
+  static const twentyFour = 24.0;
+  static const twenty = NumbersConstants.twenty;
 
   void startTimer(int length) {
     timer?.cancel();
@@ -72,8 +78,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     required StartScreenState state
   }) {
     if (isCorrect) {
-      bool isFinished = widget.currentIndex > length / 2;
-      String value = widget.points < 2 ? 'اجابة' : 'اجابات';
+      bool isFinished = widget.currentIndex > length / tow;
+      String value = widget.points < tow ? 'اجابة' : 'اجابات';
       QuickAlert.show(
           context: context,
           text: 'لقد حققت ${widget.points} $value صحيحة من أصل $length',
@@ -132,18 +138,18 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.transparent,
-      elevation: 0,
+      elevation: NumbersConstants.zero,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () => Navigator.of(context).pop(),
-        splashRadius: 20,
+        splashRadius: twenty,
       ),
       flexibleSpace: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.brown[900]!,
-              Colors.brown[800]!,
+              Color(0xFF3E2723),
+              Color(0xFF4E342E),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -158,14 +164,14 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.brown[800],
+        backgroundColor: const Color(0xFF4E342E),
         appBar: _buildAppBar(),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.brown[900]!,
-                Colors.brown[700]!,
+                Color(0xFF3E2723),
+                Color(0xFF5D4037),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -192,7 +198,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                               ),
                             ),
                             TextSpan(
-                              text: '${userName} ',
+                              text: '$userName ',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -217,8 +223,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.brown[900],
-                        borderRadius: BorderRadius.circular(20),
+                        color: const Color(0xFF3E2723),
+                        borderRadius: BorderRadius.circular(twenty),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.2),
@@ -237,11 +243,11 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          AppSizedBoxes.height_8,
                           Image.asset(
                             'assets/images/icon.png',
-                            width: 24,
-                            height: 24,
+                            width: twentyFour,
+                            height: twentyFour,
                           ),
                         ],
                       ),
@@ -257,7 +263,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  color: Colors.brown[600],
+                  color: const Color(0xFF6D4C41),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Directionality(
@@ -292,9 +298,9 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                             isCorrect: e.isCorrect,
                             color: colors
                                 ? (e.isCorrect
-                                ? Colors.green[800]
-                                : Colors.red[800])
-                                : Colors.brown[500],
+                                ? const Color(0xFF2E7D32)
+                                : const Color(0xFFC62828))
+                                : const Color(0xFF795548),
                             onTaP: () =>
                                 questionIndex(
                                     e.isCorrect, widget.questions.length - 1),
@@ -318,8 +324,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
         children: [
           ConnectionBanner(
               isVisible: widget.isConnected,
-              bgColor: widget.isConnected ? Colors.green.shade700 : Colors.red
-                  .shade700,
+              bgColor: widget.isConnected ? const Color(0xFF388E3C) : const Color(0xFFD32F2F),
               icon: widget.isConnected ? Icons.wifi : Icons.signal_wifi_off,
               text: widget.isConnected ? 'online' : 'offline'
           ),
@@ -346,12 +351,14 @@ class AnswerButton extends StatelessWidget {
     this.onTaP,
   }) : super(key: key);
 
+  static const twelve = NumbersConstants.twelve;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(twelve),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -365,9 +372,9 @@ class AnswerButton extends StatelessWidget {
           backgroundColor: color,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(twelve),
           ),
-          elevation: 0,
+          elevation: NumbersConstants.zero,
         ),
         onPressed: () => onTaP?.call(),
         child: Directionality(

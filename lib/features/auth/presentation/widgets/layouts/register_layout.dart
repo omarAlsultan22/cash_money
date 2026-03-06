@@ -1,9 +1,13 @@
+import 'package:cash_money/features/auth/presentation/widgets/auth_sized_boxes.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/presentation/utils/validate_input.dart';
 import '../../../../../core/data/models/message_result_model.dart';
-import '../../../../../core/presentation/widgets/sized_box.dart';
+import '../../../../../core/presentation/widgets/app_sized_boxes.dart';
+import 'package:cash_money/core/constants/numbers_constants.dart';
+import '../../../../../core/constants/texts_constants.dart';
+import '../../../constants/auth_texts_constants.dart';
 import '../../operations/auth_operations.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +27,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   final _passwordController = TextEditingController();
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
+
+  static const height_16 = AppSizedBoxes.height_16;
+  static const height24 = AppSizedBoxes.height_24;
 
   bool _isObscure = true;
   bool _isLoading = false;
@@ -44,7 +51,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   Widget _buildMainContent() {
     return Scaffold(
-      backgroundColor: Colors.brown.shade900,
+      backgroundColor: const Color(0xFF3E2723),
       appBar: _buildAppBar(),
       body: SafeArea(
         child: Center(
@@ -57,9 +64,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeader(context),
-                    const SizedBox(height: 24),
+                    height24,
                     _buildInputFields(),
-                    const SizedBox(height: 24),
+                    height24,
                     _buildRegisterButton(),
                   ],
                 ),
@@ -75,13 +82,13 @@ class _RegisterLayoutState extends State<RegisterLayout> {
     return Column(
       children: [
         _buildNameField(),
-        sizeBox(),
+        height_16,
         _buildEmailField(),
-        sizeBox(),
+        height_16,
         _buildPasswordField(),
-        sizeBox(),
+        height_16,
         _buildPhoneField(),
-        sizeBox(),
+        height_16,
         _buildLocationField(),
       ],
     );
@@ -90,7 +97,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.brown.shade900,
-      scrolledUnderElevation: 0,
+      scrolledUnderElevation: NumbersConstants.zero,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () => _navigateBack,
@@ -121,7 +128,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
               .textTheme
               .bodyMedium
               ?.copyWith(
-            color: Colors.grey.shade400,
+            color: const Color(0xFFBDBDBD),
           ),
         ),
       ],
@@ -131,9 +138,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildNameField() {
     return buildInputField(
       controller: _nameController,
-      label: "Full Name",
-      hint: "Enter your full name",
-      icon: Icons.person,
+      labelText: "Full Name",
+      hintText: "Enter your full name",
+      prefixIcon: Icons.person,
       autofillHints: const [AutofillHints.name],
       validator: (value) => validateInput(value!, 'name'),
     );
@@ -142,9 +149,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildEmailField() {
     return buildInputField(
       controller: _emailController,
-      label: "Email Address",
-      hint: "Enter your email",
-      icon: Icons.email,
+      labelText: AuthTextsConstants.emailLabelText,
+      hintText: AuthTextsConstants.emailHintText,
+      prefixIcon: Icons.email,
       keyboardType: TextInputType.emailAddress,
       autofillHints: const [AutofillHints.email],
       validator: (value) => validateInput(value!, 'email'),
@@ -154,9 +161,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildPasswordField() {
     return buildInputField(
       controller: _passwordController,
-      label: "Password",
-      hint: "Enter your password",
-      icon: Icons.lock,
+      labelText: AuthTextsConstants.passwordLabelText,
+      hintText: AuthTextsConstants.passwordHintText,
+      prefixIcon: Icons.lock,
       obscureText: _isObscure,
       suffixIcon: _buildPasswordVisibilityToggle(),
       autofillHints: const [AutofillHints.newPassword],
@@ -167,9 +174,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildPhoneField() {
     return buildInputField(
       controller: _phoneController,
-      label: "Phone Number",
-      hint: "Enter your phone number",
-      icon: Icons.phone,
+      labelText: "Phone Number",
+      hintText: "Enter your phone number",
+      prefixIcon: Icons.phone,
       keyboardType: TextInputType.phone,
       autofillHints: const [AutofillHints.telephoneNumber],
       validator: (value) => validateInput(value!, 'phone'),
@@ -179,9 +186,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildLocationField() {
     return buildInputField(
       controller: _locationController,
-      label: "Location",
-      hint: "Enter your location",
-      icon: Icons.location_on,
+      labelText: "Location",
+      hintText: "Enter your location",
+      prefixIcon: Icons.location_on,
       validator: (value) => validateInput(value!, 'location'),
     );
   }
@@ -209,14 +216,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   Widget _buildRegisterButtonContent() {
     return _isLoading
-        ? const SizedBox(
-      height: 24,
-      width: 24,
-      child: CircularProgressIndicator(
-        color: Colors.black,
-        strokeWidth: 3,
-      ),
-    )
+        ? AuthSizedBoxes.sizedBox
         : const Text(
       "REGISTER",
       style: TextStyle(
@@ -260,13 +260,13 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar('تم التحديث بنجاح', Colors.green[800]!)
+          buildSnackBar(TextsConstants.success, const Color(0xFF2E7D32))
       );
       navigator(context: context);
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar('فشل التحديث: ${message.error}', Colors.red[800]!)
+          buildSnackBar(' ${TextsConstants.failed}${message.error}', const Color(0xFFC62828))
       );
     }
   }
@@ -281,7 +281,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
       foregroundColor: Colors.black,
       padding: const EdgeInsets.symmetric(vertical: 16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(NumbersConstants.fifty),
       ),
       elevation: 2,
     );

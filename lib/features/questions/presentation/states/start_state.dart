@@ -44,6 +44,7 @@ class StartScreenState extends DataState{
         onInitial: onInitial,
         onLoading: onLoading,
         onLoaded: onLoaded,
-        onError: onError);
+        onError: onError
+    );
   }
 }

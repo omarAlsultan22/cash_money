@@ -1,9 +1,13 @@
+import 'package:cash_money/features/auth/presentation/widgets/auth_sized_boxes.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
+import '../../../../../core/presentation/widgets/app_sized_boxes.dart';
 import '../../../../../core/data/models/message_result_model.dart';
-import '../../../../../core/presentation/widgets/sized_box.dart';
+import 'package:cash_money/core/constants/numbers_constants.dart';
+import 'package:cash_money/core/constants/texts_constants.dart';
+import '../../../constants/auth_texts_constants.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../operations/auth_operations.dart';
 import '../../screens/register_screen.dart';
@@ -23,6 +27,9 @@ class _LoginLayoutState extends State<LoginLayout> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  static const height_16 = AppSizedBoxes.height_16;
+  static const height_24 = AppSizedBoxes.height_24;
 
   bool _isObscure = true;
   bool _isLoading = false;
@@ -47,7 +54,7 @@ class _LoginLayoutState extends State<LoginLayout> {
 
   Widget _buildMainContent() {
     return Scaffold(
-      backgroundColor: Colors.brown.shade900,
+      backgroundColor: const Color(0xFF3E2723),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -61,11 +68,11 @@ class _LoginLayoutState extends State<LoginLayout> {
                     _buildHeader(context),
                     const SizedBox(height: 32),
                     _buildEmailField(),
-                    sizeBox(),
+                    height_16,
                     _buildPasswordField(),
-                    const SizedBox(height: 24),
+                    height_24,
                     _buildLoginButton(),
-                    sizeBox(),
+                    height_16,
                     _buildRegisterLink(),
                   ],
                 ),
@@ -92,7 +99,7 @@ class _LoginLayoutState extends State<LoginLayout> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
+        AppSizedBoxes.height_8,
         Text(
           'Login now to communicate with friends',
           style: Theme
@@ -100,7 +107,7 @@ class _LoginLayoutState extends State<LoginLayout> {
               .textTheme
               .bodyMedium
               ?.copyWith(
-            color: Colors.grey.shade400,
+            color: const Color(0xFFBDBDBD),
           ),
         ),
       ],
@@ -110,9 +117,9 @@ class _LoginLayoutState extends State<LoginLayout> {
   Widget _buildEmailField() {
     return buildInputField(
       controller: _emailController,
-      label: "Email Address",
-      hint: "Enter your email",
-      icon: Icons.email,
+      labelText: AuthTextsConstants.emailLabelText,
+      hintText: AuthTextsConstants.emailHintText,
+      prefixIcon: Icons.email,
       keyboardType: TextInputType.emailAddress,
       autofillHints: const [AutofillHints.email],
       validator: (value) => _validateEmail(value),
@@ -122,9 +129,9 @@ class _LoginLayoutState extends State<LoginLayout> {
   Widget _buildPasswordField() {
     return buildInputField(
       controller: _passwordController,
-      label: "Password",
-      hint: "Enter your password",
-      icon: Icons.lock,
+      labelText: AuthTextsConstants.passwordLabelText,
+      hintText: AuthTextsConstants.passwordHintText,
+      prefixIcon: Icons.lock,
       obscureText: _isObscure,
       suffixIcon: _buildPasswordVisibilityToggle(),
       autofillHints: const [AutofillHints.password],
@@ -155,14 +162,7 @@ class _LoginLayoutState extends State<LoginLayout> {
 
   Widget _buildLoginButtonContent() {
     return _isLoading
-        ? const SizedBox(
-      height: 24,
-      width: 24,
-      child: CircularProgressIndicator(
-        color: Colors.black,
-        strokeWidth: 3,
-      ),
-    )
+        ? AuthSizedBoxes.sizedBox
         : const Text(
       "LOGIN",
       style: TextStyle(
@@ -177,13 +177,13 @@ class _LoginLayoutState extends State<LoginLayout> {
       child: TextButton(
         onPressed: _navigateToRegister,
         child: RichText(
-          text: TextSpan(
+          text: const TextSpan(
             text: "Don't have an account? ",
             style: TextStyle(
-              color: Colors.grey.shade400,
+              color: Color(0xFFBDBDBD),
               fontSize: 16,
             ),
-            children: const [
+            children: [
               TextSpan(
                 text: "Register Now",
                 style: TextStyle(
@@ -200,7 +200,7 @@ class _LoginLayoutState extends State<LoginLayout> {
 
 
   Future<void> _checkLoginStatus() async {
-    final value = await CacheHelper.getValue(key: 'uId');
+    final value = await CacheHelper.getValue(key: TextsConstants.uId);
     if (value?.isNotEmpty ?? false) {
       _navigateToHome();
     }
@@ -247,33 +247,33 @@ class _LoginLayoutState extends State<LoginLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar('تم التحديث بنجاح', Colors.green[800]!)
+          buildSnackBar(TextsConstants.success, const Color(0xFF2E7D32))
       );
       navigator(context: context, link: const HomeScreen());
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
-        buildSnackBar('فشل التحديث: ${message.error}', Colors.red[800]!),
+        buildSnackBar(' ${TextsConstants.failed}${message.error}', const Color(0xFFC62828)),
       );
     }
   }
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email address';
+      return "الرجاء إدخال عنوان بريدك الإلكتروني";
     }
     if (!value.contains('@')) {
-      return 'Please enter a valid email address';
+      return 'يرجى إدخال عنوان بريد إلكتروني صالح';
     }
     return null;
   }
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return "الرجاء إدخال كلمة المرور الخاصة بك";
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل";
     }
     return null;
   }
@@ -284,7 +284,7 @@ class _LoginLayoutState extends State<LoginLayout> {
       foregroundColor: Colors.black,
       padding: const EdgeInsets.symmetric(vertical: 16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(NumbersConstants.fifty),
       ),
       elevation: 2,
     );
