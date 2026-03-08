@@ -19,7 +19,7 @@ class QuestionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
-          return CallRestLockIfNeeded(state: QuestionsScreenState(),
+          return CallRestLockIfNeededScreen(state: QuestionsScreenState(),
               child: BlocBuilder<DataCubit, DataState>(
                   buildWhen: (previous,
                       current) => current is QuestionsScreenState,

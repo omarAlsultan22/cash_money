@@ -19,7 +19,7 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
-          return CallRestLockIfNeeded(state: StartScreenState(),
+          return CallRestLockIfNeededScreen(state: StartScreenState(),
               child: BlocBuilder<DataCubit, DataState>(
                   buildWhen: (previous, current) => current is StartScreenState,
                   builder: (context, state) {

@@ -1,3 +1,4 @@
+import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 
@@ -6,7 +7,7 @@ class AuthSpacing {
     height: 24,
     width: 24,
     child: CircularProgressIndicator(
-      color: Colors.black,
+      color: AppColors.black,
       strokeWidth: 3,
     ),
   );

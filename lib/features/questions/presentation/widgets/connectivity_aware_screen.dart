@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import '../cubits/data_cubit.dart';
 
 
-class CallRestLockIfNeeded extends StatelessWidget {
+class CallRestLockIfNeededScreen extends StatelessWidget {
   final Widget child;
   final DataState state;
 
-  const CallRestLockIfNeeded({
+  const CallRestLockIfNeededScreen({
     super.key,
     required this.state,
     required this.child,
