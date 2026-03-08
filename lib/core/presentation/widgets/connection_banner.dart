@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:cash_money/core/constants/app_colors.dart';
 
 
 class ConnectionBanner extends StatefulWidget {
@@ -28,7 +30,8 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   late double _height;
   Timer? _timer;
 
-  static const zero = 0;
+  static const _zero = 0;
+  static const _white = AppColors.white;
 
   @override
   void initState() {
@@ -48,7 +51,7 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   void _startTimer() {
     _timer?.cancel();
 
-    if (widget.duration > zero) {
+    if (widget.duration > _zero) {
       _timer = Timer(Duration(seconds: widget.duration), () {
         _hideBanner();
       });
@@ -71,17 +74,17 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
       curve: Curves.easeInOut,
       height: _height,
       color: widget.bgColor,
-      child: _height > zero
+      child: _height > _zero
           ? Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(widget.icon, color: Colors.white),
-            const SizedBox(width: 8),
+            Icon(widget.icon, color: _white),
+            AppSpacing.height_8,
             Text(
               widget.text,
               style: const TextStyle(
-                color: Colors.white,
+                color: _white,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
               ),

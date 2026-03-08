@@ -1,8 +1,10 @@
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
-import 'package:cash_money/core/presentation/widgets/app_sized_boxes.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
-import 'package:cash_money/core/constants/numbers_constants.dart';
+import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
+import 'package:cash_money/core/constants/app_numbers.dart';
+import 'package:cash_money/core/constants/app_colors.dart';
+import '../../../../../core/constants/app_paddings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter/material.dart';
@@ -32,31 +34,35 @@ class BuildStartScreen extends StatefulWidget {
 
 class _BuildStartScreenState extends State<BuildStartScreen> {
 
-  Timer? timer;
-  int timeLeft = 1;
-  bool colors = false;
-  late DataCubit cubit;
+  Timer? _timer;
+  int _timeLeft = 1;
+  bool _colors = false;
+  late DataCubit _cubit;
 
-  static const tow = 2;
-  static const twentyFour = 24.0;
-  static const twenty = NumbersConstants.twenty;
+  //numbers
+  static const _twenty = AppNumbers.twenty;
 
-  void startTimer(int length) {
-    timer?.cancel();
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (timeLeft > 0) {
+  //colors
+  static const _white = AppColors.white;
+  static const _brown800 = AppColors.brown_800;
+  static const _brown900 = AppColors.brown_900;
+
+  void _startTimer(int length) {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_timeLeft > 0) {
         setState(() {
-          timeLeft--;
+          _timeLeft--;
         });
       } else {
         timer.cancel();
         setState(() {
-          colors = false;
+          _colors = false;
           if (widget.currentIndex < length) {
             final state = StartScreenState();
-            cubit.incrementCurrentIndex(state);
+            _cubit.incrementCurrentIndex(state);
           }
-          timeLeft = 1;
+          _timeLeft = 1;
         });
       }
     });
@@ -67,7 +73,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     required StartScreenState state,
   }) {
     if (isCorrect) {
-      cubit.getData(state);
+      _cubit.getData(state);
       return;
     }
   }
@@ -77,35 +83,37 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     required bool isCorrect,
     required StartScreenState state
   }) {
+    const tow = 2;
+
     if (isCorrect) {
       bool isFinished = widget.currentIndex > length / tow;
-      String value = widget.points < tow ? 'اجابة' : 'اجابات';
+      String answers = widget.points < tow ? 'answer' : 'answers';
       QuickAlert.show(
           context: context,
-          text: 'لقد حققت ${widget.points} $value صحيحة من أصل $length',
+          text: 'You achieved ${widget.points} correct $answers out of $length',
           type: isFinished ? QuickAlertType.success : QuickAlertType.error,
-          title: isFinished ? 'تهانينا' : 'حاول مجددا',
+          title: isFinished ? 'Congratulations' : 'Try again',
           showConfirmBtn: true,
-          confirmBtnText: 'حسنا'
+          confirmBtnText: 'Okay'
       ).whenComplete(() {
         Navigator.pop(context);
-        cubit.resetQuiz(state);
+        _cubit.resetQuiz(state);
       });
-      timer?.cancel();
+      _timer?.cancel();
       return;
     }
   }
 
-  void questionIndex(bool isCorrect, int length) {
+  void _questionIndex(bool isCorrect, int length) {
     if (widget.currentIndex >= length) return;
 
     final state = StartScreenState();
 
     setState(() {
-      colors = false;
-      colors = true;
+      _colors = false;
+      _colors = true;
       if (isCorrect) {
-        cubit.incrementPoints(state);
+        _cubit.incrementPoints(state);
       }
 
       _isCurrentIndexEquivalent(
@@ -118,38 +126,38 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
           state: state,
           isCorrect: widget.currentIndex < length - 1);
 
-      startTimer(length);
+      _startTimer(length);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    cubit = context.read<DataCubit>();
-    colors = false;
+    _cubit = context.read<DataCubit>();
+    _colors = false;
   }
 
   @override
   void dispose() {
-    timer?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: NumbersConstants.zero,
+      backgroundColor: AppColors.transparent,
+      elevation: AppNumbers.zero,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        icon: const Icon(Icons.arrow_back_ios, color: _white),
         onPressed: () => Navigator.of(context).pop(),
-        splashRadius: twenty,
+        splashRadius: _twenty,
       ),
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF3E2723),
-              Color(0xFF4E342E),
+              _brown900,
+              _brown800,
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -160,18 +168,20 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   Widget _widgetBuilder() {
+    const twentyFour = 24.0;
     final userName = CacheHelper.getValue(key: 'name');
+
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: const Color(0xFF4E342E),
+        backgroundColor: _brown800,
         appBar: _buildAppBar(),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF3E2723),
-                Color(0xFF5D4037),
+                _brown900,
+                AppColors.brown_700
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -191,10 +201,10 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'مرحباً ',
+                              text: 'Welcome ',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.white.withOpacity(0.8),
+                                color: _white.withOpacity(0.8),
                               ),
                             ),
                             TextSpan(
@@ -202,7 +212,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: _white,
                               ),
                             ),
                             const WidgetSpan(
@@ -210,7 +220,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                                 padding: EdgeInsets.only(left: 5),
                                 child: Icon(
                                   Icons.waving_hand_sharp,
-                                  color: Colors.amber,
+                                  color: AppColors.amber_500,
                                   size: 20,
                                 ),
                               ),
@@ -223,11 +233,11 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF3E2723),
-                        borderRadius: BorderRadius.circular(twenty),
+                        color: _brown900,
+                        borderRadius: BorderRadius.circular(_twenty),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: AppColors.black.withOpacity(0.2),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -240,10 +250,10 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Colors.white,
+                              color: _white,
                             ),
                           ),
-                          AppSizedBoxes.height_8,
+                          AppSpacing.height_8,
                           Image.asset(
                             'assets/images/icon.png',
                             width: twentyFour,
@@ -254,18 +264,16 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 40),
-
+                AppSpacing.height_40,
                 // Question Card
                 Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  color: const Color(0xFF6D4C41),
+                  color: AppColors.brown_600,
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: AppPaddings.paddingAll_20,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: Text(
@@ -296,13 +304,13 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                           child: AnswerButton(
                             answer: e.answer,
                             isCorrect: e.isCorrect,
-                            color: colors
+                            color: _colors
                                 ? (e.isCorrect
-                                ? const Color(0xFF2E7D32)
-                                : const Color(0xFFC62828))
+                                ? AppColors.green800
+                                : AppColors.red800)
                                 : const Color(0xFF795548),
                             onTaP: () =>
-                                questionIndex(
+                                _questionIndex(
                                     e.isCorrect, widget.questions.length - 1),
                           ),
                         ),
@@ -317,14 +325,14 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
         children: [
           ConnectionBanner(
               isVisible: widget.isConnected,
-              bgColor: widget.isConnected ? const Color(0xFF388E3C) : const Color(0xFFD32F2F),
+              bgColor: widget.isConnected ? AppColors.green700 : AppColors
+                  .red700,
               icon: widget.isConnected ? Icons.wifi : Icons.signal_wifi_off,
               text: widget.isConnected ? 'online' : 'offline'
           ),
@@ -351,7 +359,7 @@ class AnswerButton extends StatelessWidget {
     this.onTaP,
   }) : super(key: key);
 
-  static const twelve = NumbersConstants.twelve;
+  static const twelve = AppNumbers.twelve;
 
   @override
   Widget build(BuildContext context) {
@@ -361,7 +369,7 @@ class AnswerButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(twelve),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: AppColors.black.withOpacity(0.2),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -370,21 +378,21 @@ class AnswerButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: AppPaddings.paddingVertical,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(twelve),
           ),
-          elevation: NumbersConstants.zero,
+          elevation: AppNumbers.zero,
         ),
         onPressed: () => onTaP?.call(),
         child: Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: TextDirection.ltr,
           child: Text(
             answer!,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: Colors.white,
+              color: AppColors.white,
             ),
           ),
         ),

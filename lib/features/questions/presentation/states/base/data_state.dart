@@ -21,15 +21,9 @@ class DataState {
     this.questions = const [],
   });
 
+  bool get _isLoading => appState!.isLoading;
 
-  bool get questionsIsNotEmpty => questions.isNotEmpty;
-
-  List<QuestionModel> get questionsList => questions;
-
-  AppException? get failure => appState!.failure;
-
-  bool get isLoading => appState!.isLoading;
-
+  AppException? get _failure => appState!.failure;
 
   DataState updateState({
     bool? hasMore,
@@ -55,12 +49,11 @@ class DataState {
     required R Function(List<QuestionModel> data) onLoaded,
     required R Function(AppException error) onError,
   }) {
-
-    if (failure != null) {
-      return onError(failure!);
+    if (_failure != null) {
+      return onError(_failure!);
     }
 
-    if (isLoading && questions.isEmpty) {
+    if (_isLoading && questions.isEmpty) {
       return onLoading();
     }
 

@@ -2,9 +2,10 @@ import '../../cubits/data_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../states/questions_state.dart';
-import '../../../../../core/constants/numbers_constants.dart';
+import '../../../../../core/constants/app_numbers.dart';
+import 'package:cash_money/core/constants/app_colors.dart';
+import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
-import 'package:cash_money/core/presentation/widgets/app_sized_boxes.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
 
 
@@ -19,34 +20,37 @@ class AnswerScreen extends StatelessWidget {
   }) : super(key: key);
 
   Widget _buildWidget(BuildContext context) {
+    const white = AppColors.white;
+    const paddingForAll = EdgeInsets.all(20.0);
+
     return Scaffold(
-      backgroundColor: const Color(0xFF3E2723),
+      backgroundColor: AppColors.brown_900,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: NumbersConstants.zero,
+        backgroundColor: AppColors.transparent,
+        elevation: AppNumbers.zero,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: white),
           onPressed: () => Navigator.pop(context),
-          splashRadius: NumbersConstants.twenty,
+          splashRadius: AppNumbers.twenty,
         ),
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: paddingForAll,
           child: Card(
             elevation: 8,
-            color: isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFC62828),
+            color: isCorrect ? AppColors.green800 : AppColors.red800,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: paddingForAll,
               child: Text(
                 answer,
                 style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: white,
                   height: 1.4,
                 ),
                 textAlign: TextAlign.center,
@@ -81,24 +85,22 @@ class BuildQuestionsScreen extends StatefulWidget {
 
 class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   final ScrollController _scrollController = ScrollController();
-  late DataCubit cubit;
+  late DataCubit _cubit;
 
-  static const zero = NumbersConstants.zero;
-  static const twelve = NumbersConstants.twelve;
 
   @override
   void initState() {
     super.initState();
-    cubit = DataCubit.get(context);
+    _cubit = DataCubit.get(context);
     _scrollController.addListener(_onScrollData);
   }
 
   void _onScrollData() {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - NumbersConstants.fifty &&
+        _scrollController.position.maxScrollExtent - AppNumbers.fifty &&
         widget.hasMore) {
       final state = QuestionsScreenState();
-      cubit.getData(state);
+      _cubit.getData(state);
     }
   }
 
@@ -111,35 +113,39 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
 
   Widget _widgetBuilder() {
     final questions = widget.questions;
+    const paddingForAll = EdgeInsets.all(16.0);
+    const twelve = AppNumbers.twelve;
+    const zero = AppNumbers.zero;
+    const white = Colors.white;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: const Color(0xFF4E342E),
+        backgroundColor: AppColors.brown_800,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.transparent,
           scrolledUnderElevation: zero,
           elevation: zero,
           title: const Text(
-            'الأسئلة',
+            'Questions ',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: white,
             ),
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios, color: white),
             onPressed: () => Navigator.pop(context),
-            splashRadius: NumbersConstants.twelve,
+            splashRadius: AppNumbers.twelve,
           ),
         ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF3E2723),
-                Color(0xFF5D4037),
+                AppColors.brown_900,
+                AppColors.brown_700,
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -148,7 +154,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
           child: ListView.separated(
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(16),
+            padding: paddingForAll,
             itemCount: questions.length + 1,
             itemBuilder: (context, index) {
               if (index < questions.length) {
@@ -164,7 +170,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(twelve),
                   ),
-                  color: const Color(0xFF6D4C41),
+                  color: AppColors.brown_600,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(twelve),
                     onTap: () {
@@ -180,13 +186,13 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                       );
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: paddingForAll,
                       child: Text(
                         question.question,
                         style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.amber,
+                          color: AppColors.amber_500,
                         ),
                       ),
                     ),
@@ -195,13 +201,13 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
               } else {
                 return Center(
                   child: widget.hasMore
-                      ? const CircularProgressIndicator(color: Colors.white)
+                      ? const CircularProgressIndicator(color: white)
                       : const SizedBox(),
                 );
               }
             },
             separatorBuilder: (context, index) =>
-            AppSizedBoxes.height_8,
+            AppSpacing.height_8,
           ),
         ),
       ),
@@ -214,7 +220,8 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
         children: [
           ConnectionBanner(
               isVisible: widget.isConnected,
-              bgColor: widget.isConnected ? const Color(0xFF388E3C) : const Color(0xFFD32F2F),
+              bgColor: widget.isConnected ? AppColors.green700 : AppColors
+                  .red700,
               icon: widget.isConnected ? Icons.wifi : Icons.signal_wifi_off,
               text: widget.isConnected ? 'online' : 'offline'
           ),

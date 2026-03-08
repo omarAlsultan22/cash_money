@@ -1,12 +1,18 @@
+import '../../../../../core/presentation/utils/helpers/validate/validator_input.dart';
 import '../../../../auth/presentation/screens/change_email_&_password_screen.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
+import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/core/data/models/message_result_model.dart';
-import '../../../../../core/presentation/widgets/build_snack_bar.dart';
-import '../../../../../core/presentation/widgets/app_sized_boxes.dart';
-import 'package:cash_money/core/constants/numbers_constants.dart';
-import 'package:cash_money/core/constants/texts_constants.dart';
+import '../../../../../core/presentation/widgets/app_spacing.dart';
+import 'package:cash_money/core/constants/app_labels_texts.dart';
+import 'package:cash_money/core/constants/app_hints_texts.dart';
+import 'package:cash_money/core/constants/app_paddings.dart';
+import 'package:cash_money/core/constants/app_numbers.dart';
+import 'package:cash_money/core/constants/app_states.dart';
+import 'package:cash_money/core/constants/app_colors.dart';
+import 'package:cash_money/core/constants/app_texts.dart';
 import '../../cubits/update_user_Info_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +40,29 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   final _locationController = TextEditingController();
 
   bool _isLoading = false;
-  late UpdateUserInfoCubit cubit;
+  late UpdateUserInfoCubit _cubit;
 
-  static const twelve = NumbersConstants.twelve;
-  static const height_16 = AppSizedBoxes.height_16;
+  //sizes
+  static const _twelve = AppNumbers.twelve;
+  static const _spaceBetweenFields = AppSpacing.height_16;
+
+  //texts
+  static const _name = AppLabelsTexts.name;
+  static const _phoneNumber = AppLabelsTexts.phoneNumber;
+  static const _location = AppLabelsTexts.location;
+
+  //colors
+  static const _white = AppColors.white;
+  static const _amber600 = AppColors.amber_600;
+  static const _brown900 = AppColors.brown_900;
+
+  //paddings
+  static const _paddingVertical = AppPaddings.paddingVertical;
 
   @override
   void initState() {
     super.initState();
-    cubit = context.read<UpdateUserInfoCubit>();
+    _cubit = context.read<UpdateUserInfoCubit>();
     _initializeControllers(
         userName: widget.userName,
         userPhone: widget.userPhone,
@@ -71,11 +91,11 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: const Color(0xFF3E2723),
+        backgroundColor: _brown900,
         appBar: _buildAppBar(),
-        body: _buildBody(context, cubit),
+        body: _buildBody(context, _cubit),
       ),
     );
   }
@@ -83,15 +103,15 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: NumbersConstants.zero,
+      backgroundColor: AppColors.transparent,
+      elevation: AppNumbers.zero,
       title: const Text(
-        'الإعدادات',
-        style: TextStyle(color: Colors.white),
+        'Settings',
+        style: TextStyle(color: _white),
       ),
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        color: Colors.white,
+        color: _white,
         onPressed: _isLoading ? null : () => Navigator.pop(context),
       ),
     );
@@ -108,22 +128,22 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     return IgnorePointer(
       ignoring: _isLoading,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: AppPaddings.paddingAll_24,
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderSection(),
-              const SizedBox(height: 32),
+              AppSpacing.height_32,
               _buildNameField(),
-              height_16,
+              _spaceBetweenFields,
               _buildPhoneField(),
-              height_16,
+              _spaceBetweenFields,
               _buildLocationField(),
-              AppSizedBoxes.height_24,
+              AppSpacing.height_24,
               _buildChangePasswordButton(),
-              AppSizedBoxes.height_16,
+              AppSpacing.height_16,
               _buildUpdateButton(cubit),
               if (_isLoading) _buildLoadingIndicator(),
             ],
@@ -138,19 +158,19 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'تحديث الملف الشخصي',
+          'Update profile',
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: Color(0xFFFFCA28),
+            color: AppColors.amber_400,
           ),
         ),
-        AppSizedBoxes.height_8,
+        AppSpacing.height_8,
         Text(
-          'قم بتحديث معلوماتك الشخصية',
+          'Update your personal information',
           style: TextStyle(
             fontSize: 16,
-            color: Color(0xFFBDBDBD),
+            color: AppColors.grey400,
           ),
         ),
       ],
@@ -160,31 +180,31 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   Widget _buildNameField() {
     return _buildCustomInputField(
       controller: _nameController,
-      label: "الاسم",
-      hint: "أدخل اسمك",
+      label: _name,
+      hint: AppHintsTexts.name,
       icon: Icons.person,
-      validator: (value) => _validateInput(value, 'الاسم'),
+      validator: (value) => ValidateInput.validator(value, _name),
     );
   }
 
   Widget _buildPhoneField() {
     return _buildCustomInputField(
       controller: _phoneController,
-      label: "الهاتف",
-      hint: "أدخل رقم هاتفك",
+      label: _phoneNumber,
+      hint: AppHintsTexts.phoneNumber,
       icon: Icons.phone,
       keyboardType: TextInputType.phone,
-      validator: (value) => _validateInput(value, 'الهاتف'),
+      validator: (value) => ValidateInput.validator(value, _phoneNumber),
     );
   }
 
   Widget _buildLocationField() {
     return _buildCustomInputField(
       controller: _locationController,
-      label: "العنوان",
-      hint: "أدخل عنوانك",
+      label: _location,
+      hint: AppHintsTexts.location,
       icon: Icons.location_on,
-      validator: (value) => _validateInput(value, 'العنوان'),
+      validator: (value) => ValidateInput.validator(value, _location),
     );
   }
 
@@ -206,8 +226,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             fontSize: 16,
           ),
         ),
-        AppSizedBoxes.height_8,
-        buildInputField(
+        AppSpacing.height_8,
+        BuildInputField.build(
           controller: controller,
           hintText: hint,
           prefixIcon: icon,
@@ -224,10 +244,10 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         style: _changePasswordButtonStyle(),
         onPressed: _navigateToChangePassword,
         child: const Text(
-          'تغيير البريد وكلمة المرور',
+          'Change email and password',
           style: TextStyle(
             fontSize: 18,
-            color: Color(0xFFFFB300),
+            color: _amber600,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -242,11 +262,11 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         style: _updateButtonStyle(),
         onPressed: () => _onUpdatePressed(cubit),
         child: const Text(
-          'تحديث',
+          'Update',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: _white,
           ),
         ),
       ),
@@ -256,10 +276,10 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   Widget _buildLoadingIndicator() {
     return const Column(
       children: [
-        SizedBox(height: 24),
+        AppSpacing.height_24,
         Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.amber_500),
           ),
         ),
       ],
@@ -268,7 +288,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   Future<void> _onUpdatePressed(UpdateUserInfoCubit cubit) async {
     if (_formKey.currentState!.validate()) {
-      final uId = await CacheHelper.getValue(key: TextsConstants.uId) ?? '';
+      final uId = await CacheHelper.getValue(key: AppTexts.uId) ?? '';
       setState(() => _isLoading = true);
       final message = await cubit.updateInfo(
         userName: _nameController.text,
@@ -284,13 +304,14 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar(TextsConstants.success, const Color(0xFF2E7D32))
+          BuildSnackBar.build(AppStates.success, AppColors.green800)
       );
       navigator(context: context);
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar(' ${TextsConstants.failed}${message.error}', const Color(0xFFC62828))
+          BuildSnackBar.build(
+              ' ${AppStates.failed}${message.error}', AppColors.red800)
       );
     }
   }
@@ -304,21 +325,14 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
   }
 
-  String? _validateInput(String? value, String fieldName) {
-    if (value == null || value.isEmpty) {
-      return 'يرجى إدخال $fieldName';
-    }
-    return null;
-  }
-
   BoxDecoration _buildBackgroundDecoration() {
     return const BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF3E2723),
-          Color(0xFF4E342E),
+          _brown900,
+          AppColors.brown_800,
         ],
       ),
     );
@@ -326,20 +340,20 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   ButtonStyle _changePasswordButtonStyle() {
     return OutlinedButton.styleFrom(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      side: const BorderSide(color: Color(0xFFFFB300)),
+      padding: _paddingVertical,
+      side: const BorderSide(color: _amber600),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(twelve),
+        borderRadius: BorderRadius.circular(_twelve),
       ),
     );
   }
 
   ButtonStyle _updateButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xFFFFB300),
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      backgroundColor: _amber600,
+      padding: _paddingVertical,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(twelve),
+        borderRadius: BorderRadius.circular(_twelve),
       ),
       elevation: 4,
     );

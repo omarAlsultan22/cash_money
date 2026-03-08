@@ -1,3 +1,4 @@
+import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 
@@ -23,7 +24,7 @@ class ErrorStateWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 50.0),
               child: Text('Error: $error'),
             ),
-            const SizedBox(height: 30),
+            AppSpacing.height_30,
             ElevatedButton(
               onPressed: onRetry,
               child: Text(buttonText!),

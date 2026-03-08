@@ -1,3 +1,4 @@
+import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 
@@ -11,7 +12,7 @@ class ConnectionErrorStateWidget extends StatelessWidget {
   Widget retryButton() {
     return Column(
       children: [
-        const SizedBox(height: 30),
+        AppSpacing.height_30,
         ElevatedButton(
           onPressed: onRetry,
           child: const Text('Retry'),

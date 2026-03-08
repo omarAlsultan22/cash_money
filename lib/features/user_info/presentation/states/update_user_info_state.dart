@@ -16,9 +16,9 @@ class UpdateUserInfoState implements WhenStates {
 
   String get userLocation => userModel!.userLocation;
 
-  bool get isLoading => appState!.isLoading;
+  bool get _isLoading => appState!.isLoading;
 
-  AppException? get failure => appState!.failure;
+  AppException? get _failure => appState!.failure;
 
   UpdateUserInfoState updateState({
     UserModel? userModel,
@@ -37,15 +37,15 @@ class UpdateUserInfoState implements WhenStates {
     required R Function() onLoading,
     required R Function() onLoaded,
     required R Function(AppException error) onError}) {
-    if (failure != null) {
-      return onError(failure!);
+    if (_failure != null) {
+      return onError(_failure!);
     }
 
-    if (isLoading) {
+    if (_isLoading) {
       return onLoading();
     }
 
-    if (!isLoading && userModel != null) {
+    if (!_isLoading && userModel != null) {
       return onLoaded();
     }
 

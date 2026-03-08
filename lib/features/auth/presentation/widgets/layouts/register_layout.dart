@@ -1,13 +1,20 @@
+import 'package:cash_money/core/presentation/utils/helpers/validate/validate_password.dart';
+import 'package:cash_money/core/presentation/utils/helpers/validate/validator_input.dart';
+import 'package:cash_money/core/presentation/utils/helpers/validate/validate_email.dart';
 import 'package:cash_money/features/auth/presentation/widgets/auth_sized_boxes.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
-import '../../../../../core/presentation/widgets/text_form_field.dart';
-import '../../../../../core/presentation/widgets/build_snack_bar.dart';
-import '../../../../../core/presentation/utils/validate_input.dart';
+import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
+import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
+import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
+import '../../../../../core/presentation/widgets/app_spacing.dart';
 import '../../../../../core/data/models/message_result_model.dart';
-import '../../../../../core/presentation/widgets/app_sized_boxes.dart';
-import 'package:cash_money/core/constants/numbers_constants.dart';
-import '../../../../../core/constants/texts_constants.dart';
-import '../../../constants/auth_texts_constants.dart';
+import 'package:cash_money/core/constants/app_labels_texts.dart';
+import 'package:cash_money/core/constants/app_hints_texts.dart';
+import 'package:cash_money/core/constants/app_paddings.dart';
+import 'package:cash_money/core/constants/app_numbers.dart';
+import 'package:cash_money/core/constants/app_states.dart';
+import 'package:cash_money/core/constants/app_colors.dart';
+import '../../../constants/auth_lables_texts.dart';
 import '../../operations/auth_operations.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +35,18 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-  static const height_16 = AppSizedBoxes.height_16;
-  static const height24 = AppSizedBoxes.height_24;
+  //sizes
+  static const _spaceBetweenFields = AppSpacing.height_16;
+  static const _spaceBeforeButton = AppSpacing.height_24;
+
+  //texts
+  static const _name = AppLabelsTexts.name;
+  static const _phoneNumber = AppLabelsTexts.phoneNumber;
+  static const _location = AppLabelsTexts.location;
+
+  //colors
+  static const _amber500 = AppColors.amber_500;
+  static const _brown900 = AppColors.brown_900;
 
   bool _isObscure = true;
   bool _isLoading = false;
@@ -51,12 +68,12 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   Widget _buildMainContent() {
     return Scaffold(
-      backgroundColor: const Color(0xFF3E2723),
+      backgroundColor: _brown900,
       appBar: _buildAppBar(),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
+            padding: AppPaddings.paddingAll_20,
             child: Form(
               key: _formKey,
               child: AutofillGroup(
@@ -64,9 +81,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeader(context),
-                    height24,
+                    _spaceBeforeButton,
                     _buildInputFields(),
-                    height24,
+                    _spaceBeforeButton,
                     _buildRegisterButton(),
                   ],
                 ),
@@ -82,13 +99,13 @@ class _RegisterLayoutState extends State<RegisterLayout> {
     return Column(
       children: [
         _buildNameField(),
-        height_16,
+        _spaceBetweenFields,
         _buildEmailField(),
-        height_16,
+        _spaceBetweenFields,
         _buildPasswordField(),
-        height_16,
+        _spaceBetweenFields,
         _buildPhoneField(),
-        height_16,
+        _spaceBetweenFields,
         _buildLocationField(),
       ],
     );
@@ -96,10 +113,10 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.brown.shade900,
-      scrolledUnderElevation: NumbersConstants.zero,
+      backgroundColor: _brown900,
+      scrolledUnderElevation: AppNumbers.zero,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        icon: const Icon(Icons.arrow_back_ios, color: AppColors.white),
         onPressed: () => _navigateBack,
       ),
     );
@@ -116,11 +133,11 @@ class _RegisterLayoutState extends State<RegisterLayout> {
               .textTheme
               .headlineLarge
               ?.copyWith(
-            color: Colors.amber,
+            color: _amber500,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
+        AppSpacing.height_8,
         Text(
           'Register now to join the world of happiness',
           style: Theme
@@ -128,7 +145,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
               .textTheme
               .bodyMedium
               ?.copyWith(
-            color: const Color(0xFFBDBDBD),
+            color: AppColors.grey400,
           ),
         ),
       ],
@@ -136,60 +153,60 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildNameField() {
-    return buildInputField(
+    return BuildInputField.build(
       controller: _nameController,
-      labelText: "Full Name",
-      hintText: "Enter your full name",
+      labelText: _name,
+      hintText: AppHintsTexts.name,
       prefixIcon: Icons.person,
       autofillHints: const [AutofillHints.name],
-      validator: (value) => validateInput(value!, 'name'),
+      validator: (value) => ValidateInput.validator(value!, _name),
     );
   }
 
   Widget _buildEmailField() {
-    return buildInputField(
+    return BuildInputField.build(
       controller: _emailController,
-      labelText: AuthTextsConstants.emailLabelText,
-      hintText: AuthTextsConstants.emailHintText,
+      labelText: AuthLabelsTexts.emailLabelText,
+      hintText: AuthHintsTexts.emailHintText,
       prefixIcon: Icons.email,
       keyboardType: TextInputType.emailAddress,
       autofillHints: const [AutofillHints.email],
-      validator: (value) => validateInput(value!, 'email'),
+      validator: (value) => ValidateEmail.validator(value!),
     );
   }
 
   Widget _buildPasswordField() {
-    return buildInputField(
+    return BuildInputField.build(
       controller: _passwordController,
-      labelText: AuthTextsConstants.passwordLabelText,
-      hintText: AuthTextsConstants.passwordHintText,
+      labelText: AuthLabelsTexts.passwordLabelText,
+      hintText: AuthHintsTexts.passwordHintText,
       prefixIcon: Icons.lock,
       obscureText: _isObscure,
       suffixIcon: _buildPasswordVisibilityToggle(),
       autofillHints: const [AutofillHints.newPassword],
-      validator: (value) => validateInput(value!, 'password'),
+      validator: (value) => ValidatePassword.validator(value!),
     );
   }
 
   Widget _buildPhoneField() {
-    return buildInputField(
+    return BuildInputField.build(
       controller: _phoneController,
-      labelText: "Phone Number",
-      hintText: "Enter your phone number",
+      labelText: _phoneNumber,
+      hintText: AppHintsTexts.phoneNumber,
       prefixIcon: Icons.phone,
       keyboardType: TextInputType.phone,
       autofillHints: const [AutofillHints.telephoneNumber],
-      validator: (value) => validateInput(value!, 'phone'),
+      validator: (value) => ValidateInput.validator(value!, _phoneNumber),
     );
   }
 
   Widget _buildLocationField() {
-    return buildInputField(
+    return BuildInputField.build(
       controller: _locationController,
-      labelText: "Location",
-      hintText: "Enter your location",
+      labelText: _location,
+      hintText: AppHintsTexts.location,
       prefixIcon: Icons.location_on,
-      validator: (value) => validateInput(value!, 'location'),
+      validator: (value) => ValidateInput.validator(value!, _location),
     );
   }
 
@@ -197,7 +214,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
     return IconButton(
       icon: Icon(
         _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: Colors.amber,
+        color: _amber500,
       ),
       onPressed: _togglePasswordVisibility,
     );
@@ -260,13 +277,14 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar(TextsConstants.success, const Color(0xFF2E7D32))
+          BuildSnackBar.build(AppStates.success, AppColors.green800)
       );
       navigator(context: context);
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar(' ${TextsConstants.failed}${message.error}', const Color(0xFFC62828))
+          BuildSnackBar.build(
+              ' ${AppStates.failed}${message.error}', AppColors.red800)
       );
     }
   }
@@ -277,11 +295,11 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   ButtonStyle _registerButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.amber,
-      foregroundColor: Colors.black,
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      backgroundColor: _amber500,
+      foregroundColor: AppColors.black,
+      padding: AppPaddings.paddingVertical,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(NumbersConstants.fifty),
+        borderRadius: BorderRadius.circular(AppNumbers.fifty),
       ),
       elevation: 2,
     );

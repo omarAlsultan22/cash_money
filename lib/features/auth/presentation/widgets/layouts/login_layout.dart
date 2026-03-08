@@ -1,13 +1,19 @@
+import 'package:cash_money/core/presentation/utils/helpers/validate/validate_password.dart';
+import 'package:cash_money/core/presentation/utils/helpers/validate/validate_email.dart';
 import 'package:cash_money/features/auth/presentation/widgets/auth_sized_boxes.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
-import '../../../../../core/presentation/widgets/text_form_field.dart';
-import '../../../../../core/presentation/widgets/build_snack_bar.dart';
-import '../../../../../core/presentation/widgets/app_sized_boxes.dart';
+import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
+import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
+import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
+import '../../../../../core/presentation/widgets/app_spacing.dart';
 import '../../../../../core/data/models/message_result_model.dart';
-import 'package:cash_money/core/constants/numbers_constants.dart';
-import 'package:cash_money/core/constants/texts_constants.dart';
-import '../../../constants/auth_texts_constants.dart';
+import 'package:cash_money/core/constants/app_paddings.dart';
+import 'package:cash_money/core/constants/app_numbers.dart';
+import 'package:cash_money/core/constants/app_colors.dart';
+import 'package:cash_money/core/constants/app_states.dart';
+import 'package:cash_money/core/constants/app_texts.dart';
+import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../operations/auth_operations.dart';
 import '../../screens/register_screen.dart';
@@ -28,8 +34,8 @@ class _LoginLayoutState extends State<LoginLayout> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  static const height_16 = AppSizedBoxes.height_16;
-  static const height_24 = AppSizedBoxes.height_24;
+  static const _amber500 = AppColors.amber_500;
+  static const _spaceBetweenFields = AppSpacing.height_16;
 
   bool _isObscure = true;
   bool _isLoading = false;
@@ -54,11 +60,11 @@ class _LoginLayoutState extends State<LoginLayout> {
 
   Widget _buildMainContent() {
     return Scaffold(
-      backgroundColor: const Color(0xFF3E2723),
+      backgroundColor: AppColors.brown_900,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
+            padding: AppPaddings.paddingAll_24,
             child: Form(
               key: _formKey,
               child: AutofillGroup(
@@ -66,13 +72,13 @@ class _LoginLayoutState extends State<LoginLayout> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeader(context),
-                    const SizedBox(height: 32),
+                    AppSpacing.height_32,
                     _buildEmailField(),
-                    height_16,
+                    _spaceBetweenFields,
                     _buildPasswordField(),
-                    height_24,
+                    AppSpacing.height_24,
                     _buildLoginButton(),
-                    height_16,
+                    _spaceBetweenFields,
                     _buildRegisterLink(),
                   ],
                 ),
@@ -95,11 +101,11 @@ class _LoginLayoutState extends State<LoginLayout> {
               .textTheme
               .headlineLarge
               ?.copyWith(
-            color: Colors.amber,
+            color: _amber500,
             fontWeight: FontWeight.bold,
           ),
         ),
-        AppSizedBoxes.height_8,
+        AppSpacing.height_8,
         Text(
           'Login now to communicate with friends',
           style: Theme
@@ -107,7 +113,7 @@ class _LoginLayoutState extends State<LoginLayout> {
               .textTheme
               .bodyMedium
               ?.copyWith(
-            color: const Color(0xFFBDBDBD),
+            color: AppColors.grey400,
           ),
         ),
       ],
@@ -115,27 +121,27 @@ class _LoginLayoutState extends State<LoginLayout> {
   }
 
   Widget _buildEmailField() {
-    return buildInputField(
+    return BuildInputField.build(
       controller: _emailController,
-      labelText: AuthTextsConstants.emailLabelText,
-      hintText: AuthTextsConstants.emailHintText,
+      labelText: AuthLabelsTexts.emailLabelText,
+      hintText: AuthHintsTexts.emailHintText,
       prefixIcon: Icons.email,
       keyboardType: TextInputType.emailAddress,
       autofillHints: const [AutofillHints.email],
-      validator: (value) => _validateEmail(value),
+      validator: (value) => ValidateEmail.validator(value),
     );
   }
 
   Widget _buildPasswordField() {
-    return buildInputField(
+    return BuildInputField.build(
       controller: _passwordController,
-      labelText: AuthTextsConstants.passwordLabelText,
-      hintText: AuthTextsConstants.passwordHintText,
+      labelText: AuthLabelsTexts.passwordLabelText,
+      hintText: AuthHintsTexts.passwordHintText,
       prefixIcon: Icons.lock,
       obscureText: _isObscure,
       suffixIcon: _buildPasswordVisibilityToggle(),
       autofillHints: const [AutofillHints.password],
-      validator: (value) => _validatePassword(value),
+      validator: (value) => ValidatePassword.validator(value),
     );
   }
 
@@ -143,7 +149,7 @@ class _LoginLayoutState extends State<LoginLayout> {
     return IconButton(
       icon: Icon(
         _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: Colors.amber,
+        color: _amber500,
       ),
       onPressed: _togglePasswordVisibility,
     );
@@ -187,7 +193,7 @@ class _LoginLayoutState extends State<LoginLayout> {
               TextSpan(
                 text: "Register Now",
                 style: TextStyle(
-                  color: Colors.amber,
+                  color: _amber500,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -200,7 +206,7 @@ class _LoginLayoutState extends State<LoginLayout> {
 
 
   Future<void> _checkLoginStatus() async {
-    final value = await CacheHelper.getValue(key: TextsConstants.uId);
+    final value = await CacheHelper.getValue(key: AppTexts.uId);
     if (value?.isNotEmpty ?? false) {
       _navigateToHome();
     }
@@ -247,44 +253,25 @@ class _LoginLayoutState extends State<LoginLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          buildSnackBar(TextsConstants.success, const Color(0xFF2E7D32))
+          BuildSnackBar.build(AppStates.success, AppColors.green800)
       );
       navigator(context: context, link: const HomeScreen());
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
-        buildSnackBar(' ${TextsConstants.failed}${message.error}', const Color(0xFFC62828)),
+        BuildSnackBar.build(
+            ' ${AppStates.failed}${message.error}', AppColors.red800),
       );
     }
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return "الرجاء إدخال عنوان بريدك الإلكتروني";
-    }
-    if (!value.contains('@')) {
-      return 'يرجى إدخال عنوان بريد إلكتروني صالح';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return "الرجاء إدخال كلمة المرور الخاصة بك";
-    }
-    if (value.length < 6) {
-      return "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل";
-    }
-    return null;
-  }
-
   ButtonStyle _loginButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.amber,
-      foregroundColor: Colors.black,
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      backgroundColor: _amber500,
+      foregroundColor: AppColors.black,
+      padding: AppPaddings.paddingVertical,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(NumbersConstants.fifty),
+        borderRadius: BorderRadius.circular(AppNumbers.fifty),
       ),
       elevation: 2,
     );
