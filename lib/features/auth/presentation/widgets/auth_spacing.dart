@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class AuthSizedBoxes {
+class AuthSpacing {
   static const sizedBox = SizedBox(
     height: 24,
     width: 24,

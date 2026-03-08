@@ -1,6 +1,6 @@
 import 'package:cash_money/core/presentation/utils/helpers/validate/validate_password.dart';
 import 'package:cash_money/core/presentation/utils/helpers/validate/validate_email.dart';
-import 'package:cash_money/features/auth/presentation/widgets/auth_sized_boxes.dart';
+import 'package:cash_money/features/auth/presentation/widgets/auth_spacing.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
@@ -168,7 +168,7 @@ class _LoginLayoutState extends State<LoginLayout> {
 
   Widget _buildLoginButtonContent() {
     return _isLoading
-        ? AuthSizedBoxes.sizedBox
+        ? AuthSpacing.sizedBox
         : const Text(
       "LOGIN",
       style: TextStyle(
@@ -203,7 +203,6 @@ class _LoginLayoutState extends State<LoginLayout> {
       ),
     );
   }
-
 
   Future<void> _checkLoginStatus() async {
     final value = await CacheHelper.getValue(key: AppTexts.uId);

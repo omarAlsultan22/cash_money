@@ -5,7 +5,7 @@ import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import '../../../core/presentation/widgets/app_spacing.dart';
 import '../../questions/presentation/screens/start_screen.dart';
-import '../../user_info/presentation/screens/settings_screen.dart';
+import '../../settings/presentation/screens/settings_screen.dart';
 import '../../questions/presentation/screens/questions_screen.dart';
 
 

@@ -1,14 +1,14 @@
-import '../repositories/user_info_repository.dart';
+import '../repositories/settings_repository.dart';
 import '../../../../core/data/models/user_model.dart';
 
 
-class UserInfoUseCase {
-  final UserInfoRepository _repository;
+class SettingsUseCase {
+  final SettingsRepository _repository;
 
-  UserInfoUseCase({
-    required UserInfoRepository userInfoRepository,
+  SettingsUseCase({
+    required SettingsRepository repository,
   })
-      :_repository = userInfoRepository;
+      :_repository = repository;
 
   Future<UserModel> getInfoExecute() async {
     try {

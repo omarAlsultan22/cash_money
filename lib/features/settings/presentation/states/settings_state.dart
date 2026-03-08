@@ -4,11 +4,11 @@ import '../../../../core/presentation/states/base/when_states.dart';
 import 'package:cash_money/core/errors/exceptions/app_exception.dart';
 
 
-class UpdateUserInfoState implements WhenStates {
+class SettingsState implements WhenStates {
   final UserModel? userModel;
   final AppState? appState;
 
-  UpdateUserInfoState({this.userModel, this.appState});
+  SettingsState({this.userModel, this.appState});
 
   String get userName => userModel!.userName;
 
@@ -20,11 +20,11 @@ class UpdateUserInfoState implements WhenStates {
 
   AppException? get _failure => appState!.failure;
 
-  UpdateUserInfoState updateState({
+  SettingsState updateState({
     UserModel? userModel,
     AppState? appState
   }) {
-    return UpdateUserInfoState(
+    return SettingsState(
         userModel: userModel ?? this.userModel,
         appState: appState ?? this.appState
     );

@@ -13,7 +13,7 @@ import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_states.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_texts.dart';
-import '../../cubits/update_user_Info_cubit.dart';
+import '../../cubits/settings_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   final _locationController = TextEditingController();
 
   bool _isLoading = false;
-  late UpdateUserInfoCubit _cubit;
+  late SettingsCubit _cubit;
 
   //sizes
   static const _twelve = AppNumbers.twelve;
@@ -62,7 +62,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   @override
   void initState() {
     super.initState();
-    _cubit = context.read<UpdateUserInfoCubit>();
+    _cubit = context.read<SettingsCubit>();
     _initializeControllers(
         userName: widget.userName,
         userPhone: widget.userPhone,
@@ -117,14 +117,14 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
   }
 
-  Widget _buildBody(BuildContext context, UpdateUserInfoCubit cubit) {
+  Widget _buildBody(BuildContext context, SettingsCubit cubit) {
     return Container(
       decoration: _buildBackgroundDecoration(),
       child: _buildFormContent(context, cubit),
     );
   }
 
-  Widget _buildFormContent(BuildContext context, UpdateUserInfoCubit cubit) {
+  Widget _buildFormContent(BuildContext context, SettingsCubit cubit) {
     return IgnorePointer(
       ignoring: _isLoading,
       child: SingleChildScrollView(
@@ -255,7 +255,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
   }
 
-  Widget _buildUpdateButton(UpdateUserInfoCubit cubit) {
+  Widget _buildUpdateButton(SettingsCubit cubit) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -286,7 +286,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
   }
 
-  Future<void> _onUpdatePressed(UpdateUserInfoCubit cubit) async {
+  Future<void> _onUpdatePressed(SettingsCubit cubit) async {
     if (_formKey.currentState!.validate()) {
       final uId = await CacheHelper.getValue(key: AppTexts.uId) ?? '';
       setState(() => _isLoading = true);

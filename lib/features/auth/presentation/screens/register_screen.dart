@@ -1,4 +1,4 @@
-import '../../../user_info/data/repositories_impl/firestore_user_info_repository.dart';
+import '../../../settings/data/repositories_impl/settings_repository.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,9 +16,10 @@ class RegisterScreen extends StatelessWidget {
     final auth = FirebaseAuth.instance;
     final repository = FirebaseFirestore.instance;
     final authRepository = FirebaseAuthRepository(auth: auth);
-    final userInfoRepository = FirestoreInfoRepository(repository: repository);
+    final settingsRepository = FirestoreSettingsRepository(
+        repository: repository);
     final authUseCase = AuthUseCase(
-        authRepository: authRepository, userInfoRepository: userInfoRepository);
+        authRepository: authRepository, settingsRepository: settingsRepository);
     final authOperations = AuthOperations(authUseCase: authUseCase);
     return RegisterLayout(authOperations);
   }

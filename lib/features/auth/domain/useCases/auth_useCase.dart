@@ -2,21 +2,21 @@ import '../repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_texts.dart';
+import '../../../settings/domain/repositories/settings_repository.dart';
 import '../../../../core/data/data_sources/local/shared_preferences.dart';
-import '../../../user_info/domain/repositories/user_info_repository.dart';
 
 
 class AuthUseCase {
   final AuthRepository _authRepository;
-  final UserInfoRepository? _userInfoRepository;
+  final SettingsRepository? _settingsRepository;
 
   AuthUseCase({
     required AuthRepository authRepository,
-    UserInfoRepository? userInfoRepository
+    SettingsRepository? settingsRepository
   })
       :
         _authRepository = authRepository,
-        _userInfoRepository = userInfoRepository!;
+        _settingsRepository = settingsRepository!;
 
 
   Future<void> signInExecute({
@@ -55,7 +55,7 @@ class AuthUseCase {
         isEmailVerified: false,
       );
 
-      await _userInfoRepository!.setInfo(
+      await _settingsRepository!.setInfo(
           userModel: userModel, userCredential: userCredential);
 
       await CacheHelper.putValue(key: 'userName', value: userName);

@@ -1,19 +1,19 @@
+import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/errors/error_handler.dart';
-import '../../domain/useCases/user_info_useCase.dart';
+import '../../domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/errors/exceptions/app_exception.dart';
 import 'package:cash_money/core/data/models/message_result_model.dart';
-import 'package:cash_money/features/user_info/presentation/states/update_user_info_state.dart';
 
 
-class UpdateUserInfoCubit extends Cubit<UpdateUserInfoState> {
-  final UserInfoUseCase _userInfoUseCase;
+class SettingsCubit extends Cubit<SettingsState> {
+  final SettingsUseCase _settingsUseCase;
 
-  UpdateUserInfoCubit({required UserInfoUseCase userInfoUseCase})
-      : _userInfoUseCase = userInfoUseCase,
-        super(UpdateUserInfoState());
+  SettingsCubit({required SettingsUseCase settingsUseCase})
+      : _settingsUseCase = settingsUseCase,
+        super(SettingsState());
 
-  static UpdateUserInfoCubit get(context) => BlocProvider.of(context);
+  static SettingsCubit get(context) => BlocProvider.of(context);
 
 
   Future<MessageResultModel> updateInfo({
@@ -26,7 +26,7 @@ class UpdateUserInfoCubit extends Cubit<UpdateUserInfoState> {
     emit(state.updateState(appState: appState!.copyWith(isLoading: true)));
 
     try {
-      await _userInfoUseCase.updateInfoExecute(
+      await _settingsUseCase.updateInfoExecute(
         userName: userName,
         userPhone: userPhone,
         userLocation: userLocation,
@@ -43,7 +43,7 @@ class UpdateUserInfoCubit extends Cubit<UpdateUserInfoState> {
     final appState = state.appState!;
     emit(state.updateState(appState: appState.copyWith(isLoading: true)));
     try {
-      final userModel = await _userInfoUseCase.getInfoExecute();
+      final userModel = await _settingsUseCase.getInfoExecute();
       emit(state.updateState(
           userModel: userModel, appState: appState.copyWith(isLoading: false)));
     }

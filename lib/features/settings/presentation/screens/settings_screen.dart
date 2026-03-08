@@ -1,14 +1,14 @@
 import '../../../../core/presentation/widgets/states/error_states/no_internet_connection_state.dart';
-import 'package:cash_money/features/user_info/domain/useCases/user_info_useCase.dart';
 import '../../../../core/presentation/widgets/states/error_states/error_state.dart';
-import '../../data/repositories_impl/firestore_user_info_repository.dart';
+import 'package:cash_money/features/settings/domain/useCases/settings_useCase.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
+import '../../data/repositories_impl/settings_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/layouts/settings_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../states/update_user_info_state.dart';
-import '../cubits/update_user_Info_cubit.dart';
+import '../states/settings_state.dart';
+import '../cubits/settings_cubit.dart';
 import 'package:flutter/material.dart';
 
 
@@ -18,15 +18,15 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = FirebaseFirestore.instance;
-    final userInfoRepository = FirestoreInfoRepository(repository: repository);
-    final userInfoUseCase = UserInfoUseCase(
-        userInfoRepository: userInfoRepository);
+    final settingsRepository = FirestoreSettingsRepository(repository: repository);
+    final settingsUseCase = SettingsUseCase(
+        repository: settingsRepository);
     return BlocProvider(
         create: (context) =>
-            UpdateUserInfoCubit(userInfoUseCase: userInfoUseCase),
-        child: BlocBuilder<UpdateUserInfoCubit, UpdateUserInfoState>(
+            SettingsCubit(settingsUseCase: settingsUseCase),
+        child: BlocBuilder<SettingsCubit, SettingsState>(
             builder: (context, state) {
-              final cubit = UpdateUserInfoCubit.get(context);
+              final cubit = SettingsCubit.get(context);
               return state.when(
                 onInitial: () =>
                 const InitialStateWidget(),

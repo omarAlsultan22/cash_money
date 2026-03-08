@@ -1,7 +1,7 @@
 import 'package:cash_money/core/presentation/utils/helpers/validate/validate_password.dart';
 import 'package:cash_money/core/presentation/utils/helpers/validate/validator_input.dart';
 import 'package:cash_money/core/presentation/utils/helpers/validate/validate_email.dart';
-import 'package:cash_money/features/auth/presentation/widgets/auth_sized_boxes.dart';
+import 'package:cash_money/features/auth/presentation/widgets/auth_spacing.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
@@ -233,7 +233,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   Widget _buildRegisterButtonContent() {
     return _isLoading
-        ? AuthSizedBoxes.sizedBox
+        ? AuthSpacing.sizedBox
         : const Text(
       "REGISTER",
       style: TextStyle(
