@@ -12,12 +12,17 @@ class ConnectionErrorStateWidget extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          const Icon(Icons.wifi_off, size: 50.0),
-          const SizedBox(width: 10.0),
+          const Icon(
+            Icons.wifi_off,
+            size: 80.0,
+            color: Color(0xFF757575),
+          ),
+          const SizedBox(height: 20.0),
           const Text('No Internet Connection',
               style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF424242)
               )
           ),
           AppSpacing.height_30,
