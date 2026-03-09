@@ -12,7 +12,7 @@ import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_states.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
-import 'package:cash_money/core/constants/app_texts.dart';
+import 'package:cash_money/core/constants/app_keys.dart';
 import '../../cubits/settings_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -288,7 +288,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   Future<void> _onUpdatePressed(SettingsCubit cubit) async {
     if (_formKey.currentState!.validate()) {
-      final uId = await CacheHelper.getValue(key: AppTexts.uId) ?? '';
+      final uId = await CacheHelper.getValue(key: AppKeys.uId) ?? '';
       setState(() => _isLoading = true);
       final message = await cubit.updateInfo(
         userName: _nameController.text,

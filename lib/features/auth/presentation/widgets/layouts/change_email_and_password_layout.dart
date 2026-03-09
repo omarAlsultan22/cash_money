@@ -8,7 +8,7 @@ import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_states.dart';
-import 'package:cash_money/core/constants/app_texts.dart';
+import 'package:cash_money/core/constants/app_keys.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../utils/validate/validate_email.dart';
 import '../../operations/auth_operations.dart';
@@ -255,7 +255,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   void _clearUserData() {
-    CacheHelper.removeData(key: AppTexts.uId);
+    CacheHelper.removeData(key: AppKeys.uId);
   }
 
   String? _validatePasswordConfirmation(dynamic value) {

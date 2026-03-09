@@ -11,7 +11,7 @@ import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_states.dart';
-import 'package:cash_money/core/constants/app_texts.dart';
+import 'package:cash_money/core/constants/app_keys.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
@@ -205,7 +205,7 @@ class _LoginLayoutState extends State<LoginLayout> {
   }
 
   Future<void> _checkLoginStatus() async {
-    final value = await CacheHelper.getValue(key: AppTexts.uId);
+    final value = await CacheHelper.getValue(key: AppKeys.uId);
     if (value?.isNotEmpty ?? false) {
       _navigateToHome();
     }

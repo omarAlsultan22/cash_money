@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../core/data/models/user_model.dart';
 import '../../domain/repositories/settings_repository.dart';
-import 'package:cash_money/core/constants/app_texts.dart';
+import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../core/data/data_sources/local/shared_preferences.dart';
 
 
@@ -12,8 +12,8 @@ class FirestoreSettingsRepository implements SettingsRepository {
   FirestoreSettingsRepository({required FirebaseFirestore repository})
       : _repository = repository;
 
-  static const uId = AppTexts.uId;
-  static const users = AppTexts.users;
+  static const uId = AppKeys.uId;
+  static const users = AppKeys.users;
 
   @override
   Future<void> setInfo({
