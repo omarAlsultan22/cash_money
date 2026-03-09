@@ -1,5 +1,4 @@
-import 'package:cash_money/core/presentation/utils/helpers/validate/validate_password.dart';
-import 'package:cash_money/core/presentation/utils/helpers/validate/validate_email.dart';
+import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import 'package:cash_money/features/auth/presentation/widgets/auth_spacing.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
@@ -13,6 +12,7 @@ import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_states.dart';
 import 'package:cash_money/core/constants/app_texts.dart';
+import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../operations/auth_operations.dart';
