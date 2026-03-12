@@ -35,15 +35,6 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-  //sizes
-  static const _spaceBetweenFields = AppSpacing.height_16;
-  static const _spaceBeforeButton = AppSpacing.height_24;
-
-  //texts
-  static const _name = AppLabelsTexts.name;
-  static const _phoneNumber = AppLabelsTexts.phoneNumber;
-  static const _location = AppLabelsTexts.location;
-
   //colors
   static const _amber500 = AppColors.amber_500;
   static const _brown900 = AppColors.brown_900;
@@ -67,6 +58,8 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildMainContent() {
+    const spaceBeforeButton = AppSpacing.height_24;
+
     return Scaffold(
       backgroundColor: _brown900,
       appBar: _buildAppBar(),
@@ -81,9 +74,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeader(context),
-                    _spaceBeforeButton,
+                    spaceBeforeButton,
                     _buildInputFields(),
-                    _spaceBeforeButton,
+                    spaceBeforeButton,
                     _buildRegisterButton(),
                   ],
                 ),
@@ -96,16 +89,18 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildInputFields() {
+    const spaceBetweenFields = AppSpacing.height_16;
+
     return Column(
       children: [
         _buildNameField(),
-        _spaceBetweenFields,
+        spaceBetweenFields,
         _buildEmailField(),
-        _spaceBetweenFields,
+        spaceBetweenFields,
         _buildPasswordField(),
-        _spaceBetweenFields,
+        spaceBetweenFields,
         _buildPhoneField(),
-        _spaceBetweenFields,
+        spaceBetweenFields,
         _buildLocationField(),
       ],
     );
@@ -153,13 +148,15 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildNameField() {
+    const name = AppLabelsTexts.name;
+
     return BuildInputField.build(
       controller: _nameController,
-      labelText: _name,
+      labelText: name,
       hintText: AppHintsTexts.name,
       prefixIcon: Icons.person,
       autofillHints: const [AutofillHints.name],
-      validator: (value) => ValidateInput.validator(value!, _name),
+      validator: (value) => ValidateInput.validator(value!, name),
     );
   }
 
@@ -189,24 +186,28 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildPhoneField() {
+    const phoneNumber = AppLabelsTexts.phoneNumber;
+
     return BuildInputField.build(
       controller: _phoneController,
-      labelText: _phoneNumber,
+      labelText: phoneNumber,
       hintText: AppHintsTexts.phoneNumber,
       prefixIcon: Icons.phone,
       keyboardType: TextInputType.phone,
       autofillHints: const [AutofillHints.telephoneNumber],
-      validator: (value) => ValidateInput.validator(value!, _phoneNumber),
+      validator: (value) => ValidateInput.validator(value!, phoneNumber),
     );
   }
 
   Widget _buildLocationField() {
+    const location = AppLabelsTexts.location;
+
     return BuildInputField.build(
       controller: _locationController,
-      labelText: _location,
+      labelText: location,
       hintText: AppHintsTexts.location,
       prefixIcon: Icons.location_on,
-      validator: (value) => ValidateInput.validator(value!, _location),
+      validator: (value) => ValidateInput.validator(value!, location),
     );
   }
 

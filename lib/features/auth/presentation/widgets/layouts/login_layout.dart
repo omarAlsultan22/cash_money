@@ -35,7 +35,6 @@ class _LoginLayoutState extends State<LoginLayout> {
   final _passwordController = TextEditingController();
 
   static const _amber500 = AppColors.amber_500;
-  static const _spaceBetweenFields = AppSpacing.height_16;
 
   bool _isObscure = true;
   bool _isLoading = false;
@@ -59,6 +58,8 @@ class _LoginLayoutState extends State<LoginLayout> {
   }
 
   Widget _buildMainContent() {
+    const spaceBetweenFields = AppSpacing.height_16;
+
     return Scaffold(
       backgroundColor: AppColors.brown_900,
       body: SafeArea(
@@ -74,11 +75,11 @@ class _LoginLayoutState extends State<LoginLayout> {
                     _buildHeader(context),
                     AppSpacing.height_32,
                     _buildEmailField(),
-                    _spaceBetweenFields,
+                    spaceBetweenFields,
                     _buildPasswordField(),
                     AppSpacing.height_24,
                     _buildLoginButton(),
-                    _spaceBetweenFields,
+                    spaceBetweenFields,
                     _buildRegisterLink(),
                   ],
                 ),

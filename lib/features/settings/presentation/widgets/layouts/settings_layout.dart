@@ -42,22 +42,16 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   bool _isLoading = false;
   late SettingsCubit _cubit;
 
-  //sizes
-  static const _twelve = AppNumbers.twelve;
-  static const _spaceBetweenFields = AppSpacing.height_16;
-
-  //texts
-  static const _name = AppLabelsTexts.name;
-  static const _phoneNumber = AppLabelsTexts.phoneNumber;
-  static const _location = AppLabelsTexts.location;
-
   //colors
   static const _white = AppColors.white;
-  static const _amber600 = AppColors.amber_600;
-  static const _brown900 = AppColors.brown_900;
+  static const _amber = AppColors.amber_600;
+  static const _brown = AppColors.brown_900;
 
   //paddings
   static const _paddingVertical = AppPaddings.paddingVertical;
+
+  //borderRadius
+  static const borderRadius = BorderRadius.all(Radius.circular(12.0));
 
   @override
   void initState() {
@@ -93,7 +87,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: _brown900,
+        backgroundColor: _brown,
         appBar: _buildAppBar(),
         body: _buildBody(context, _cubit),
       ),
@@ -125,6 +119,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   Widget _buildFormContent(BuildContext context, SettingsCubit cubit) {
+    const spaceBetweenFields = AppSpacing.height_16;
+
     return IgnorePointer(
       ignoring: _isLoading,
       child: SingleChildScrollView(
@@ -137,9 +133,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               _buildHeaderSection(),
               AppSpacing.height_32,
               _buildNameField(),
-              _spaceBetweenFields,
+              spaceBetweenFields,
               _buildPhoneField(),
-              _spaceBetweenFields,
+              spaceBetweenFields,
               _buildLocationField(),
               AppSpacing.height_24,
               _buildChangePasswordButton(),
@@ -178,33 +174,39 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   Widget _buildNameField() {
+    const name = AppLabelsTexts.name;
+
     return _buildCustomInputField(
       controller: _nameController,
-      label: _name,
+      label: name,
       hint: AppHintsTexts.name,
       icon: Icons.person,
-      validator: (value) => ValidateInput.validator(value, _name),
+      validator: (value) => ValidateInput.validator(value, name),
     );
   }
 
   Widget _buildPhoneField() {
+    const phoneNumber = AppLabelsTexts.phoneNumber;
+
     return _buildCustomInputField(
       controller: _phoneController,
-      label: _phoneNumber,
+      label: phoneNumber,
       hint: AppHintsTexts.phoneNumber,
       icon: Icons.phone,
       keyboardType: TextInputType.phone,
-      validator: (value) => ValidateInput.validator(value, _phoneNumber),
+      validator: (value) => ValidateInput.validator(value, phoneNumber),
     );
   }
 
   Widget _buildLocationField() {
+    const location = AppLabelsTexts.location;
+
     return _buildCustomInputField(
       controller: _locationController,
-      label: _location,
+      label: location,
       hint: AppHintsTexts.location,
       icon: Icons.location_on,
-      validator: (value) => ValidateInput.validator(value, _location),
+      validator: (value) => ValidateInput.validator(value, location),
     );
   }
 
@@ -247,7 +249,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
           'Change email and password',
           style: TextStyle(
             fontSize: 18,
-            color: _amber600,
+            color: _amber,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -331,7 +333,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          _brown900,
+          _brown,
           AppColors.brown_800,
         ],
       ),
@@ -341,19 +343,19 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   ButtonStyle _changePasswordButtonStyle() {
     return OutlinedButton.styleFrom(
       padding: _paddingVertical,
-      side: const BorderSide(color: _amber600),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_twelve),
+      side: const BorderSide(color: _amber),
+      shape: const RoundedRectangleBorder(
+        borderRadius: borderRadius,
       ),
     );
   }
 
   ButtonStyle _updateButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: _amber600,
+      backgroundColor: _amber,
       padding: _paddingVertical,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_twelve),
+      shape: const RoundedRectangleBorder(
+        borderRadius: borderRadius,
       ),
       elevation: 4,
     );

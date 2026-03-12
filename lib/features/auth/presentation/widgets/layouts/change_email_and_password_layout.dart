@@ -32,7 +32,6 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
 
   //spaces
   static const _paddingHorizontal = EdgeInsets.symmetric(horizontal: 16);
-  static const _spaceBetweenFields = AppSpacing.height_16;
 
   //colors
   static const _brown900 = AppColors.brown_900;
@@ -123,6 +122,8 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   Widget _buildBody() {
+    const spaceBetweenFields = AppSpacing.height_16;
+
     return IgnorePointer(
       ignoring: _isLoading,
       child: Container(
@@ -135,11 +136,11 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
               child: Column(
                 children: [
                   _buildEmailField(),
-                  _spaceBetweenFields,
+                  spaceBetweenFields,
                   _buildCurrentPasswordField(),
-                  _spaceBetweenFields,
+                  spaceBetweenFields,
                   _buildNewPasswordField(),
-                  _spaceBetweenFields,
+                  spaceBetweenFields,
                   _buildConfirmPasswordField(),
                   if (_isLoading) _buildLoadingIndicator(),
                 ],
