@@ -2,10 +2,10 @@ import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 
-class ConnectionErrorStateWidget extends StatelessWidget {
+class InternetUnavailability extends StatelessWidget {
   final VoidCallback onRetry;
 
-  const ConnectionErrorStateWidget({required this.onRetry, super.key});
+  const InternetUnavailability({required this.onRetry, super.key});
 
   @override
   Widget build(BuildContext context) {

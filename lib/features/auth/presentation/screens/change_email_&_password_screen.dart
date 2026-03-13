@@ -1,3 +1,4 @@
+import 'package:cash_money/core/presentation/screen/connectivity_aware_service.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
 import '../widgets/layouts/change_email_and_password_layout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,8 @@ class ChangeEmailAndPasswordScreen extends StatelessWidget {
     final authUseCase = AuthUseCase(
         authRepository: authRepository);
     final authServices = AuthServices(authUseCase: authUseCase);
-    return ChangeEmailAndPasswordLayout(authServices);
+    return ConnectivityAwareService(
+        child: ChangeEmailAndPasswordLayout(authServices)
+    );
   }
 }
