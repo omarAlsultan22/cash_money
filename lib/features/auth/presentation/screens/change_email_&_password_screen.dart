@@ -2,7 +2,7 @@ import '../../data/repositories_impl/firebase_auth_repository.dart';
 import '../widgets/layouts/change_email_and_password_layout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/useCases/auth_useCase.dart';
-import '../operations/auth_operations.dart';
+import '../services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,7 +15,7 @@ class ChangeEmailAndPasswordScreen extends StatelessWidget {
     final authRepository = FirebaseAuthRepository(auth: auth);
     final authUseCase = AuthUseCase(
         authRepository: authRepository);
-    final authOperations = AuthOperations(authUseCase: authUseCase);
+    final authOperations = AuthServices(authUseCase: authUseCase);
     return ChangeEmailAndPasswordLayout(authOperations);
   }
 }

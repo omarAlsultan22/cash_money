@@ -15,14 +15,14 @@ import 'package:cash_money/core/constants/app_keys.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
-import '../../operations/auth_operations.dart';
 import '../../screens/register_screen.dart';
+import '../../services/auth_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
 class LoginLayout extends StatefulWidget {
-  final AuthOperations _authOperations;
+  final AuthServices _authOperations;
   const LoginLayout(this._authOperations, {super.key});
 
   @override
@@ -66,22 +66,24 @@ class _LoginLayoutState extends State<LoginLayout> {
         child: Center(
           child: SingleChildScrollView(
             padding: AppPaddings.paddingAll_24,
-            child: Form(
-              key: _formKey,
-              child: AutofillGroup(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(context),
-                    AppSpacing.height_32,
-                    _buildEmailField(),
-                    spaceBetweenFields,
-                    _buildPasswordField(),
-                    AppSpacing.height_24,
-                    _buildLoginButton(),
-                    spaceBetweenFields,
-                    _buildRegisterLink(),
-                  ],
+            child: RepaintBoundary(
+              child: Form(
+                key: _formKey,
+                child: AutofillGroup(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(context),
+                      AppSpacing.height_32,
+                      _buildEmailField(),
+                      spaceBetweenFields,
+                      _buildPasswordField(),
+                      AppSpacing.height_24,
+                      _buildLoginButton(),
+                      spaceBetweenFields,
+                      _buildRegisterLink(),
+                    ],
+                  ),
                 ),
               ),
             ),

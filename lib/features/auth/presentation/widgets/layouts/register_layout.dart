@@ -15,12 +15,12 @@ import 'package:cash_money/core/constants/app_states.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
-import '../../operations/auth_operations.dart';
+import '../../services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 
 class RegisterLayout extends StatefulWidget {
-  final AuthOperations _authOperations;
+  final AuthServices _authOperations;
   const RegisterLayout(this._authOperations, {super.key});
 
   @override
@@ -67,18 +67,20 @@ class _RegisterLayoutState extends State<RegisterLayout> {
         child: Center(
           child: SingleChildScrollView(
             padding: AppPaddings.paddingAll_20,
-            child: Form(
-              key: _formKey,
-              child: AutofillGroup(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(context),
-                    spaceBeforeButton,
-                    _buildInputFields(),
-                    spaceBeforeButton,
-                    _buildRegisterButton(),
-                  ],
+            child: RepaintBoundary(
+              child: Form(
+                key: _formKey,
+                child: AutofillGroup(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(context),
+                      spaceBeforeButton,
+                      _buildInputFields(),
+                      spaceBeforeButton,
+                      _buildRegisterButton(),
+                    ],
+                  ),
                 ),
               ),
             ),

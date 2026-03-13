@@ -11,12 +11,12 @@ import 'package:cash_money/core/constants/app_states.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../utils/validate/validate_email.dart';
-import '../../operations/auth_operations.dart';
+import '../../services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 
 class ChangeEmailAndPasswordLayout extends StatefulWidget {
-  final AuthOperations _authOperations;
+  final AuthServices _authOperations;
   const ChangeEmailAndPasswordLayout(this._authOperations, {super.key});
 
   @override
@@ -131,19 +131,21 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
         child: Center(
           child: SingleChildScrollView(
             padding: AppPaddings.paddingAll_24,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  _buildEmailField(),
-                  spaceBetweenFields,
-                  _buildCurrentPasswordField(),
-                  spaceBetweenFields,
-                  _buildNewPasswordField(),
-                  spaceBetweenFields,
-                  _buildConfirmPasswordField(),
-                  if (_isLoading) _buildLoadingIndicator(),
-                ],
+            child: RepaintBoundary(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    _buildEmailField(),
+                    spaceBetweenFields,
+                    _buildCurrentPasswordField(),
+                    spaceBetweenFields,
+                    _buildNewPasswordField(),
+                    spaceBetweenFields,
+                    _buildConfirmPasswordField(),
+                    if (_isLoading) _buildLoadingIndicator(),
+                  ],
+                ),
               ),
             ),
           ),

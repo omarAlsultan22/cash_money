@@ -4,10 +4,10 @@ import 'package:cash_money/core/data/models/message_result_model.dart';
 import 'package:cash_money/features/auth/domain/useCases/auth_useCase.dart';
 
 
-class AuthOperations {
+class AuthServices {
   final AuthUseCase _authUseCase;
 
-  AuthOperations({required AuthUseCase authUseCase})
+  AuthServices({required AuthUseCase authUseCase})
       : _authUseCase = authUseCase;
 
   Future<MessageResultModel> signIn({

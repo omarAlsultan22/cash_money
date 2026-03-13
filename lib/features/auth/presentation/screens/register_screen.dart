@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/useCases/auth_useCase.dart';
 import '../widgets/layouts/register_layout.dart';
-import '../operations/auth_operations.dart';
+import '../services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
         repository: repository);
     final authUseCase = AuthUseCase(
         authRepository: authRepository, settingsRepository: settingsRepository);
-    final authOperations = AuthOperations(authUseCase: authUseCase);
+    final authOperations = AuthServices(authUseCase: authUseCase);
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
           return ConnectivityAwareService(
