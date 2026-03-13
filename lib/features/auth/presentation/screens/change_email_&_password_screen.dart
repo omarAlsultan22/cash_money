@@ -15,7 +15,7 @@ class ChangeEmailAndPasswordScreen extends StatelessWidget {
     final authRepository = FirebaseAuthRepository(auth: auth);
     final authUseCase = AuthUseCase(
         authRepository: authRepository);
-    final authOperations = AuthServices(authUseCase: authUseCase);
-    return ChangeEmailAndPasswordLayout(authOperations);
+    final authServices = AuthServices(authUseCase: authUseCase);
+    return ChangeEmailAndPasswordLayout(authServices);
   }
 }

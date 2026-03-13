@@ -23,12 +23,12 @@ class RegisterScreen extends StatelessWidget {
         repository: repository);
     final authUseCase = AuthUseCase(
         authRepository: authRepository, settingsRepository: settingsRepository);
-    final authOperations = AuthServices(authUseCase: authUseCase);
+    final authServices = AuthServices(authUseCase: authUseCase);
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
           return ConnectivityAwareService(
               isConnected: connectivityProvider.isConnected,
-              child: RegisterLayout(authOperations)
+              child: RegisterLayout(authServices)
           );
         }
     );

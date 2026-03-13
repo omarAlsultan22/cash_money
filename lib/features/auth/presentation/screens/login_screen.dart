@@ -18,12 +18,12 @@ class LoginScreen extends StatelessWidget {
     final authRepository = FirebaseAuthRepository(auth: auth);
     final authUseCase = AuthUseCase(
         authRepository: authRepository);
-    final authOperations = AuthServices(authUseCase: authUseCase);
+    final authServices = AuthServices(authUseCase: authUseCase);
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
           return ConnectivityAwareService(
               isConnected: connectivityProvider.isConnected,
-              child: LoginLayout(authOperations)
+              child: LoginLayout(authServices)
           );
         }
     );

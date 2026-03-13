@@ -20,8 +20,8 @@ import 'package:flutter/material.dart';
 
 
 class RegisterLayout extends StatefulWidget {
-  final AuthServices _authOperations;
-  const RegisterLayout(this._authOperations, {super.key});
+  final AuthServices _authServices;
+  const RegisterLayout(this._authServices, {super.key});
 
   @override
   State<RegisterLayout> createState() => _RegisterLayoutState();
@@ -262,7 +262,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   Future<void> _performRegistration() async {
     setState(() => _isLoading = true);
-    final message = await widget._authOperations.signUp(
+    final message = await widget._authServices.signUp(
       userName: _nameController.text.trim(),
       userEmail: _emailController.text.trim(),
       userPassword: _passwordController.text,

@@ -22,8 +22,8 @@ import 'package:flutter/material.dart';
 
 
 class LoginLayout extends StatefulWidget {
-  final AuthServices _authOperations;
-  const LoginLayout(this._authOperations, {super.key});
+  final AuthServices _authServices;
+  const LoginLayout(this._authServices, {super.key});
 
   @override
   State<LoginLayout> createState() => _LoginLayoutState();
@@ -239,7 +239,7 @@ class _LoginLayoutState extends State<LoginLayout> {
     if (_formKey.currentState!.validate()) {
       _hideKeyboard();
       setState(() => _isLoading = true);
-      final message = await widget._authOperations.signIn(
+      final message = await widget._authServices.signIn(
         userEmail: _emailController.text.trim(),
         userPassword: _passwordController.text,
       );
