@@ -5,22 +5,22 @@ import '../../domain/services/connectivity_service/connectivity_provider.dart';
 
 
 class ConnectivityAwareService extends StatelessWidget {
-  final Widget child;
+  final Widget _child;
 
   const ConnectivityAwareService({
     super.key,
-    required this.child,
-  });
+    required Widget child,
+  }) : _child = child;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ConnectivityProvider>(
-      builder: (context, connectivityService, _child) {
+      builder: (context, connectivityService, child) {
         if (!connectivityService.isConnected) {
           return InternetUnavailability(
               onRetry: () => Navigator.pop(context));
         }
-        return child;
+        return _child;
       },
     );
   }
