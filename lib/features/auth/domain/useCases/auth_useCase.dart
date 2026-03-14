@@ -16,7 +16,7 @@ class AuthUseCase {
   })
       :
         _authRepository = authRepository,
-        _settingsRepository = settingsRepository!;
+        _settingsRepository = settingsRepository;
 
 
   Future<void> signInExecute({

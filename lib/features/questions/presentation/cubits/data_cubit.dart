@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import 'package:cash_money/core/errors/error_handler.dart';
 import '../../domain/useCases/questions_data_useCase.dart';
+import 'package:cash_money/core/presentation/states/app_state.dart';
 import 'package:cash_money/core/errors/exceptions/app_exception.dart';
 
 
@@ -14,12 +15,18 @@ class DataCubit extends Cubit<DataState> {
     required QuestionsDataUseCase questionsDataUseCase,
   })
       : _questionsDataUseCase = questionsDataUseCase,
-        super(const DataState());
+        super(const DataState(appState: AppState()));
 
   static DataCubit get(context) => BlocProvider.of(context);
 
+  void initializeIfNeeded(){
+    if(state.dataIsEmpty) {
+      getData(state);
+    }
+  }
+
   void restLock(DataState dataState) {
-    emit(dataState.updateState(hasMore: true, questions: state.questions, ));
+    emit(dataState.updateState(hasMore: true, questions: state.questions));
   }
 
   void resetQuiz(DataState dataState) {
@@ -29,16 +36,16 @@ class DataCubit extends Cubit<DataState> {
     );
   }
 
-  void incrementPoints(DataState dataState) {
+  void incrementPoints(DataState dataState, int points) {
     emit(dataState.updateState(
-        points: dataState.points + 1,
+        points: points,
         questions: state.questions)
     );
   }
 
-  void incrementCurrentIndex(DataState dataState) {
+  void incrementCurrentIndex(DataState dataState, int currentIndex) {
     emit(dataState.updateState(
-        currentIndex: dataState.currentIndex + 1,
+        currentIndex: currentIndex,
         questions: state.questions)
     );
   }
@@ -46,6 +53,7 @@ class DataCubit extends Cubit<DataState> {
   Future<void> getData(DataState dataState) async {
     if (!state.hasMore) return;
     final appState = dataState.appState;
+
     try {
       final result = await _questionsDataUseCase.execute(params:
       GetQuestionsParams(

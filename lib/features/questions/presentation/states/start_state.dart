@@ -9,10 +9,10 @@ class StartScreenState extends DataState{
   StartScreenState({
     super.points,
     super.hasMore,
-    super.appState,
     super.questions,
     super.lastDocument,
-    super.currentIndex
+    super.currentIndex,
+    required super.appState,
   });
 
   @override
@@ -24,7 +24,7 @@ class StartScreenState extends DataState{
     List<QuestionModel>? questions,
     DocumentSnapshot<Object?>? lastDocument,
   }) {
-    return super.updateState(
+    return StartScreenState(
       points: points ?? super.points,
       hasMore: hasMore ?? super.hasMore,
       appState: appState ?? super.appState,

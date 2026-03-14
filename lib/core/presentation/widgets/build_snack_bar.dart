@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class BuildSnackBar {
   static SnackBar build(String message, Color backgroundColor) {
     return SnackBar(

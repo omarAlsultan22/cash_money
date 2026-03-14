@@ -152,7 +152,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildNameField() {
     const name = AppLabelsTexts.name;
 
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _nameController,
       labelText: name,
       hintText: AppHintsTexts.name,
@@ -163,7 +163,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildEmailField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _emailController,
       labelText: AuthLabelsTexts.emailLabelText,
       hintText: AuthHintsTexts.emailHintText,
@@ -175,7 +175,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildPasswordField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _passwordController,
       labelText: AuthLabelsTexts.passwordLabelText,
       hintText: AuthHintsTexts.passwordHintText,
@@ -190,7 +190,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildPhoneField() {
     const phoneNumber = AppLabelsTexts.phoneNumber;
 
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _phoneController,
       labelText: phoneNumber,
       hintText: AppHintsTexts.phoneNumber,
@@ -204,7 +204,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   Widget _buildLocationField() {
     const location = AppLabelsTexts.location;
 
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _locationController,
       labelText: location,
       hintText: AppHintsTexts.location,

@@ -13,10 +13,10 @@ class FirestoreDataRepository implements AppDataRepository {
   }) async {
     try {
       Query query = FirestoreService.getCollection(
-          docId: '0Hv1zUWKuetw3eP7Nplt',
-          subCollectionPath: 'userData',
-          superCollectionPath: 'data'
-      ).orderBy('createdAt', descending: true);
+        superCollectionPath: 'data',
+        docId: '0Hv1zUWKuetw3eP7Nplt',
+        subCollectionPath: 'userData',
+      );
 
       if (lastDocument != null) {
         query = query.startAfterDocument(lastDocument);

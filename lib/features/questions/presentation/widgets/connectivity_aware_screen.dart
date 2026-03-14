@@ -1,22 +1,26 @@
-import 'package:cash_money/features/questions/presentation/states/base/data_state.dart';
+import '../cubits/data_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import '../cubits/data_cubit.dart';
+import 'package:cash_money/features/questions/presentation/states/base/data_state.dart';
 
 
-class CallRestLockIfNeededScreen extends StatelessWidget {
+class ConnectivityAwareScreen extends StatelessWidget {
   final Widget child;
   final DataState state;
+  final bool isConnected;
 
-  const CallRestLockIfNeededScreen({
+  const ConnectivityAwareScreen({
     super.key,
     required this.state,
     required this.child,
+    required this.isConnected
   });
 
   @override
   Widget build(BuildContext context) {
-    _callRestLockIfNeeded(context);
+    if (isConnected) {
+      _callRestLockIfNeeded(context);
+    }
     return child;
   }
 

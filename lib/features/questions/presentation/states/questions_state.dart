@@ -8,9 +8,9 @@ import 'package:cash_money/core/errors/exceptions/app_exception.dart';
 class QuestionsScreenState extends DataState {
   QuestionsScreenState({
     super.hasMore,
-    super.appState,
     super.questions,
     super.lastDocument,
+    required super.appState,
   });
 
   @override
@@ -22,7 +22,7 @@ class QuestionsScreenState extends DataState {
     List<QuestionModel>? questions,
     DocumentSnapshot<Object?>? lastDocument,
   }) {
-    return super.updateState(
+    return QuestionsScreenState(
         hasMore: hasMore ?? super.hasMore,
         appState: appState ?? super.appState,
         questions: questions ?? super.questions,

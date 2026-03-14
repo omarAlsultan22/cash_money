@@ -1,3 +1,5 @@
+import 'package:cash_money/core/presentation/states/app_state.dart';
+
 import '../../questions/data/repositories_impl/data_repository/firestore_data_repository.dart';
 import '../../questions/data/repositories_impl/data_repository/hive_data_repository.dart';
 import '../../../core/domain/services/connectivity_service/connectivity_service.dart';
@@ -31,7 +33,7 @@ class HomeScreen extends StatelessWidget {
       repository: hybridRepository
     );
 
-    const state = DataState();
+    const state = DataState(appState: AppState(), lastDocument: null);
 
     return BlocProvider<DataCubit>(
       create: (context) =>

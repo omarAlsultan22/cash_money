@@ -124,7 +124,7 @@ class _LoginLayoutState extends State<LoginLayout> {
   }
 
   Widget _buildEmailField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _emailController,
       labelText: AuthLabelsTexts.emailLabelText,
       hintText: AuthHintsTexts.emailHintText,
@@ -136,7 +136,7 @@ class _LoginLayoutState extends State<LoginLayout> {
   }
 
   Widget _buildPasswordField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _passwordController,
       labelText: AuthLabelsTexts.passwordLabelText,
       hintText: AuthHintsTexts.passwordHintText,

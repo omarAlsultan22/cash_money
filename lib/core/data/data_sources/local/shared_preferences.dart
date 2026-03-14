@@ -21,11 +21,6 @@ abstract class CacheHelper {
   }) async{
     return sharedPreferences.getString(key);
   }
-  dynamic getData({
-    required String key,
-  }) async{
-    return sharedPreferences.get(key);
-  }
 
   static Future<bool?> saveData({
     required String key,

@@ -6,25 +6,46 @@ import '../states/base/data_state.dart';
 import '../widgets/layouts/start_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/connectivity_aware_screen.dart';
+import '../../../../core/presentation/states/app_state.dart';
+import '../../../../core/presentation/widgets/states/error_state.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
-import '../../../../core/presentation/widgets/states/error_state.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
 
 
-class StartScreen extends StatelessWidget {
-  const StartScreen({Key? key}) : super(key: key);
+class StartScreen extends StatefulWidget {
+  const StartScreen({super.key});
+
+  @override
+  State<StartScreen> createState() => _StartScreenState();
+}
+
+class _StartScreenState extends State<StartScreen> {
+  late DataCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _initCubit();
+  }
+
+  void _initCubit() {
+    _cubit = DataCubit.get(context)
+      ..initializeIfNeeded();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
-          return CallRestLockIfNeededScreen(state: StartScreenState(),
+          return ConnectivityAwareScreen(
+              isConnected: connectivityProvider.isConnected,
+              state: StartScreenState(appState: const AppState()),
               child: BlocBuilder<DataCubit, DataState>(
                   buildWhen: (previous, current) => current is StartScreenState,
                   builder: (context, state) {
-                    final cubit = DataCubit.get(context);
-                    final currentState = StartScreenState();
+                    final state = StartScreenState(
+                        appState: const AppState());
                     return state.map(
                       onInitial: () => const InitialStateWidget(),
                       onLoading: () => const LoadingStateWidget(),
@@ -34,11 +55,12 @@ class StartScreen extends StatelessWidget {
                             hasMore: state.hasMore,
                             questions: state.questions,
                             currentIndex: state.currentIndex,
+                            getData: ()=> _cubit.getData(state),
                             isConnected: connectivityProvider.isConnected,
                           ),
                       onError: (error) =>
-                      ErrorStateWidget(error: error.message,
-                          onRetry: () => cubit.getData(currentState)),
+                          ErrorStateWidget(error: error.message,
+                              onRetry: () => _cubit.getData(state)),
                     );
                   }
               )

@@ -18,7 +18,7 @@ class QuestionsDataUseCase {
   }) async {
     try {
       return _repository.getData(
-          lastDocument: params.lastDocument!,
+          lastDocument: params.lastDocument,
           limit: params.limit
       );
     }

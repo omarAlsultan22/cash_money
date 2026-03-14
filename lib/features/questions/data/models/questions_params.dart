@@ -6,7 +6,7 @@ class GetQuestionsParams {
   final int limit;
 
   const GetQuestionsParams({
-    required this.lastDocument,
+    this.lastDocument,
     this.limit = 10
   });
 }

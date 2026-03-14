@@ -8,7 +8,7 @@ import '../../models/questions_result.dart';
 class HiveDataRepository implements AppDataRepository, DataOperations {
   @override
   Future<GetQuestionsResult?> getData({
-    required DocumentSnapshot lastDocument,
+    DocumentSnapshot? lastDocument,
     required int limit
   }) async {
     try {

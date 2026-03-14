@@ -1,3 +1,5 @@
+import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
+
 import '../../../../../core/presentation/utils/helpers/validate/validator_input.dart';
 import '../../../../auth/presentation/screens/change_email_&_password_screen.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
@@ -103,11 +105,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         'Settings',
         style: TextStyle(color: _white),
       ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        color: _white,
-        onPressed: _isLoading ? null : () => Navigator.pop(context),
-      ),
+      leading: const IconButtonWidget()
     );
   }
 
@@ -229,7 +227,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
           ),
         ),
         AppSpacing.height_8,
-        BuildInputField.build(
+        BuildInputField(
           controller: controller,
           hintText: hint,
           prefixIcon: icon,

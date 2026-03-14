@@ -2,6 +2,7 @@ import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/errors/error_handler.dart';
 import '../../domain/useCases/settings_useCase.dart';
+import 'package:cash_money/core/presentation/states/app_state.dart';
 import 'package:cash_money/core/errors/exceptions/app_exception.dart';
 import 'package:cash_money/core/data/models/message_result_model.dart';
 
@@ -11,7 +12,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   SettingsCubit({required SettingsUseCase settingsUseCase})
       : _settingsUseCase = settingsUseCase,
-        super(SettingsState());
+        super(SettingsState(appState: const AppState()));
 
   static SettingsCubit get(context) => BlocProvider.of(context);
 

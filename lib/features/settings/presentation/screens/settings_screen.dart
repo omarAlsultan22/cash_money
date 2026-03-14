@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
         repository: settingsRepository);
     return BlocProvider(
         create: (context) =>
-            SettingsCubit(settingsUseCase: settingsUseCase),
+            SettingsCubit(settingsUseCase: settingsUseCase)..getInfo(),
         child: ConnectivityAwareService(
             child: BlocBuilder<SettingsCubit, SettingsState>(
                 builder: (context, state) {

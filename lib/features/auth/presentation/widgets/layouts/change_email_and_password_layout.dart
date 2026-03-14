@@ -1,3 +1,4 @@
+import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
@@ -73,20 +74,12 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     return AppBar(
       backgroundColor: AppColors.transparent,
       elevation: AppNumbers.zero,
-      leading: _buildBackButton(),
+      leading: const IconButtonWidget(),
       title: const Text(
         'Change email and password',
         style: TextStyle(color: _white),
       ),
       actions: [_buildSaveButton()],
-    );
-  }
-
-  Widget _buildBackButton() {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back),
-      color: _white,
-      onPressed: _isLoading ? null : () => Navigator.pop(context),
     );
   }
 
@@ -155,7 +148,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   Widget _buildEmailField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _newEmailController,
       hintText: 'You can add a new email',
       prefixIcon: Icons.email,
@@ -164,7 +157,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   Widget _buildCurrentPasswordField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _currentPasswordController,
       hintText: 'Current Password',
       prefixIcon: Icons.lock,
@@ -176,7 +169,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   Widget _buildNewPasswordField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _newPasswordController,
       hintText: 'New password',
       prefixIcon: Icons.lock,
@@ -190,7 +183,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   Widget _buildConfirmPasswordField() {
-    return BuildInputField.build(
+    return BuildInputField(
       controller: _repeatNewPasswordController,
       hintText: "Confirm the new password",
       prefixIcon: Icons.lock_reset,

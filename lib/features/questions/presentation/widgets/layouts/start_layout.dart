@@ -1,7 +1,9 @@
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
+import '../../../../../core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
 import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
+import '../../../../../core/presentation/states/app_state.dart';
 import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import '../../../../../core/constants/app_paddings.dart';
@@ -18,11 +20,13 @@ class BuildStartScreen extends StatefulWidget {
   final bool hasMore;
   final int currentIndex;
   final bool isConnected;
+  final VoidCallback getData;
   final List<QuestionModel> questions;
   const BuildStartScreen({
     super.key,
     required this.points,
     required this.hasMore,
+    required this.getData,
     required this.questions,
     required this.isConnected,
     required this.currentIndex,
@@ -39,6 +43,10 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   bool _colors = false;
   late DataCubit _cubit;
 
+  //counters
+  late int points;
+  late int currentIndex;
+
   //numbers
   static const _twenty = AppNumbers.twenty;
 
@@ -46,6 +54,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   static const _white = AppColors.white;
   static const _brown800 = AppColors.brown_800;
   static const _brown900 = AppColors.brown_900;
+
 
   void _startTimer(int length) {
     _timer?.cancel();
@@ -58,46 +67,42 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
         timer.cancel();
         setState(() {
           _colors = false;
-          if (widget.currentIndex < length) {
-            final state = StartScreenState();
-            _cubit.incrementCurrentIndex(state);
-          }
           _timeLeft = 1;
         });
+        if (currentIndex < length) {
+          final state = StartScreenState(appState: const AppState());
+          _cubit.incrementCurrentIndex(state, currentIndex);
+        }
       }
     });
   }
 
   void _isCurrentIndexSmaller({
     required bool isCorrect,
-    required StartScreenState state,
   }) {
     if (isCorrect) {
-      _cubit.getData(state);
-      return;
+      widget.getData;
     }
   }
 
   void _isCurrentIndexEquivalent({
     required int length,
     required bool isCorrect,
-    required StartScreenState state
   }) {
     const tow = 2;
 
     if (isCorrect) {
-      bool isFinished = widget.currentIndex > length / tow;
-      String answers = widget.points < tow ? 'answer' : 'answers';
+      bool isFinished = currentIndex > length / tow;
+      String answers = points < tow ? 'answer' : 'answers';
       QuickAlert.show(
           context: context,
-          text: 'You achieved ${widget.points} correct $answers out of $length',
+          text: 'You achieved $points correct $answers out of $length',
           type: isFinished ? QuickAlertType.success : QuickAlertType.error,
           title: isFinished ? 'Congratulations' : 'Try again',
           showConfirmBtn: true,
           confirmBtnText: 'Okay'
       ).whenComplete(() {
         Navigator.pop(context);
-        _cubit.resetQuiz(state);
       });
       _timer?.cancel();
       return;
@@ -105,223 +110,244 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   void _questionIndex(bool isCorrect, int length) {
-    if (widget.currentIndex >= length) return;
-
-    final state = StartScreenState();
+    if (currentIndex >= length) return;
 
     setState(() {
       _colors = false;
       _colors = true;
       if (isCorrect) {
-        _cubit.incrementPoints(state);
+        final state = StartScreenState(appState: const AppState());
+        _cubit.incrementPoints(state, points);
       }
 
       _isCurrentIndexEquivalent(
-          state: state,
           length: length,
-          isCorrect: widget.currentIndex == length
+          isCorrect: currentIndex == length && !widget.hasMore
       );
 
       _isCurrentIndexSmaller(
-          state: state,
-          isCorrect: widget.currentIndex < length - 1);
+          isCorrect: currentIndex < length - 1 && widget.hasMore);
 
       _startTimer(length);
     });
   }
 
+  void _initCounters() {
+    points = widget.points;
+    currentIndex = widget.currentIndex;
+  }
+
+  void _resetQuiz() {
+    final state = StartScreenState(appState: const AppState());
+    _cubit.resetQuiz(state);
+  }
+
   @override
   void initState() {
     super.initState();
+    _initCounters();
     _cubit = context.read<DataCubit>();
     _colors = false;
   }
 
   @override
+  void didUpdateWidget(covariant BuildStartScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.points != widget.points) {
+      setState(() {
+        points = widget.points;
+      });
+    }
+    if (oldWidget.currentIndex != widget.currentIndex) {
+      setState(() {
+        currentIndex = widget.currentIndex;
+      });
+    }
+  }
+
+  @override
   void dispose() {
     _timer?.cancel();
+    _resetQuiz();
     super.dispose();
   }
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: AppColors.transparent,
-      elevation: AppNumbers.zero,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: _white),
-        onPressed: () => Navigator.of(context).pop(),
-        splashRadius: _twenty,
-      ),
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              _brown900,
-              _brown800,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+        backgroundColor: _brown900,
+        elevation: AppNumbers.zero,
+        title: const Text(
+            'Starting',
+            style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: _white
+            )
         ),
-      ),
+        leading: const IconButtonWidget()
     );
   }
 
   Widget _widgetBuilder() {
     const twentyFour = 24.0;
-    final userName = CacheHelper.getValue(key: 'name');
 
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Scaffold(
-        backgroundColor: _brown800,
-        appBar: _buildAppBar(),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _brown900,
-                AppColors.brown_700
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 20, vertical: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // Header Section
-                Row(
-                  children: [
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Welcome ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: _white.withOpacity(0.8),
-                              ),
+    return FutureBuilder(
+      future: CacheHelper.getValue(key: 'userName'),
+      builder: (context, snapshot) {
+        String userName = snapshot.data?.toString() ?? 'Sir';
+        return Directionality(
+          textDirection: TextDirection.ltr,
+          child: Scaffold(
+            backgroundColor: _brown800,
+            appBar: _buildAppBar(),
+            body: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    _brown900,
+                    AppColors.brown_700
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    // Header Section
+                    Row(
+                      children: [
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Welcome ',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: _white.withOpacity(0.8),
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: userName,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: _white,
+                                  ),
+                                ),
+                                const WidgetSpan(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Icon(
+                                      Icons.waving_hand_sharp,
+                                      color: AppColors.amber_500,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            TextSpan(
-                              text: '$userName ',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: _white,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: _brown900,
+                            borderRadius: BorderRadius.circular(_twenty),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.black.withOpacity(0.2),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            const WidgetSpan(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Icon(
-                                  Icons.waving_hand_sharp,
-                                  color: AppColors.amber_500,
-                                  size: 20,
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                '$points',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: _white,
                                 ),
                               ),
+                              const SizedBox(width: 5.0),
+                              Image.asset(
+                                'assets/images/icon.png',
+                                width: twentyFour,
+                                height: twentyFour,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    AppSpacing.height_40,
+                    // Question Card
+                    Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      color: AppColors.brown_600,
+                      child: Padding(
+                        padding: AppPaddings.paddingAll_20,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Text(
+                            widget.questions[currentIndex].question,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: Colors.amberAccent,
+                              height: 1.3,
                             ),
-                          ],
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: _brown900,
-                        borderRadius: BorderRadius.circular(_twenty),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.black.withOpacity(0.2),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            '${widget.points}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: _white,
+
+                    const SizedBox(height: 30),
+
+                    // Answers Section
+                    Expanded(
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: widget.questions[currentIndex].answers
+                            .map((e) =>
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8),
+                              child: AnswerButton(
+                                answer: e.answer,
+                                isCorrect: e.isCorrect,
+                                color: _colors
+                                    ? (e.isCorrect
+                                    ? AppColors.green800
+                                    : AppColors.red800)
+                                    : const Color(0xFF795548),
+                                onTaP: () =>
+                                    _questionIndex(
+                                        e.isCorrect, widget.questions.length - 1),
+                              ),
                             ),
-                          ),
-                          AppSpacing.height_8,
-                          Image.asset(
-                            'assets/images/icon.png',
-                            width: twentyFour,
-                            height: twentyFour,
-                          ),
-                        ],
+                        ).toList(),
                       ),
                     ),
                   ],
                 ),
-                AppSpacing.height_40,
-                // Question Card
-                Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  color: AppColors.brown_600,
-                  child: Padding(
-                    padding: AppPaddings.paddingAll_20,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Text(
-                        widget.questions[widget.currentIndex].question,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: Colors.amberAccent,
-                          height: 1.3,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                // Answers Section
-                Expanded(
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    children: widget.questions[widget.currentIndex].answers
-                        .map((e) =>
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8),
-                          child: AnswerButton(
-                            answer: e.answer,
-                            isCorrect: e.isCorrect,
-                            color: _colors
-                                ? (e.isCorrect
-                                ? AppColors.green800
-                                : AppColors.red800)
-                                : const Color(0xFF795548),
-                            onTaP: () =>
-                                _questionIndex(
-                                    e.isCorrect, widget.questions.length - 1),
-                          ),
-                        ),
-                    ).toList(),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 
@@ -330,11 +356,9 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     return Column(
         children: [
           ConnectionBanner(
-              isVisible: widget.isConnected,
-              bgColor: widget.isConnected ? AppColors.green700 : AppColors
-                  .red700,
-              icon: widget.isConnected ? Icons.wifi : Icons.signal_wifi_off,
-              text: widget.isConnected ? 'online' : 'offline'
+            isVisible: widget.isConnected,
+            bgColor: widget.isConnected ? AppColors.green700 : AppColors
+                .red700,
           ),
           Expanded(
               child: _widgetBuilder()

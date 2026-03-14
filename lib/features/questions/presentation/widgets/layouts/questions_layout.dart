@@ -1,11 +1,10 @@
-import '../../cubits/data_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../states/questions_state.dart';
 import '../../../../../core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
+import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
 
 
@@ -28,11 +27,7 @@ class AnswerScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.transparent,
         elevation: AppNumbers.zero,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: white),
-          onPressed: () => Navigator.pop(context),
-          splashRadius: AppNumbers.twenty,
-        ),
+        leading: const IconButtonWidget()
       ),
       body: Center(
         child: Padding(
@@ -71,9 +66,11 @@ class AnswerScreen extends StatelessWidget {
 class BuildQuestionsScreen extends StatefulWidget {
   final bool hasMore;
   final bool isConnected;
+  final VoidCallback getData;
   final List<QuestionModel> questions;
   const BuildQuestionsScreen({
     super.key,
+    required this.getData,
     required this.hasMore,
     required this.questions,
     required this.isConnected,
@@ -85,13 +82,10 @@ class BuildQuestionsScreen extends StatefulWidget {
 
 class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   final ScrollController _scrollController = ScrollController();
-  late DataCubit _cubit;
-
 
   @override
   void initState() {
     super.initState();
-    _cubit = DataCubit.get(context);
     _scrollController.addListener(_onScrollData);
   }
 
@@ -99,8 +93,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - AppNumbers.fifty &&
         widget.hasMore) {
-      final state = QuestionsScreenState();
-      _cubit.getData(state);
+      widget.getData;
     }
   }
 
@@ -123,22 +116,18 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
       child: Scaffold(
         backgroundColor: AppColors.brown_800,
         appBar: AppBar(
-          backgroundColor: AppColors.transparent,
-          scrolledUnderElevation: zero,
-          elevation: zero,
-          title: const Text(
-            'Questions ',
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-              color: white,
+            backgroundColor: AppColors.transparent,
+            scrolledUnderElevation: zero,
+            elevation: zero,
+            title: const Text(
+              'Questions ',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: white,
+              ),
             ),
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: white),
-            onPressed: () => Navigator.pop(context),
-            splashRadius: AppNumbers.twelve,
-          ),
+            leading: const IconButtonWidget()
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -219,11 +208,9 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
     return Column(
         children: [
           ConnectionBanner(
-              isVisible: widget.isConnected,
-              bgColor: widget.isConnected ? AppColors.green700 : AppColors
-                  .red700,
-              icon: widget.isConnected ? Icons.wifi : Icons.signal_wifi_off,
-              text: widget.isConnected ? 'online' : 'offline'
+            isVisible: widget.isConnected,
+            bgColor: widget.isConnected ? AppColors.green700 : AppColors
+                .red700,
           ),
           Expanded(
               child: _widgetBuilder()
@@ -232,5 +219,4 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
     );
   }
 }
-
 

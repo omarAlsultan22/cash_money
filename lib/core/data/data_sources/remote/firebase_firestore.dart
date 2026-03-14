@@ -38,8 +38,7 @@ abstract class FirestoreService {
     return _firestore
         .collection(superCollectionPath)
         .doc(docId)
-        .collection(subCollectionPath)
-        .orderBy('createdAt', descending: true);
+        .collection(subCollectionPath);
   }
 
   // تحديث مستند محدد

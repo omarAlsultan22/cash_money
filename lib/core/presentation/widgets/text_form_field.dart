@@ -2,19 +2,31 @@ import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 
-class BuildInputField {
+class BuildInputField extends StatelessWidget {
+  final String? labelText;
+  final Widget? suffixIcon;
+  bool obscureText = false;
+  final List<String>? autofillHints;
+  final TextInputType? keyboardType;
+  final TextEditingController controller;
+  final String hintText;
+  final IconData prefixIcon;
+  final String? Function(dynamic value) validator;
 
-  static Widget build({
-    String? labelText,
-    Widget? suffixIcon,
-    bool obscureText = false,
-    List<String>? autofillHints,
-    TextInputType? keyboardType,
-    required TextEditingController controller,
-    required String hintText,
-    required IconData prefixIcon,
-    required String? Function(dynamic value) validator,
-  }) {
+  BuildInputField({
+    this.labelText,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.autofillHints,
+    this.keyboardType,
+    required this.controller,
+    required this.hintText,
+    required this.prefixIcon,
+    required this.validator
+  });
+
+  @override
+  Widget build(BuildContext context) {
     const white = AppColors.white;
     const amber500 = AppColors.amber_500;
 

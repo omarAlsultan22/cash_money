@@ -25,6 +25,8 @@ class DataState {
 
   AppException? get _failure => appState!.failure;
 
+  bool get dataIsEmpty => questions.isEmpty;
+
   DataState updateState({
     bool? hasMore,
     int? points,
