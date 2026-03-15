@@ -1,10 +1,11 @@
 import 'package:cash_money/core/presentation/utils/helpers/validate/validator_input.dart';
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
-import 'package:cash_money/features/auth/presentation/widgets/auth_spacing.dart';
+import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
+import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
 import '../../../../../core/presentation/widgets/app_spacing.dart';
 import '../../../../../core/data/models/message_result_model.dart';
 import 'package:cash_money/core/constants/app_labels_texts.dart';
@@ -112,10 +113,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
     return AppBar(
       backgroundColor: _brown900,
       scrolledUnderElevation: AppNumbers.zero,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: AppColors.white),
-        onPressed: () => _navigateBack,
-      ),
+      leading: const IconButtonWidget()
     );
   }
 
@@ -236,7 +234,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   Widget _buildRegisterButtonContent() {
     return _isLoading
-        ? AuthSpacing.sizedBox
+        ? LoadingWidget.sizedBox
         : const Text(
       "REGISTER",
       style: TextStyle(
@@ -280,7 +278,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          BuildSnackBar.build(AppStates.success, AppColors.green800)
+          BuildSnackBar.build('Register successfully', AppColors.green800)
       );
       navigator(context: context);
     }
@@ -290,10 +288,6 @@ class _RegisterLayoutState extends State<RegisterLayout> {
               ' ${AppStates.failed}${message.error}', AppColors.red800)
       );
     }
-  }
-
-  void _navigateBack() {
-    Navigator.pop(context);
   }
 
   ButtonStyle _registerButtonStyle() {

@@ -13,53 +13,41 @@ import 'package:flutter/material.dart';
 import '../cubits/data_cubit.dart';
 
 
-class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
-
-  @override
-  State<QuestionsScreen> createState() => _QuestionsScreenState();
-}
-
-class _QuestionsScreenState extends State<QuestionsScreen> {
-  late DataCubit _cubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _initCubit();
-  }
-
-  void _initCubit() {
-    _cubit = DataCubit.get(context)
-      ..initializeIfNeeded();
-  }
+class QuestionsScreen extends StatelessWidget {
+  const QuestionsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool isCurrentState(DataState current) {
+      return current.runtimeType == DataState ||
+          current is QuestionsScreenState;
+    }
+
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
           return ConnectivityAwareScreen(
               isConnected: connectivityProvider.isConnected,
               state: QuestionsScreenState(appState: const AppState()),
               child: BlocBuilder<DataCubit, DataState>(
-                  buildWhen: (previous,
-                      current) => current is QuestionsScreenState,
+                  buildWhen: (previous, current) => isCurrentState(current),
                   builder: (context, state) {
-                    final state = QuestionsScreenState(
+                    final cubit = DataCubit.get(context);
+                    final currentState = QuestionsScreenState(
                         appState: const AppState());
                     return state.map(
                       onInitial: () => const InitialStateWidget(),
                       onLoading: () => const LoadingStateWidget(),
                       onLoaded: (data) =>
                           BuildQuestionsScreen(
-                            hasMore: state.hasMore,
-                            questions: state.questions,
-                            getData: () => _cubit.getData(state),
-                            isConnected: connectivityProvider.isConnected,
+                              isLoading: true,
+                              hasMore: state.hasMore,
+                              questions: state.questions,
+                              getData: () => cubit.getData(currentState),
+                              isConnected: connectivityProvider.isConnected
                           ),
                       onError: (error) =>
                           ErrorStateWidget(error: error.message,
-                              onRetry: () => _cubit.getData(state)),
+                              onRetry: () => cubit.getData(currentState)),
                     );
                   }
               )

@@ -19,40 +19,34 @@ class DataCubit extends Cubit<DataState> {
 
   static DataCubit get(context) => BlocProvider.of(context);
 
-  void initializeIfNeeded(){
-    if(state.dataIsEmpty) {
-      getData(state);
-    }
+  void restLock(DataState currentState) {
+    emit(currentState.updateState(hasMore: true, questions: state.questions));
   }
 
-  void restLock(DataState dataState) {
-    emit(dataState.updateState(hasMore: true, questions: state.questions));
-  }
-
-  void resetQuiz(DataState dataState) {
-    emit(dataState.updateState(
+  void resetQuiz(DataState currentState) {
+    emit(currentState.updateState(
         points: 0,
         currentIndex: 0)
     );
   }
 
-  void incrementPoints(DataState dataState, int points) {
-    emit(dataState.updateState(
+  void incrementPoints(DataState currentState, int points) {
+    emit(currentState.updateState(
         points: points,
         questions: state.questions)
     );
   }
 
-  void incrementCurrentIndex(DataState dataState, int currentIndex) {
-    emit(dataState.updateState(
+  void incrementCurrentIndex(DataState currentState, int currentIndex) {
+    emit(currentState.updateState(
         currentIndex: currentIndex,
         questions: state.questions)
     );
   }
 
-  Future<void> getData(DataState dataState) async {
+  Future<void> getData(DataState currentState) async {
     if (!state.hasMore) return;
-    final appState = dataState.appState;
+    final appState = currentState.appState;
 
     try {
       final result = await _questionsDataUseCase.execute(params:
@@ -60,7 +54,7 @@ class DataCubit extends Cubit<DataState> {
         lastDocument: state.lastDocument,
       ));
 
-      emit(dataState.updateState(
+      emit(currentState.updateState(
           questions: [...state.questions, ...result!.questions],
           lastDocument: result.lastDocument,
           hasMore: result.hasMore,
@@ -71,7 +65,7 @@ class DataCubit extends Cubit<DataState> {
       final exception = ErrorHandler.handleException(e);
       final newAppState = appState!.copyWith(
           isLoading: false, failure: exception);
-      emit(dataState.updateState(appState: newAppState));
+      emit(currentState.updateState(appState: newAppState));
     }
   }
 }

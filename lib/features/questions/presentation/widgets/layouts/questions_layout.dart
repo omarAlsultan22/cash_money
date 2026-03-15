@@ -64,14 +64,16 @@ class AnswerScreen extends StatelessWidget {
 }
 
 class BuildQuestionsScreen extends StatefulWidget {
+  bool isLoading;
   final bool hasMore;
   final bool isConnected;
   final VoidCallback getData;
   final List<QuestionModel> questions;
-  const BuildQuestionsScreen({
+  BuildQuestionsScreen({
     super.key,
-    required this.getData,
     required this.hasMore,
+    required this.getData,
+    required this.isLoading,
     required this.questions,
     required this.isConnected,
     });
@@ -92,8 +94,9 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   void _onScrollData() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - AppNumbers.fifty &&
-        widget.hasMore) {
-      widget.getData;
+        widget.hasMore && !widget.isLoading) {
+      widget.isLoading = true;
+      widget.getData();
     }
   }
 

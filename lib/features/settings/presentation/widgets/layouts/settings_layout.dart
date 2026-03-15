@@ -1,12 +1,12 @@
-import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-
 import '../../../../../core/presentation/utils/helpers/validate/validator_input.dart';
 import '../../../../auth/presentation/screens/change_email_&_password_screen.dart';
+import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/core/data/models/message_result_model.dart';
+import '../../../../../core/presentation/widgets/loading_widget.dart';
 import '../../../../../core/presentation/widgets/app_spacing.dart';
 import 'package:cash_money/core/constants/app_labels_texts.dart';
 import 'package:cash_money/core/constants/app_hints_texts.dart';
@@ -15,8 +15,8 @@ import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_states.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
-import '../../cubits/settings_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubits/settings_cubit.dart';
 import 'package:flutter/material.dart';
 
 
@@ -139,7 +139,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               _buildChangePasswordButton(),
               AppSpacing.height_16,
               _buildUpdateButton(cubit),
-              if (_isLoading) _buildLoadingIndicator(),
             ],
           ),
         ),
@@ -261,28 +260,20 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       child: ElevatedButton(
         style: _updateButtonStyle(),
         onPressed: () => _onUpdatePressed(cubit),
-        child: const Text(
-          'Update',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: _white,
-          ),
-        ),
+        child: _buildUpdateButtonContent()
       ),
     );
   }
 
-  Widget _buildLoadingIndicator() {
-    return const Column(
-      children: [
-        AppSpacing.height_24,
-        Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.amber_500),
-          ),
-        ),
-      ],
+  Widget _buildUpdateButtonContent() {
+    return _isLoading
+        ? LoadingWidget.sizedBox
+        : const Text(
+      "Update",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 
@@ -291,9 +282,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       final uId = await CacheHelper.getValue(key: AppKeys.uId) ?? '';
       setState(() => _isLoading = true);
       final message = await cubit.updateInfo(
-        userName: _nameController.text,
-        userPhone: _phoneController.text,
-        userLocation: _locationController.text,
+        userName: _nameController.text.trim(),
+        userPhone: _phoneController.text.trim(),
+        userLocation: _locationController.text.trim(),
         uId: uId,
       );
       setState(() => _isLoading = false);

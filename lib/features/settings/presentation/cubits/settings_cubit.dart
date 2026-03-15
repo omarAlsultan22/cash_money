@@ -23,9 +23,6 @@ class SettingsCubit extends Cubit<SettingsState> {
     required String userPhone,
     required String userLocation
   }) async {
-    final appState = state.appState;
-    emit(state.updateState(appState: appState!.copyWith(isLoading: true)));
-
     try {
       await _settingsUseCase.updateInfoExecute(
         userName: userName,

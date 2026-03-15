@@ -28,7 +28,7 @@ class HybridDataRepository implements AppDataRepository {
     final isConnection = await _connectivityService.checkInternetConnection();
     if (isConnection) {
       final result = await _remoteDatabase.getData(
-          lastDocument: lastDocument!, limit: limit);
+          lastDocument: lastDocument, limit: limit);
 
       if(result!.listIsNotEmpty){
         await _localDatabase.putData(

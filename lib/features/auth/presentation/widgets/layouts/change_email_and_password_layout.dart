@@ -41,9 +41,9 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   static const _white = AppColors.white;
 
   bool _isLoading = false;
-  bool isObscureCurrent = false;
-  bool isObscureNew = false;
-  bool isObscureConfirm = false;
+  bool isObscureCurrent = true;
+  bool isObscureNew = true;
+  bool isObscureConfirm = true;
 
   @override
   void dispose() {
@@ -136,7 +136,6 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
                     _buildNewPasswordField(),
                     spaceBetweenFields,
                     _buildConfirmPasswordField(),
-                    if (_isLoading) _buildLoadingIndicator(),
                   ],
                 ),
               ),
@@ -193,17 +192,6 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
           onToggle: (value) =>
               setState(() => isObscureConfirm = value)),
       validator: _validatePasswordConfirmation,
-    );
-  }
-
-  Widget _buildLoadingIndicator() {
-    return const Column(
-      children: [
-        AppSpacing.height_24,
-        CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(AppColors.amber_500),
-        ),
-      ],
     );
   }
 

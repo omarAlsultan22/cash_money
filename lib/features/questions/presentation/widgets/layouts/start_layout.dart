@@ -43,6 +43,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   bool _colors = false;
   late DataCubit _cubit;
 
+  bool isAbleClick = false;
+
   //counters
   late int points;
   late int currentIndex;
@@ -70,8 +72,9 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
           _timeLeft = 1;
         });
         if (currentIndex < length) {
-          final state = StartScreenState(appState: const AppState());
-          _cubit.incrementCurrentIndex(state, currentIndex);
+          setState(() {
+            currentIndex ++;
+          });
         }
       }
     });
@@ -81,7 +84,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     required bool isCorrect,
   }) {
     if (isCorrect) {
-      widget.getData;
+      widget.getData();
     }
   }
 
@@ -103,6 +106,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
           confirmBtnText: 'Okay'
       ).whenComplete(() {
         Navigator.pop(context);
+        _resetQuiz();
       });
       _timer?.cancel();
       return;
@@ -116,8 +120,9 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
       _colors = false;
       _colors = true;
       if (isCorrect) {
-        final state = StartScreenState(appState: const AppState());
-        _cubit.incrementPoints(state, points);
+        setState(() {
+          points ++;
+        });
       }
 
       _isCurrentIndexEquivalent(
@@ -151,24 +156,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant BuildStartScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.points != widget.points) {
-      setState(() {
-        points = widget.points;
-      });
-    }
-    if (oldWidget.currentIndex != widget.currentIndex) {
-      setState(() {
-        currentIndex = widget.currentIndex;
-      });
-    }
-  }
-
-  @override
   void dispose() {
     _timer?.cancel();
-    _resetQuiz();
     super.dispose();
   }
 
@@ -192,162 +181,164 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     const twentyFour = 24.0;
 
     return FutureBuilder(
-      future: CacheHelper.getValue(key: 'userName'),
-      builder: (context, snapshot) {
-        String userName = snapshot.data?.toString() ?? 'Sir';
-        return Directionality(
-          textDirection: TextDirection.ltr,
-          child: Scaffold(
-            backgroundColor: _brown800,
-            appBar: _buildAppBar(),
-            body: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    _brown900,
-                    AppColors.brown_700
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+        future: CacheHelper.getValue(key: 'userName'),
+        builder: (context, snapshot) {
+          final userName = snapshot.data;
+          return Directionality(
+            textDirection: TextDirection.ltr,
+            child: Scaffold(
+              backgroundColor: _brown800,
+              appBar: _buildAppBar(),
+              body: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      _brown900,
+                      AppColors.brown_700
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    // Header Section
-                    Row(
-                      children: [
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Welcome ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: _white.withOpacity(0.8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      // Header Section
+                      Row(
+                        children: [
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Welcome ',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: _white.withOpacity(0.8),
+                                    ),
                                   ),
+                                  TextSpan(
+                                    text: userName,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: _white,
+                                    ),
+                                  ),
+                                  const WidgetSpan(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 5),
+                                      child: Icon(
+                                        Icons.waving_hand_sharp,
+                                        color: AppColors.amber_500,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: _brown900,
+                              borderRadius: BorderRadius.circular(_twenty),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.black.withOpacity(0.2),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
                                 ),
-                                TextSpan(
-                                  text: userName,
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '$points',
                                   style: const TextStyle(
-                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 18,
                                     color: _white,
                                   ),
                                 ),
-                                const WidgetSpan(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 5),
-                                    child: Icon(
-                                      Icons.waving_hand_sharp,
-                                      color: AppColors.amber_500,
-                                      size: 20,
-                                    ),
-                                  ),
+                                const SizedBox(width: 5.0),
+                                Image.asset(
+                                  'assets/images/icon.png',
+                                  width: twentyFour,
+                                  height: twentyFour,
                                 ),
                               ],
                             ),
                           ),
+                        ],
+                      ),
+                      AppSpacing.height_40,
+                      // Question Card
+                      Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: _brown900,
-                            borderRadius: BorderRadius.circular(_twenty),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.black.withOpacity(0.2),
-                                blurRadius: 4,
-                                offset: const Offset(0, 2),
+                        color: AppColors.brown_600,
+                        child: Padding(
+                          padding: AppPaddings.paddingAll_20,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Text(
+                              widget.questions[currentIndex].question,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                color: Colors.amberAccent,
+                                height: 1.3,
                               ),
-                            ],
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                          child: Row(
-                            children: [
-                              Text(
-                                '$points',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: _white,
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      // Answers Section
+                      Expanded(
+                        child: ListView(
+                          physics: const BouncingScrollPhysics(),
+                          children: widget.questions[currentIndex].answers
+                              .map((e) =>
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8),
+                                child: AnswerButton(
+                                  isLoading: false,
+                                  answer: e.answer,
+                                  isCorrect: e.isCorrect,
+                                  color: _colors
+                                      ? (e.isCorrect
+                                      ? AppColors.green800
+                                      : AppColors.red800)
+                                      : const Color(0xFF795548),
+                                  onTaP: () =>
+                                      _questionIndex(
+                                          e.isCorrect,
+                                          widget.questions.length - 1),
                                 ),
                               ),
-                              const SizedBox(width: 5.0),
-                              Image.asset(
-                                'assets/images/icon.png',
-                                width: twentyFour,
-                                height: twentyFour,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    AppSpacing.height_40,
-                    // Question Card
-                    Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      color: AppColors.brown_600,
-                      child: Padding(
-                        padding: AppPaddings.paddingAll_20,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Text(
-                            widget.questions[currentIndex].question,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Colors.amberAccent,
-                              height: 1.3,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                          ).toList(),
                         ),
                       ),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    // Answers Section
-                    Expanded(
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        children: widget.questions[currentIndex].answers
-                            .map((e) =>
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8),
-                              child: AnswerButton(
-                                answer: e.answer,
-                                isCorrect: e.isCorrect,
-                                color: _colors
-                                    ? (e.isCorrect
-                                    ? AppColors.green800
-                                    : AppColors.red800)
-                                    : const Color(0xFF795548),
-                                onTaP: () =>
-                                    _questionIndex(
-                                        e.isCorrect, widget.questions.length - 1),
-                              ),
-                            ),
-                        ).toList(),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      }
+          );
+        }
     );
   }
 
@@ -370,23 +361,30 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
 
 class AnswerButton extends StatelessWidget {
+  bool isLoading;
+  final Color? color;
   final String? answer;
   final bool? isCorrect;
-  final Color? color;
   final Function? onTaP;
 
-  const AnswerButton({
+  AnswerButton({
     Key? key,
-    this.answer,
-    this.isCorrect,
-    this.color,
-    this.onTaP,
+    required this.color,
+    required this.onTaP,
+    required this.answer,
+    required this.isCorrect,
+    required this.isLoading,
   }) : super(key: key);
 
   static const twelve = AppNumbers.twelve;
 
   @override
   Widget build(BuildContext context) {
+    void showCorrectAnswer() {
+      isLoading = true;
+      onTaP?.call();
+    }
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
@@ -408,7 +406,7 @@ class AnswerButton extends StatelessWidget {
           ),
           elevation: AppNumbers.zero,
         ),
-        onPressed: () => onTaP?.call(),
+        onPressed: isLoading ? null : showCorrectAnswer,
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Text(

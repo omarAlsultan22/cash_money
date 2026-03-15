@@ -1,4 +1,3 @@
-import 'package:cash_money/features/questions/presentation/states/questions_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = FirestoreDataRepository();
+    const currentState = DataState(appState: AppState());
     final questionsDataUseCase = QuestionsDataUseCase(repository: repository);
 
     return MultiProvider(
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ConnectivityProvider>(
             create: (context) => ConnectivityProvider()),
         BlocProvider<DataCubit>(create: (context) =>
-            DataCubit(questionsDataUseCase: questionsDataUseCase)
+            DataCubit(questionsDataUseCase: questionsDataUseCase)..getData(currentState)
         )
       ],
       child: const MaterialApp(

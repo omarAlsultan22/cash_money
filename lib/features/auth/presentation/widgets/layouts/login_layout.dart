@@ -1,10 +1,10 @@
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
-import 'package:cash_money/features/auth/presentation/widgets/auth_spacing.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
+import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
 import '../../../../../core/presentation/widgets/app_spacing.dart';
 import '../../../../../core/data/models/message_result_model.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
@@ -171,7 +171,7 @@ class _LoginLayoutState extends State<LoginLayout> {
 
   Widget _buildLoginButtonContent() {
     return _isLoading
-        ? AuthSpacing.sizedBox
+        ? LoadingWidget.sizedBox
         : const Text(
       "LOGIN",
       style: TextStyle(
@@ -255,7 +255,7 @@ class _LoginLayoutState extends State<LoginLayout> {
   void _showMessageResult(MessageResultModel message) {
     if (message.isSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
-          BuildSnackBar.build(AppStates.success, AppColors.green800)
+          BuildSnackBar.build('Login successfully', AppColors.green800)
       );
       navigator(context: context, link: const HomeScreen());
     }
