@@ -39,7 +39,7 @@ class QuestionsScreen extends StatelessWidget {
                       onLoading: () => const LoadingStateWidget(),
                       onLoaded: (data) =>
                           BuildQuestionsScreen(
-                              isLoading: true,
+                              isLoading: false,
                               hasMore: state.hasMore,
                               questions: state.questions,
                               getData: () => cubit.getData(currentState),
