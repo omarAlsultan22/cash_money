@@ -46,14 +46,13 @@ class _SignInLayoutState extends State<SignInLayout> {
 
   static const _amber = AppColors.amber_500;
 
-  static const _spaceBetweenFields = AppSpaces.height_16;
-
   //sizes
   static const _fontSize16 = 16.0;
   static const _fontSize18 = 18.0;
   static const _radius = 16.0;
   static const _elevation = 2.0;
 
+  static const _spaceBetweenFields = AppSpaces.height_16;
 
   @override
   void initState() {

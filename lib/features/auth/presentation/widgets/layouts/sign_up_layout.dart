@@ -48,17 +48,19 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
+  static const _elevation = 2.0;
+
+  static const _nameLabelText = AppLabelsTexts.name;
+
   //colors
   static const _amber = AppColors.amber_500;
   static const _brown = AppColors.brown_900;
 
-  static const _nameLabelText = AppLabelsTexts.name;
-
-  static const _spaceBeforeButton = AppSpaces.height_24;
-
-  static const _elevation = 2.0;
+  //sizes
   static const _fontSize = 18.0;
   static const _radius = AppSizes.medium;
+
+  static const _spaceBeforeButton = AppSpaces.height_24;
 
   @override
   void dispose() {

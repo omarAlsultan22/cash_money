@@ -33,7 +33,6 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
 
   static const _elevation = AppSizes.none;
 
-  //sizes
   static const _borderRadius = AppSizes.radius;
 
   //spaces

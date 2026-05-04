@@ -25,18 +25,18 @@ State<AnswerButton> createState() => _AnswerButtonState();
 
 class _AnswerButtonState extends State<AnswerButton> {
 
-bool _isLoading = false;
+  bool _isLoading = false;
+
+  static const _opacityDegree = 0.2;
 
   //spaces
   static const _dx = AppSizes.none;
   static const _dy = 2.0;
 
   //sizes
+  static const _blurRadius = 4.0;
   static const _radius = AppSizes.radius;
   static const _elevation = AppSizes.none;
-
-  static const _blurRadius = 4.0;
-  static const _opacityDegree = 0.2;
 
   void _showCorrectAnswer() {
     if (_isLoading) return;

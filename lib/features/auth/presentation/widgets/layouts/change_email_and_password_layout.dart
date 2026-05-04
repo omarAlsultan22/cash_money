@@ -46,16 +46,17 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   final _repeatNewPasswordController = TextEditingController();
 
   //spaces
+  static const _spacing = 20.0;
   static const _paddingHorizontal = EdgeInsets.symmetric(horizontal: 16);
+
+  //sizes
+  static const _fontSize = 16.0;
+  static const _strokeWidth = 2.0;
 
   //colors
   static const _brown = AppColors.brown_900;
   static const _amber = AppColors.amber_600;
   static const _white = AppColors.white;
-
-  static const _spacing = 20.0;
-  static const _fontSize = 16.0;
-  static const _strokeWidth = 2.0;
 
   @override
   void dispose() {
