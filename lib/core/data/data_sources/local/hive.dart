@@ -4,8 +4,8 @@ import '../../../../features/questions/data/models/question_model.dart';
 import '../../../../features/questions/data/models/questions_result.dart';
 
 
-abstract class HiveOperations {
-  static Box<List<GetQuestionsResult>>? _box;
+class HiveService {
+  static Box<List<QuestionsData>>? _box;
 
   static Box get box {
     if (_box == null) {
@@ -14,15 +14,15 @@ abstract class HiveOperations {
     return _box!;
   }
 
-  static Future<void> init() async {
+  Future<void> init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(QuestionModelAdapter());
-    _box = await Hive.openBox<List<GetQuestionsResult>>('article');
+    _box = await Hive.openBox<List<QuestionsData>>('article');
     print('Box is opened..................');
   }
 
-  static Future<void> putLocalData({
-    required GetQuestionsResult result,
+  Future<void> putLocalData({
+    required QuestionsData result,
   }) async {
     try {
       await box.put(result.lastDocument, result);
@@ -33,19 +33,19 @@ abstract class HiveOperations {
     }
   }
 
-  static Future<GetQuestionsResult?> getLocalData(DocumentSnapshot? lastDocument) async {
+  Future<QuestionsData?> getLocalData(DocumentSnapshot? lastDocument) async {
     return await box.get(lastDocument);
   }
 
-  static Future<void> clearData() async {
+  Future<void> clearData() async {
     await box.clear();
   }
 
-  static Future<void> deleteData(DocumentSnapshot lastDocument) async {
+  Future<void> deleteData(DocumentSnapshot lastDocument) async {
     await box.delete(lastDocument);
   }
 
-  static Future<void> closeBox() async {
+  Future<void> closeBox() async {
     await box.flush();
     await _box?.close();
     await Hive.close();

@@ -1,34 +1,29 @@
 import '../../../../../core/presentation/utils/helpers/validate/validator_input.dart';
-import '../../../../auth/presentation/screens/change_email_&_password_screen.dart';
+import '../../../../auth/presentation/screens/change_email_and_password_screen.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import '../../../../../core/data/data_sources/local/shared_preferences.dart';
-import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
-import 'package:cash_money/core/data/models/message_result_model.dart';
 import '../../../../../core/presentation/widgets/loading_widget.dart';
-import '../../../../../core/presentation/widgets/app_spacing.dart';
 import 'package:cash_money/core/constants/app_labels_texts.dart';
+import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_hints_texts.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
-import 'package:cash_money/core/constants/app_numbers.dart';
-import 'package:cash_money/core/constants/app_states.dart';
+import 'package:cash_money/core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
-import 'package:cash_money/core/constants/app_keys.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/settings_cubit.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
+import '../../../../../core/constants/app_spaces.dart';
 import 'package:flutter/material.dart';
 
 
 class SettingsLayout extends StatefulWidget {
-  final String userName;
-  final String userPhone;
-  final String userLocation;
+  final UserModel userModel;
+  final MessageResult messageResult;
+  final void Function(UserModel) onUpdate;
 
   const SettingsLayout({
-    required this.userName,
-    required this.userPhone,
-    required this.userLocation,
+    required this.onUpdate,
+    required this.userModel,
+    required this.messageResult,
     Key? key}) : super(key: key);
 
   @override
@@ -41,29 +36,43 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-  bool _isLoading = false;
-  late SettingsCubit _cubit;
+
+  //sizes
+  static const _elevation = 4.0;
+  static const _fontSize18 = 18.0;
+  static const _fontSize28 = 28.0;
 
   //colors
-  static const _white = AppColors.white;
   static const _amber = AppColors.amber_600;
   static const _brown = AppColors.brown_900;
 
   //paddings
-  static const _paddingVertical = AppPaddings.paddingVertical;
+  static const _paddingVertical = AppPaddings.symmetricVertical;
+
+  //spacing
+  static const _spaceBetweenFields = AppSpaces.height_16;
 
   //borderRadius
-  static const borderRadius = BorderRadius.all(Radius.circular(12.0));
+  static const _radiusValue = 12.0;
+  static const _borderRadius = BorderRadius.all(Radius.circular(_radiusValue));
 
   @override
   void initState() {
     super.initState();
-    _cubit = context.read<SettingsCubit>();
     _initializeControllers(
-        userName: widget.userName,
-        userPhone: widget.userPhone,
-        userLocation: widget.userLocation
+        userName: widget.userModel.userName,
+        userPhone: widget.userModel.userPhone,
+        userLocation: widget.userModel.userLocation
     );
+  }
+
+  @override
+  void didUpdateWidget(covariant SettingsLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.messageResult.message != null) {
+      _showMessageResult(widget.messageResult);
+    }
+    setState((){});
   }
 
   @override
@@ -91,54 +100,57 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       child: Scaffold(
         backgroundColor: _brown,
         appBar: _buildAppBar(),
-        body: _buildBody(context, _cubit),
+        body: _buildBody(),
       ),
     );
   }
 
+  void _showMessageResult(MessageResult messageResult) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        BuildSnackBar.build(messageResult.message!, messageResult.color!)
+    );
+  }
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: AppColors.transparent,
-      elevation: AppNumbers.zero,
-      title: const Text(
-        'Settings',
-        style: TextStyle(color: _white),
-      ),
-      leading: const IconButtonWidget()
+        backgroundColor: AppColors.transparent,
+        elevation: AppSizes.none,
+        title: const Text(
+          'Settings',
+          style: TextStyle(color: AppColors.white),
+        ),
+        leading: const IconButtonWidget()
     );
   }
 
-  Widget _buildBody(BuildContext context, SettingsCubit cubit) {
+  Widget _buildBody() {
     return Container(
       decoration: _buildBackgroundDecoration(),
-      child: _buildFormContent(context, cubit),
+      child: _buildFormContent(),
     );
   }
 
-  Widget _buildFormContent(BuildContext context, SettingsCubit cubit) {
-    const spaceBetweenFields = AppSpacing.height_16;
-
+  Widget _buildFormContent() {
     return IgnorePointer(
-      ignoring: _isLoading,
+      ignoring: widget.messageResult.isLoading,
       child: SingleChildScrollView(
-        padding: AppPaddings.paddingAll_24,
+        padding: AppPaddings.large,
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderSection(),
-              AppSpacing.height_32,
+              AppSpaces.height_32,
               _buildNameField(),
-              spaceBetweenFields,
+              _spaceBetweenFields,
               _buildPhoneField(),
-              spaceBetweenFields,
+              _spaceBetweenFields,
               _buildLocationField(),
-              AppSpacing.height_24,
+              AppSpaces.height_24,
               _buildChangePasswordButton(),
-              AppSpacing.height_16,
-              _buildUpdateButton(cubit),
+              AppSpaces.height_16,
+              _buildUpdateButton(),
             ],
           ),
         ),
@@ -153,12 +165,12 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         Text(
           'Update profile',
           style: TextStyle(
-            fontSize: 28,
+            fontSize: _fontSize28,
             fontWeight: FontWeight.bold,
             color: AppColors.amber_400,
           ),
         ),
-        AppSpacing.height_8,
+        AppSpaces.height_8,
         Text(
           'Update your personal information',
           style: TextStyle(
@@ -222,10 +234,10 @@ class _SettingsLayoutState extends State<SettingsLayout> {
           label,
           style: const TextStyle(
             color: Color(0xFFE0E0E0),
-            fontSize: 16,
+            fontSize: AppSizes.fontSize_16,
           ),
         ),
-        AppSpacing.height_8,
+        AppSpaces.height_8,
         BuildInputField(
           controller: controller,
           hintText: hint,
@@ -245,7 +257,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         child: const Text(
           'Change email and password',
           style: TextStyle(
-            fontSize: 18,
+            fontSize: _fontSize18,
             color: _amber,
             fontWeight: FontWeight.bold,
           ),
@@ -254,57 +266,37 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
   }
 
-  Widget _buildUpdateButton(SettingsCubit cubit) {
+  Widget _buildUpdateButton() {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        style: _updateButtonStyle(),
-        onPressed: () => _onUpdatePressed(cubit),
-        child: _buildUpdateButtonContent()
+          style: _updateButtonStyle(),
+          onPressed: () {
+            widget.onUpdate(
+                UserModel(
+                    userName: _nameController.text,
+                    userPhone: _phoneController.text,
+                    userLocation: _locationController.text,
+                    isEmailVerified: true
+                )
+            );
+            setState(() {});
+          },
+          child: _buildUpdateButtonContent()
       ),
     );
   }
 
   Widget _buildUpdateButtonContent() {
-    return _isLoading
+    return widget.messageResult.isLoading
         ? LoadingWidget.sizedBox
         : const Text(
       "Update",
       style: TextStyle(
-        fontSize: 18,
+        fontSize: _fontSize18,
         fontWeight: FontWeight.bold,
       ),
     );
-  }
-
-  Future<void> _onUpdatePressed(SettingsCubit cubit) async {
-    if (_formKey.currentState!.validate()) {
-      final uId = await CacheHelper.getValue(key: AppKeys.uId) ?? '';
-      setState(() => _isLoading = true);
-      final message = await cubit.updateInfo(
-        userName: _nameController.text.trim(),
-        userPhone: _phoneController.text.trim(),
-        userLocation: _locationController.text.trim(),
-        uId: uId,
-      );
-      setState(() => _isLoading = false);
-      _showMessageResult(message);
-    }
-  }
-
-  void _showMessageResult(MessageResultModel message) {
-    if (message.isSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          BuildSnackBar.build(AppStates.success, AppColors.green800)
-      );
-      navigator(context: context);
-    }
-    else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          BuildSnackBar.build(
-              ' ${AppStates.failed}${message.error}', AppColors.red800)
-      );
-    }
   }
 
   void _navigateToChangePassword() {
@@ -334,7 +326,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       padding: _paddingVertical,
       side: const BorderSide(color: _amber),
       shape: const RoundedRectangleBorder(
-        borderRadius: borderRadius,
+        borderRadius: _borderRadius,
       ),
     );
   }
@@ -344,9 +336,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       backgroundColor: _amber,
       padding: _paddingVertical,
       shape: const RoundedRectangleBorder(
-        borderRadius: borderRadius,
+        borderRadius: _borderRadius,
       ),
-      elevation: 4,
+      elevation: _elevation,
     );
   }
 }

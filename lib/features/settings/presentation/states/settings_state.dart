@@ -1,54 +1,52 @@
-import '../../../../core/data/models/user_model.dart';
-import '../../../../core/presentation/states/app_state.dart';
-import '../../../../core/presentation/states/base/when_states.dart';
-import 'package:cash_money/core/errors/exceptions/app_exception.dart';
+import 'package:cash_money/core/presentation/states/base/main_loaded_state.dart';
+import '../../../../core/presentation/states/base/main_app_sub_state.dart';
+import '../../../../core/presentation/states/base/main_app_sup_state.dart';
+import '../../../../core/errors/exceptions/base/app_exception.dart';
+import 'package:cash_money/core/data/models/message_result.dart';
+import '../../../../core/presentation/states/loaded_states.dart';
+import 'package:cash_money/core/data/models/user_model.dart';
 
 
-class SettingsState implements WhenStates {
-  final UserModel? userModel;
-  final AppState? appState;
+class SettingsState extends MainAppSupState<UserModel, MessageResult> {
+  SettingsState({
+    super.firstModel,
+    super.secondModel,
+    required super.subState
+  });
 
-  SettingsState({this.userModel, this.appState});
+  UserModel? get userModel => firstModel;
 
-  String get userName => userModel!.userName;
+  LoadedState get dataModels =>
+      MultiModelSuccessState<UserModel, MessageResult>(
+          firstModel: firstModel,
+          secondModel: secondModel
+      );
 
-  String get userPhone => userModel!.userPhone;
-
-  String get userLocation => userModel!.userLocation;
-
-  bool get _isLoading => appState!.isLoading;
-
-  AppException? get _failure => appState!.failure;
-
+  @override
   SettingsState updateState({
-    UserModel? userModel,
-    AppState? appState
+    UserModel? firstModel,
+    MessageResult? secondModel,
+    MainAppSubState? subState
   }) {
     return SettingsState(
-        userModel: userModel ?? this.userModel,
-        appState: appState ?? this.appState
+        subState: subState ?? this.subState,
+        firstModel: firstModel ?? this.firstModel,
+        secondModel: secondModel ?? this.secondModel,
     );
   }
-
 
   @override
   R when<R>({
     required R Function() onInitial,
     required R Function() onLoading,
-    required R Function() onLoaded,
-    required R Function(AppException error) onError}) {
-    if (_failure != null) {
-      return onError(_failure!);
-    }
-
-    if (_isLoading) {
-      return onLoading();
-    }
-
-    if (!_isLoading && userModel != null) {
-      return onLoaded();
-    }
-
-    return onInitial();
+    required R Function(LoadedState) onLoaded,
+    required R Function(AppException) onError
+  }) {
+    return subState.when(
+        onInitial: onInitial,
+        onLoading: onLoading,
+        onLoaded: () =>
+            onLoaded.call(dataModels),
+        onError: (failure) => onError.call(failure));
   }
 }

@@ -1,82 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../../../core/constants/app_numbers.dart';
+import '../../screens/answer_screen.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
-import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
+import 'package:cash_money/core/constants/app_spaces.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import 'package:cash_money/features/questions/data/models/question_model.dart';
+import 'package:cash_money/features/questions/data/models/questions_result.dart';
 
-
-class AnswerScreen extends StatelessWidget {
-  final String answer;
-  final bool isCorrect;
-
-  const AnswerScreen({
-    Key? key,
-    required this.answer,
-    required this.isCorrect,
-  }) : super(key: key);
-
-  Widget _buildWidget(BuildContext context) {
-    const white = AppColors.white;
-    const paddingForAll = EdgeInsets.all(20.0);
-
-    return Scaffold(
-      backgroundColor: AppColors.brown_900,
-      appBar: AppBar(
-        backgroundColor: AppColors.transparent,
-        elevation: AppNumbers.zero,
-        leading: const IconButtonWidget()
-      ),
-      body: Center(
-        child: Padding(
-          padding: paddingForAll,
-          child: Card(
-            elevation: 8,
-            color: isCorrect ? AppColors.green800 : AppColors.red800,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Padding(
-              padding: paddingForAll,
-              child: Text(
-                answer,
-                style: const TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                  color: white,
-                  height: 1.4,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildWidget(context);
-  }
-}
 
 class BuildQuestionsScreen extends StatefulWidget {
   bool isLoading;
-  final bool hasMore;
   final bool isConnected;
   final VoidCallback getData;
-  final List<QuestionModel> questions;
+  final QuestionsData questionsData;
   BuildQuestionsScreen({
     super.key,
-    required this.hasMore,
     required this.getData,
     required this.isLoading,
-    required this.questions,
     required this.isConnected,
-    });
+    required this.questionsData
+  });
 
   @override
   State<BuildQuestionsScreen> createState() => _BuildQuestionsScreenState();
@@ -84,6 +28,18 @@ class BuildQuestionsScreen extends StatefulWidget {
 
 class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   final ScrollController _scrollController = ScrollController();
+
+  static const _white = Colors.white;
+
+  static const _elevation = AppSizes.none;
+
+  //sizes
+  static const _borderRadius = AppSizes.radius;
+
+  //spaces
+  static const _paddingValue = 16.0;
+  static const _paddingForAll = EdgeInsets.all(_paddingValue);
+  static const _specificPosition = AppSizes.medium;
 
   @override
   void initState() {
@@ -93,8 +49,8 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
 
   void _onScrollData() {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - AppNumbers.fifty &&
-        widget.hasMore && !widget.isLoading) {
+        _scrollController.position.maxScrollExtent - _specificPosition &&
+        widget.questionsData.hasMore && !widget.isLoading) {
       widget.isLoading = true;
       widget.getData();
     }
@@ -108,26 +64,20 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   }
 
   Widget _widgetBuilder() {
-    final questions = widget.questions;
-    const paddingForAll = EdgeInsets.all(16.0);
-    const twelve = AppNumbers.twelve;
-    const zero = AppNumbers.zero;
-    const white = Colors.white;
-
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
         backgroundColor: AppColors.brown_800,
         appBar: AppBar(
             backgroundColor: AppColors.transparent,
-            scrolledUnderElevation: zero,
-            elevation: zero,
+            scrolledUnderElevation: _elevation,
+            elevation: _elevation,
             title: const Text(
               'Questions ',
               style: TextStyle(
-                fontSize: 24.0,
+                fontSize: AppSizes.fontSize_24,
                 fontWeight: FontWeight.bold,
-                color: white,
+                color: _white,
               ),
             ),
             leading: const IconButtonWidget()
@@ -146,11 +96,11 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
           child: ListView.separated(
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
-            padding: paddingForAll,
-            itemCount: questions.length + 1,
+            padding: _paddingForAll,
+            itemCount: widget.questionsData.length + 1,
             itemBuilder: (context, index) {
-              if (index < questions.length) {
-                final question = questions[index];
+              if (index < widget.questionsData.length) {
+                final question = widget.questionsData.getQuestionModel(index);
                 final correctAnswer = question.answers.firstWhere(
                       (a) => a.isCorrect,
                   orElse: () => question.answers.first,
@@ -160,11 +110,11 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                   elevation: 4,
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(twelve),
+                    borderRadius: BorderRadius.circular(_borderRadius),
                   ),
                   color: AppColors.brown_600,
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(twelve),
+                    borderRadius: BorderRadius.circular(_borderRadius),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -178,11 +128,11 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                       );
                     },
                     child: Padding(
-                      padding: paddingForAll,
+                      padding: _paddingForAll,
                       child: Text(
                         question.question,
                         style: const TextStyle(
-                          fontSize: 18.0,
+                          fontSize: AppSizes.fontSize_18,
                           fontWeight: FontWeight.bold,
                           color: AppColors.amber_500,
                         ),
@@ -192,14 +142,14 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                 );
               } else {
                 return Center(
-                  child: widget.hasMore
-                      ? const CircularProgressIndicator(color: white)
+                  child: widget.questionsData.hasMore
+                      ? const CircularProgressIndicator(color: _white)
                       : const SizedBox(),
                 );
               }
             },
             separatorBuilder: (context, index) =>
-            AppSpacing.height_8,
+            AppSpaces.height_8,
           ),
         ),
       ),

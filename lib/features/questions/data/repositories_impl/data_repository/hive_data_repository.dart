@@ -5,18 +5,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/questions_result.dart';
 
 
-class HiveDataRepository implements AppDataRepository, DataOperations {
+class HiveDataRepository implements AppDataRepository, HiveDataPutter {
+  final HiveService _repository;
+
+  HiveDataRepository({
+    required HiveService repository
+  })
+      : _repository = repository;
+
   @override
-  Future<GetQuestionsResult?> getData({
+  Future<QuestionsData?> getData({
     DocumentSnapshot? lastDocument,
     required int limit
   }) async {
     try {
-      final result = await HiveOperations.getLocalData(lastDocument);
+      final result = await _repository.getLocalData(lastDocument);
 
       if (result == null) return null;
 
-      if (result is List<GetQuestionsResult>) {
+      if (result is List<QuestionsData>) {
         return result;
       }
 
@@ -29,13 +36,12 @@ class HiveDataRepository implements AppDataRepository, DataOperations {
     }
   }
 
-
   @override
   Future<void> putData({
-    required GetQuestionsResult result
+    required QuestionsData result
   }) async {
     try {
-      await HiveOperations.putLocalData(result: result);
+      await _repository.putLocalData(result: result);
     }
     catch (e) {
       rethrow;

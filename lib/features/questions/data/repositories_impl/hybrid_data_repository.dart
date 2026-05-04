@@ -6,7 +6,7 @@ import '../models/questions_result.dart';
 
 
 class HybridDataRepository implements AppDataRepository {
-  final AppDataRepository _remoteDatabase;
+  final AppDataRepository _repository;
   final HiveDataRepository _localDatabase;
   final ConnectivityService _connectivityService;
 
@@ -16,26 +16,25 @@ class HybridDataRepository implements AppDataRepository {
     required ConnectivityService connectivityService
   })
       :
-        _remoteDatabase = remoteDatabase,
+        _repository = remoteDatabase,
         _localDatabase = localDatabase,
         _connectivityService = connectivityService;
 
   @override
-  Future<GetQuestionsResult?> getData({
+  Future<QuestionsData?> getData({
     required DocumentSnapshot? lastDocument,
     required int limit
   }) async {
     final isConnection = await _connectivityService.checkInternetConnection();
     if (isConnection) {
-      final result = await _remoteDatabase.getData(
+      final result = await _repository.getData(
           lastDocument: lastDocument, limit: limit);
 
-      if(result!.listIsNotEmpty){
+      if(!result!.listIsEmpty){
         await _localDatabase.putData(
             result: result
         );
       }
-
       return result;
     }
     return await _localDatabase.getData(

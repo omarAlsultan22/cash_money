@@ -25,33 +25,34 @@ class BuildInputField extends StatelessWidget {
     required this.validator
   });
 
+  static const _white = AppColors.white;
+  static const _amber = AppColors.amber_500;
+  static const _cursorRadius = 100.0;
+
   @override
   Widget build(BuildContext context) {
-    const white = AppColors.white;
-    const amber500 = AppColors.amber_500;
-
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
-      cursorColor: amber500,
-      cursorRadius: const Radius.circular(100.0),
+      cursorColor: _amber,
+      cursorRadius: const Radius.circular(_cursorRadius),
       autofillHints: autofillHints,
       validator: validator,
       decoration: InputDecoration(
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: white),
+          borderSide: BorderSide(color: _white),
         ),
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.grey),
         labelText: labelText,
         filled: true,
         fillColor: AppColors.brown_700.withOpacity(0.5),
-        labelStyle: const TextStyle(color: amber500),
-        prefixIcon: Icon(prefixIcon, color: amber500),
+        labelStyle: const TextStyle(color: _amber),
+        prefixIcon: Icon(prefixIcon, color: _amber),
         suffixIcon: suffixIcon,
       ),
-      style: const TextStyle(color: white),
+      style: const TextStyle(color: _white),
     );
   }
 }

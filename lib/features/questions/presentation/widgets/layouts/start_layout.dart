@@ -1,35 +1,35 @@
-import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
-import 'package:cash_money/features/questions/data/models/question_model.dart';
+import 'package:cash_money/features/questions/data/models/questions_result.dart';
+import '../../../../../core/data/data_sources/local/shared_preferences.dart';
+import 'package:cash_money/features/questions/data/models/start_model.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
-import 'package:cash_money/core/presentation/widgets/app_spacing.dart';
-import '../../../../../core/presentation/states/app_state.dart';
-import 'package:cash_money/core/constants/app_numbers.dart';
+import 'package:cash_money/core/constants/app_durations.dart';
+import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_paddings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter/material.dart';
-import '../../states/start_state.dart';
 import '../../cubits/data_cubit.dart';
+import '../answer_button.dart';
 import 'dart:async';
 
 
 class BuildStartScreen extends StatefulWidget {
-  final int points;
-  final bool hasMore;
-  final int currentIndex;
   final bool isConnected;
+  final GameState gameState;
   final VoidCallback getData;
-  final List<QuestionModel> questions;
+  final CacheHelper cacheHelper;
+  final QuestionsData questionsData;
+
   const BuildStartScreen({
     super.key,
-    required this.points,
-    required this.hasMore,
     required this.getData,
-    required this.questions,
+    required this.gameState,
     required this.isConnected,
-    required this.currentIndex,
+    required this.cacheHelper,
+    required this.questionsData
   });
 
   @override
@@ -39,28 +39,53 @@ class BuildStartScreen extends StatefulWidget {
 class _BuildStartScreenState extends State<BuildStartScreen> {
 
   Timer? _timer;
-  int _timeLeft = 1;
+  int _timeLeft = _seconds;
   bool _colors = false;
   late DataCubit _cubit;
-
-  bool isAbleClick = false;
+  String? _userName;
 
   //counters
-  late int points;
-  late int currentIndex;
+  late int _points;
+  late int _currentIndex;
 
-  //numbers
-  static const _twenty = AppNumbers.twenty;
+  //spaces
+  static const _vertical8 = 8.0;
+  static const _vertical6 = 8.0;
+  static const _horizontal = 12.0;
+  static const _widgetPadding = 5.0;
+  static const _leadingPadding = 5.0;
+  static const _questionHeight = 1.3;
+  static const _boxShadowOffsetY = 2.0;
+  static const _defaultPaddingValue = 20.0;
+
+  //values
+  static const _tow = 2;
+  static const _seconds = AppDurations.oneSecond;
+
+  //degrees
+  static const _opacityDegree02 = 0.2;
+  static const _opacityDegree08 = 0.8;
 
   //colors
   static const _white = AppColors.white;
   static const _brown800 = AppColors.brown_800;
   static const _brown900 = AppColors.brown_900;
 
+  //sizes
+  static const _iconSize = 20.0;
+  static const _imageSize = 24.0;
+  static const _smallFontSize = 18.0;
+  static const _titleFontSize = 24.0;
+  static const _questionFontSize = 24.0;
+  static const _richTextFontSize = 18.0;
+  static const _userNameFontSize = 20.0;
+  static const _cardBorderRadius = 15.0;
+  static const _boxShadowBlurRadius = 4.0;
+  static const _borderRadius = AppSizes.radius;
 
   void _startTimer(int length) {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: _seconds), (timer) {
       if (_timeLeft > 0) {
         setState(() {
           _timeLeft--;
@@ -71,9 +96,9 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
           _colors = false;
           _timeLeft = 1;
         });
-        if (currentIndex < length) {
+        if (_currentIndex < length) {
           setState(() {
-            currentIndex ++;
+            _currentIndex ++;
           });
         }
       }
@@ -92,14 +117,12 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     required int length,
     required bool isCorrect,
   }) {
-    const tow = 2;
-
     if (isCorrect) {
-      bool isFinished = currentIndex > length / tow;
-      String answers = points < tow ? 'answer' : 'answers';
+      bool isFinished = _currentIndex > length / _tow;
+      String answers = _points < _tow ? 'answer' : 'answers';
       QuickAlert.show(
           context: context,
-          text: 'You achieved $points correct $answers out of $length',
+          text: 'You achieved $_points correct $answers out of $length',
           type: isFinished ? QuickAlertType.success : QuickAlertType.error,
           title: isFinished ? 'Congratulations' : 'Try again',
           showConfirmBtn: true,
@@ -114,45 +137,45 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   void _questionIndex(bool isCorrect, int length) {
-    if (currentIndex >= length) return;
+    if (_currentIndex >= length) return;
 
     setState(() {
       _colors = false;
       _colors = true;
       if (isCorrect) {
         setState(() {
-          points ++;
+          _points ++;
         });
       }
 
       _isCurrentIndexEquivalent(
           length: length,
-          isCorrect: currentIndex == length && !widget.hasMore
+          isCorrect: _currentIndex == length && !widget.questionsData.hasMore
       );
 
       _isCurrentIndexSmaller(
-          isCorrect: currentIndex < length - 1 && widget.hasMore);
+          isCorrect: _currentIndex < length - 1 && widget.questionsData.hasMore);
 
       _startTimer(length);
     });
   }
 
   void _initCounters() {
-    points = widget.points;
-    currentIndex = widget.currentIndex;
+    _points = widget.gameState.points;
+    _currentIndex = widget.gameState.currentIndex;
   }
 
   void _resetQuiz() {
-    final state = StartScreenState(appState: const AppState());
-    _cubit.resetQuiz(state);
+    _cubit.resetQuiz();
   }
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
     _initCounters();
-    _cubit = context.read<DataCubit>();
     _colors = false;
+    _cubit = context.read<DataCubit>();
+    _userName = await widget.cacheHelper.getValue(key: 'userName') ?? 'Sir';
   }
 
   @override
@@ -164,11 +187,11 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   AppBar _buildAppBar() {
     return AppBar(
         backgroundColor: _brown900,
-        elevation: AppNumbers.zero,
+        elevation: AppSizes.none,
         title: const Text(
             'Starting',
             style: TextStyle(
-                fontSize: 24.0,
+                fontSize: _titleFontSize,
                 fontWeight: FontWeight.bold,
                 color: _white
             )
@@ -178,167 +201,156 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   Widget _widgetBuilder() {
-    const twentyFour = 24.0;
-
-    return FutureBuilder(
-        future: CacheHelper.getValue(key: 'userName'),
-        builder: (context, snapshot) {
-          final userName = snapshot.data;
-          return Directionality(
-            textDirection: TextDirection.ltr,
-            child: Scaffold(
-              backgroundColor: _brown800,
-              appBar: _buildAppBar(),
-              body: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      _brown900,
-                      AppColors.brown_700
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      // Header Section
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: 'Welcome ',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: _white.withOpacity(0.8),
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: userName,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: _white,
-                                    ),
-                                  ),
-                                  const WidgetSpan(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 5),
-                                      child: Icon(
-                                        Icons.waving_hand_sharp,
-                                        color: AppColors.amber_500,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+    final currentQuestion = widget.questionsData.getCurrentQuestion(widget.gameState.currentIndex);
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Scaffold(
+        backgroundColor: _brown800,
+        appBar: _buildAppBar(),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                _brown900,
+                AppColors.brown_700
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: _defaultPaddingValue, vertical: _defaultPaddingValue),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                // Header Section
+                Row(
+                  children: [
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Welcome ',
+                              style: TextStyle(
+                                fontSize: _richTextFontSize,
+                                color: _white.withOpacity(_opacityDegree08),
                               ),
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: _brown900,
-                              borderRadius: BorderRadius.circular(_twenty),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.black.withOpacity(0.2),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
+                            TextSpan(
+                              text: _userName,
+                              style: const TextStyle(
+                                fontSize: _userNameFontSize,
+                                fontWeight: FontWeight.bold,
+                                color: _white,
+                              ),
                             ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '$points',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _white,
-                                  ),
+                            const WidgetSpan(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: _leadingPadding),
+                                child: Icon(
+                                  Icons.waving_hand_sharp,
+                                  color: AppColors.amber_500,
+                                  size: _iconSize,
                                 ),
-                                const SizedBox(width: 5.0),
-                                Image.asset(
-                                  'assets/images/icon.png',
-                                  width: twentyFour,
-                                  height: twentyFour,
-                                ),
-                              ],
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: _horizontal, vertical: _vertical6),
+                      decoration: BoxDecoration(
+                        color: _brown900,
+                        borderRadius: BorderRadius.circular(_borderRadius),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.black.withOpacity(_opacityDegree02),
+                            blurRadius: _boxShadowBlurRadius,
+                            offset: const Offset(0, _boxShadowOffsetY),
                           ),
                         ],
                       ),
-                      AppSpacing.height_40,
-                      // Question Card
-                      Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        color: AppColors.brown_600,
-                        child: Padding(
-                          padding: AppPaddings.paddingAll_20,
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Text(
-                              widget.questions[currentIndex].question,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                color: Colors.amberAccent,
-                                height: 1.3,
-                              ),
-                              textAlign: TextAlign.center,
+                      child: Row(
+                        children: [
+                          Text(
+                            '$_points',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: _smallFontSize,
+                              color: _white,
                             ),
                           ),
-                        ),
+                          const SizedBox(width: _widgetPadding),
+                          Image.asset(
+                            'assets/images/icon.png',
+                            width: _imageSize,
+                            height: _imageSize,
+                          ),
+                        ],
                       ),
-
-                      const SizedBox(height: 30),
-
-                      // Answers Section
-                      Expanded(
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          children: widget.questions[currentIndex].answers
-                              .map((e) =>
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8),
-                                child: AnswerButton(
-                                  isLoading: false,
-                                  answer: e.answer,
-                                  isCorrect: e.isCorrect,
-                                  color: _colors
-                                      ? (e.isCorrect
-                                      ? AppColors.green800
-                                      : AppColors.red800)
-                                      : const Color(0xFF795548),
-                                  onTaP: () =>
-                                      _questionIndex(
-                                          e.isCorrect,
-                                          widget.questions.length - 1),
-                                ),
-                              ),
-                          ).toList(),
+                    ),
+                  ],
+                ),
+                AppSpaces.height_40,
+                // Question Card
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(_cardBorderRadius),
+                  ),
+                  color: AppColors.brown_600,
+                  child: Padding(
+                    padding: AppPaddings.medium,
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Text(currentQuestion,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: _questionFontSize,
+                          color: Colors.amberAccent,
+                          height: _questionHeight,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                AppSpaces.height_30,
+                // Answers Section
+                Expanded(
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: widget.questionsData.getCurrentAnswers(widget.gameState.currentIndex)
+                        .map((e) =>
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: _vertical8),
+                          child: AnswerButton(
+                            answer: e.answer,
+                            isCorrect: e.isCorrect,
+                            color: _colors
+                                ? (e.isCorrect
+                                ? AppColors.successGreen
+                                : AppColors.errorRed)
+                                : const Color(0xFF795548),
+                            onTaP: () =>
+                                _questionIndex(
+                                    e.isCorrect,
+                                    widget.questionsData.length - 1),
+                          ),
+                        ),
+                    ).toList(),
+                  ),
+                ),
+              ],
             ),
-          );
-        }
+          ),
+        ),
+      ),
     );
   }
 
@@ -355,70 +367,6 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
               child: _widgetBuilder()
           )
         ]
-    );
-  }
-}
-
-
-class AnswerButton extends StatelessWidget {
-  bool isLoading;
-  final Color? color;
-  final String? answer;
-  final bool? isCorrect;
-  final Function? onTaP;
-
-  AnswerButton({
-    Key? key,
-    required this.color,
-    required this.onTaP,
-    required this.answer,
-    required this.isCorrect,
-    required this.isLoading,
-  }) : super(key: key);
-
-  static const twelve = AppNumbers.twelve;
-
-  @override
-  Widget build(BuildContext context) {
-    void showCorrectAnswer() {
-      isLoading = true;
-      onTaP?.call();
-    }
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(twelve),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withOpacity(0.2),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color,
-          padding: AppPaddings.paddingVertical,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(twelve),
-          ),
-          elevation: AppNumbers.zero,
-        ),
-        onPressed: isLoading ? null : showCorrectAnswer,
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Text(
-            answer!,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: AppColors.white,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

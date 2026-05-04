@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import '../../../../features/auth/presentation/screens/login_screen.dart';
+import 'package:cash_money/core/constants/app_durations.dart';
+import '../../../../features/auth/presentation/screens/sign_in_screen.dart';
 
 
-void navigator({
-  Widget? link,
-  required BuildContext context,
-}) {
-  Future.delayed(const Duration(seconds: 1), () {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => link ?? const LoginScreen()
-      ),
-    );
-  });
+class BuildNavigator {
+  static void build({
+    Widget? link,
+    required BuildContext context,
+  }) {
+    Future.delayed(const Duration(seconds: AppDurations.oneSecond), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => link ?? const SignInScreen()
+        ),
+      );
+    });
+  }
 }

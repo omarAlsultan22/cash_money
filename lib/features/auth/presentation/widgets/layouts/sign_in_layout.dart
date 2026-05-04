@@ -1,43 +1,59 @@
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
-import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
-import '../../../../../core/presentation/widgets/app_spacing.dart';
-import '../../../../../core/data/models/message_result_model.dart';
+import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
-import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
-import 'package:cash_money/core/constants/app_states.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
+import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
-import '../../screens/register_screen.dart';
-import '../../services/auth_services.dart';
+import '../../screens/sign_up_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class LoginLayout extends StatefulWidget {
-  final AuthServices _authServices;
-  const LoginLayout(this._authServices, {super.key});
+class SignInLayout extends StatefulWidget {
+  final void Function({
+  required String userEmail,
+  required String userPassword
+  }) onUpdate;
+  final CacheHelper cacheHelper;
+  final MessageResult messageResult;
+  const SignInLayout({
+    super.key,
+    required this.onUpdate,
+    required this.cacheHelper,
+    required this.messageResult
+  });
 
   @override
-  State<LoginLayout> createState() => _LoginLayoutState();
+  State<SignInLayout> createState() => _SignInLayoutState();
 }
 
-class _LoginLayoutState extends State<LoginLayout> {
+class _SignInLayoutState extends State<SignInLayout> {
+  bool _isObscure = true;
+
   final _formKey = GlobalKey<FormState>();
+
+  //controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  static const _amber500 = AppColors.amber_500;
+  static const _amber = AppColors.amber_500;
 
-  bool _isObscure = true;
-  bool _isLoading = false;
+  static const _spaceBetweenFields = AppSpaces.height_16;
+
+  //sizes
+  static const _fontSize16 = 16.0;
+  static const _fontSize18 = 18.0;
+  static const _radius = 16.0;
+  static const _elevation = 2.0;
+
 
   @override
   void initState() {
@@ -53,19 +69,32 @@ class _LoginLayoutState extends State<LoginLayout> {
   }
 
   @override
+  void didUpdateWidget(covariant SignInLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.messageResult.message != null) {
+      _showMessageResult(widget.messageResult);
+    }
+    setState(() {});
+  }
+
+  void _showMessageResult(MessageResult messageResult) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        BuildSnackBar.build(messageResult.message!, messageResult.color!)
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _buildMainContent();
   }
 
   Widget _buildMainContent() {
-    const spaceBetweenFields = AppSpacing.height_16;
-
     return Scaffold(
       backgroundColor: AppColors.brown_900,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: AppPaddings.paddingAll_24,
+            padding: AppPaddings.large,
             child: RepaintBoundary(
               child: Form(
                 key: _formKey,
@@ -74,13 +103,13 @@ class _LoginLayoutState extends State<LoginLayout> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(context),
-                      AppSpacing.height_32,
+                      AppSpaces.height_32,
                       _buildEmailField(),
-                      spaceBetweenFields,
+                      _spaceBetweenFields,
                       _buildPasswordField(),
-                      AppSpacing.height_24,
+                      AppSpaces.height_24,
                       _buildLoginButton(),
-                      spaceBetweenFields,
+                      _spaceBetweenFields,
                       _buildRegisterLink(),
                     ],
                   ),
@@ -104,11 +133,11 @@ class _LoginLayoutState extends State<LoginLayout> {
               .textTheme
               .headlineLarge
               ?.copyWith(
-            color: _amber500,
+            color: _amber,
             fontWeight: FontWeight.bold,
           ),
         ),
-        AppSpacing.height_8,
+        AppSpaces.height_8,
         Text(
           'Login now to communicate with friends',
           style: Theme
@@ -152,7 +181,7 @@ class _LoginLayoutState extends State<LoginLayout> {
     return IconButton(
       icon: Icon(
         _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: _amber500,
+        color: _amber,
       ),
       onPressed: _togglePasswordVisibility,
     );
@@ -163,19 +192,19 @@ class _LoginLayoutState extends State<LoginLayout> {
       width: double.infinity,
       child: ElevatedButton(
         style: _loginButtonStyle(),
-        onPressed: _isLoading ? null : () => _submitForm(),
+        onPressed: widget.messageResult.isLoading ? () => _submitForm() : null,
         child: _buildLoginButtonContent(),
       ),
     );
   }
 
   Widget _buildLoginButtonContent() {
-    return _isLoading
+    return widget.messageResult.isLoading
         ? LoadingWidget.sizedBox
         : const Text(
       "LOGIN",
       style: TextStyle(
-        fontSize: 18,
+        fontSize: _fontSize18,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -190,13 +219,13 @@ class _LoginLayoutState extends State<LoginLayout> {
             text: "Don't have an account? ",
             style: TextStyle(
               color: Color(0xFFBDBDBD),
-              fontSize: 16,
+              fontSize: _fontSize16,
             ),
             children: [
               TextSpan(
                 text: "Register Now",
                 style: TextStyle(
-                  color: _amber500,
+                  color: _amber,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -208,7 +237,7 @@ class _LoginLayoutState extends State<LoginLayout> {
   }
 
   Future<void> _checkLoginStatus() async {
-    final value = await CacheHelper.getValue(key: AppKeys.uId);
+    final value = await widget.cacheHelper.getValue(key: AppKeys.uId);
     if (value?.isNotEmpty ?? false) {
       _navigateToHome();
     }
@@ -224,7 +253,7 @@ class _LoginLayoutState extends State<LoginLayout> {
   void _navigateToRegister() {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => const RegisterScreen()),
+      CupertinoPageRoute(builder: (context) => const SignUpScreen()),
     );
   }
 
@@ -238,13 +267,10 @@ class _LoginLayoutState extends State<LoginLayout> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _hideKeyboard();
-      setState(() => _isLoading = true);
-      final message = await widget._authServices.signIn(
-        userEmail: _emailController.text.trim(),
-        userPassword: _passwordController.text,
+      widget.onUpdate(
+          userEmail: _emailController.text.trim(),
+          userPassword: _passwordController.text
       );
-      setState(() => _isLoading = false);
-      _showMessageResult(message);
     }
   }
 
@@ -252,30 +278,15 @@ class _LoginLayoutState extends State<LoginLayout> {
     FocusScope.of(context).unfocus();
   }
 
-  void _showMessageResult(MessageResultModel message) {
-    if (message.isSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          BuildSnackBar.build('Login successfully', AppColors.green800)
-      );
-      navigator(context: context, link: const HomeScreen());
-    }
-    else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        BuildSnackBar.build(
-            ' ${AppStates.failed}${message.error}', AppColors.red800),
-      );
-    }
-  }
-
   ButtonStyle _loginButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: _amber500,
+      backgroundColor: _amber,
       foregroundColor: AppColors.black,
-      padding: AppPaddings.paddingVertical,
+      padding: AppPaddings.symmetricVertical,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppNumbers.fifty),
+        borderRadius: BorderRadius.circular(_radius),
       ),
-      elevation: 2,
+      elevation: _elevation,
     );
   }
 }

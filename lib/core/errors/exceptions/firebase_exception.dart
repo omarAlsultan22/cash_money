@@ -1,6 +1,8 @@
-import 'package:cash_money/core/errors/exceptions/app_exception.dart';
+import 'base/app_exception.dart';
 
 
-class FirebaseAuthException extends AppException{
-  FirebaseAuthException(super.message, super.isConnectionError);
+class FirebaseAppException extends AppException {
+  FirebaseAppException({
+    required super.message,
+  });
 }

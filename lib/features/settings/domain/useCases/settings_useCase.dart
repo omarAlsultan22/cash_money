@@ -12,7 +12,7 @@ class SettingsUseCase {
 
   Future<UserModel> getInfoExecute() async {
     try {
-      return await _repository.getInfo();
+      return await _repository.getUserInfo();
     }
     catch (e) {
       rethrow;
@@ -26,11 +26,10 @@ class SettingsUseCase {
     required String userLocation
   }) async {
     try {
-      return await _repository.updateInfo(
+      await _repository.updateUserInfo(
           userName: userName,
           userPhone: userPhone,
           userLocation: userLocation
-
       );
     }
     catch (e) {

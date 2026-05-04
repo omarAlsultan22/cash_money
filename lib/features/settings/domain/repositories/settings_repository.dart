@@ -3,14 +3,14 @@ import '../../../../core/data/models/user_model.dart';
 
 
 abstract class SettingsRepository {
-  Future<void> setInfo({
+  Future<void> createUserInfo({
     required UserModel userModel,
     required UserCredential userCredential
   });
 
-  Future<UserModel> getInfo();
+  Future<UserModel> getUserInfo();
 
-  Future<void> updateInfo({
+  Future<void> updateUserInfo({
     required String userName,
     required String userPhone,
     required String userLocation

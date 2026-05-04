@@ -19,6 +19,8 @@ class ConnectivityProvider with ChangeNotifier {
 
   final Connectivity _connectivity = Connectivity();
 
+  static const _none = 'None';
+
   ConnectivityProvider() {
     _initConnectivity();
     _startPeriodicCheck();
@@ -111,7 +113,7 @@ class ConnectivityProvider with ChangeNotifier {
   }
 
   String _getConnectionType(List<ConnectivityResult> results) {
-    if (results.isEmpty) return 'None';
+    if (results.isEmpty) return _none;
 
     if (results.contains(ConnectivityResult.wifi)) return 'WiFi';
     if (results.contains(ConnectivityResult.mobile)) return 'Mobile Data';
@@ -119,7 +121,7 @@ class ConnectivityProvider with ChangeNotifier {
     if (results.contains(ConnectivityResult.vpn)) return 'VPN';
     if (results.contains(ConnectivityResult.other)) return 'Other';
 
-    return 'None';
+    return _none;
   }
 
   void _showTemporaryOnlineMessage() {

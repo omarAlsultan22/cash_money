@@ -13,7 +13,7 @@ class QuestionsDataUseCase {
         _repository = repository;
 
 
-  Future<GetQuestionsResult?> execute({
+  Future<QuestionsData?> execute({
     required GetQuestionsParams params
   }) async {
     try {

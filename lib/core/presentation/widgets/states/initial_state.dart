@@ -1,3 +1,5 @@
+import 'package:cash_money/core/constants/app_colors.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 
@@ -18,9 +20,9 @@ class InitialStateWidget extends StatelessWidget {
           Text(
             'No Tasks Yet, Please Add Some Tasks',
             style: TextStyle(
-              fontSize: 16.0,
+              fontSize: AppSizes.fontSize_16,
               fontWeight: FontWeight.bold,
-              color: Colors.grey,
+              color: AppColors.grey500,
             ),
           ),
         ],

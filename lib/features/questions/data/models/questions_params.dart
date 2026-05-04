@@ -7,6 +7,6 @@ class GetQuestionsParams {
 
   const GetQuestionsParams({
     this.lastDocument,
-    this.limit = 10
+    this.limit = 15
   });
 }

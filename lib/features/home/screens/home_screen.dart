@@ -1,11 +1,12 @@
-import 'package:cash_money/core/presentation/states/app_state.dart';
-
+import 'package:cash_money/core/data/data_sources/local/hive.dart';
+import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
+import 'package:cash_money/core/domain/services/connectivity_service/connectivity_provider.dart';
 import '../../questions/data/repositories_impl/data_repository/firestore_data_repository.dart';
 import '../../questions/data/repositories_impl/data_repository/hive_data_repository.dart';
 import '../../../core/domain/services/connectivity_service/connectivity_service.dart';
 import '../../questions/data/repositories_impl/hybrid_data_repository.dart';
 import '../../questions/domain/useCases/questions_data_useCase.dart';
-import '../../questions/presentation/states/base/data_state.dart';
+import '../../questions/presentation/states/data_state.dart';
 import '../../questions/presentation/cubits/data_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,8 +19,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final firestoreRepository = FirestoreDataRepository();
-    final hiveRepository = HiveDataRepository();
+    final hiveService = HiveService();
+    final firestoreService = FirestoreService();
+    final firestoreRepository = FirestoreDataRepository(repository: firestoreService);
+    final hiveRepository = HiveDataRepository(repository: hiveService);
 
     final connectivityService = ConnectivityService();
 
@@ -30,16 +33,17 @@ class HomeScreen extends StatelessWidget {
     );
 
     final questionsDataUseCase = QuestionsDataUseCase(
-      repository: hybridRepository
+        repository: hybridRepository
     );
 
-    const state = DataState(appState: AppState(), lastDocument: null);
+    final connectivityProvider = ConnectivityProvider();
 
     return BlocProvider<DataCubit>(
       create: (context) =>
-      DataCubit(
-        questionsDataUseCase: questionsDataUseCase,
-      )..getData(state),
+          DataCubit(
+              questionsDataUseCase: questionsDataUseCase,
+              connectivityProvider: connectivityProvider
+          ),
       child: BlocBuilder<DataCubit, DataState>(
         builder: (context, state) {
           return const HomeLayout();

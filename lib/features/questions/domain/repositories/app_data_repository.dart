@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 abstract class AppDataRepository {
-  Future<GetQuestionsResult?> getData({
+  Future<QuestionsData?> getData({
     required DocumentSnapshot? lastDocument,
     required int limit
   });

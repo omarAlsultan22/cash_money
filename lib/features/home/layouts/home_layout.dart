@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import '../../../core/constants/app_spaces.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
-import 'package:cash_money/core/constants/app_numbers.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
-import '../../../core/presentation/widgets/app_spacing.dart';
 import '../../questions/presentation/screens/start_screen.dart';
 import '../../settings/presentation/screens/settings_screen.dart';
 import '../../questions/presentation/screens/questions_screen.dart';
@@ -12,23 +12,39 @@ import '../../questions/presentation/screens/questions_screen.dart';
 class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
 
+  static const _opacityDegree = 0.3;
+
+  //sizes
+  static const _elevation = 5.0;
+  static const _iconSize = 28.0;
+  static const _fontSize = 20.0;
+  static const _blurRadius = 10.0;
+  static const _spreadRadius = 2.0;
+
+  //colors
   static const _black = AppColors.black;
+  static const _white = AppColors.white;
+  static const _brown900 = AppColors.brown_900;
+
+  //spacing
+  static const _dx = AppSizes.none;
+  static const _dy = 5.0;
+  static const _spacing = 200.0;
+  static const _symmetricalHorizontal = 24.0;
+  static const _widthSpacing = AppSizes.radius;
+  static const _verticalSpacing20 = SizedBox(height: 20.0);
 
   @override
   Widget build(BuildContext context) {
-    const value = 200.0;
-    const brown900 = AppColors.brown_900;
-    const verticalSpacing20 = SizedBox(height: 20.0);
-
     return Scaffold(
-      backgroundColor: brown900,
+      backgroundColor: _brown900,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              brown900,
+              _brown900,
               AppColors.brown_800,
               AppColors.brown_700,
             ],
@@ -37,7 +53,7 @@ class HomeLayout extends StatelessWidget {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: AppPaddings.paddingAll_24,
+              padding: AppPaddings.large,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -45,16 +61,16 @@ class HomeLayout extends StatelessWidget {
                   Hero(
                     tag: 'app-logo',
                     child: Container(
-                      height: value,
-                      width: value,
+                      height: _spacing,
+                      width: _spacing,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: _black.withOpacity(0.3),
-                            blurRadius: 10,
-                            spreadRadius: 2,
-                            offset: const Offset(0, 5),
+                            color: _black.withOpacity(_opacityDegree),
+                            blurRadius: _blurRadius,
+                            spreadRadius: _spreadRadius,
+                            offset: const Offset(_dx, _dy),
                           ),
                         ],
                       ),
@@ -66,16 +82,16 @@ class HomeLayout extends StatelessWidget {
                       ),
                     ),
                   ),
-                  AppSpacing.height_40,
+                  AppSpaces.height_40,
                   // Buttons Section
                   _buildMenuButton(
                     context,
                     title: 'Start',
                     icon: Icons.play_arrow_rounded,
                     page: const StartScreen(),
-                    color: AppColors.green800,
+                    color: AppColors.successGreen,
                   ),
-                  verticalSpacing20,
+                  _verticalSpacing20,
                   _buildMenuButton(
                     context,
                     title: 'Questions',
@@ -83,7 +99,7 @@ class HomeLayout extends StatelessWidget {
                     page: const QuestionsScreen(),
                     color: const Color(0xFF1565C0),
                   ),
-                  verticalSpacing20,
+                  _verticalSpacing20,
                   _buildMenuButton(
                     context,
                     title: 'Settings',
@@ -94,9 +110,10 @@ class HomeLayout extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ),
-      ),
+          ),)
+        ,
+      )
+      ,
     );
   }
 
@@ -106,19 +123,19 @@ class HomeLayout extends StatelessWidget {
     required Widget page,
     required Color color,
   }) {
-    const white = AppColors.white;
-
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: AppPaddings
+              .vertical,
+              horizontal: _symmetricalHorizontal),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppNumbers.twelve),
+            borderRadius: BorderRadius.circular(AppSizes.radius),
           ),
-          elevation: 5,
-          shadowColor: _black.withOpacity(0.3),
+          elevation: _elevation,
+          shadowColor: _black.withOpacity(_opacityDegree),
         ),
         onPressed: () {
           Navigator.push(
@@ -131,14 +148,14 @@ class HomeLayout extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: white, size: 28),
-            const SizedBox(width: 12),
+            Icon(icon, color: _white, size: _iconSize),
+            const SizedBox(width: _widthSpacing),
             Text(
               title,
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: _fontSize,
                 fontWeight: FontWeight.bold,
-                color: white,
+                color: _white,
               ),
             ),
           ],

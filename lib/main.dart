@@ -13,8 +13,10 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    await CacheHelper.init();
-    await HiveOperations.init();
+    final cacheHelper = CacheHelper();
+    await cacheHelper.init();
+    final hiveOperations = HiveService();
+    await hiveOperations.init();
     Bloc.observer = MyBlocObserver();
   }
   catch (error) {

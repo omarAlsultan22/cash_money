@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
+import 'package:cash_money/core/constants/app_durations.dart';
 
 
 class ConnectionBanner extends StatefulWidget {
@@ -22,8 +24,6 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   late double _height;
   Timer? _timer;
 
-  static const _zero = 0;
-
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,7 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   void _startTimer() {
     _timer?.cancel();
 
-    if (widget.duration > _zero) {
+    if (widget.duration > 0) {
       _timer = Timer(Duration(seconds: widget.duration), () {
         _hideBanner();
       });
@@ -44,7 +44,7 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   void _hideBanner() {
     if (mounted) {
       setState(() {
-        _height = 0.0;
+        _height = AppSizes.none;
       });
     }
     _timer?.cancel();
@@ -53,7 +53,7 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: AppDurations.millSeconds),
       curve: Curves.easeInOut,
       height: _height,
       color: widget.bgColor,

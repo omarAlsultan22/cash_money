@@ -1,8 +1,8 @@
 import '../../data/models/questions_result.dart';
 
 
-abstract class DataOperations {
+abstract class HiveDataPutter {
   Future<void> putData({
-    required GetQuestionsResult result
+    required QuestionsData result
   });
 }

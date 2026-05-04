@@ -1,53 +1,74 @@
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
+import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
 import '../../../../core/presentation/widgets/states/error_state.dart';
-import 'package:cash_money/core/presentation/states/app_state.dart';
 import '../widgets/connectivity_aware_screen.dart';
 import '../widgets/layouts/questions_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../states/base/data_state.dart';
-import '../states/questions_state.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import '../states/data_state.dart';
 import '../cubits/data_cubit.dart';
 
 
-class QuestionsScreen extends StatelessWidget {
-  const QuestionsScreen({Key? key}) : super(key: key);
+class QuestionsScreen extends StatefulWidget {
+  const QuestionsScreen({super.key});
+
+  @override
+  State<QuestionsScreen> createState() => _QuestionsScreenState();
+}
+
+class _QuestionsScreenState extends State<QuestionsScreen> {
+  late DataCubit _cubit;
+
+  static const _questionsScreen = QuestionsKeys.questionsScreen;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubitInitialization();
+  }
+
+  void _cubitInitialization() {
+    _cubit = DataCubit.get(context);
+    _cubit
+      ..getData(_questionsScreen)
+      ..startMonitoring();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _cubit.close();
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool isCurrentState(DataState current) {
-      return current.runtimeType == DataState ||
-          current is QuestionsScreenState;
+    bool isErrorState(DataState current) {
+      return current.key == _questionsScreen;
     }
 
     return Consumer<ConnectivityProvider>(
         builder: (context, connectivityProvider, childWidget) {
           return ConnectivityAwareScreen(
               isConnected: connectivityProvider.isConnected,
-              state: QuestionsScreenState(appState: const AppState()),
               child: BlocBuilder<DataCubit, DataState>(
-                  buildWhen: (previous, current) => isCurrentState(current),
+                  buildWhen: (previous, current) => isErrorState(current),
                   builder: (context, state) {
-                    final cubit = DataCubit.get(context);
-                    final currentState = QuestionsScreenState(
-                        appState: const AppState());
-                    return state.map(
+                    return state.when(
                       onInitial: () => const InitialStateWidget(),
                       onLoading: () => const LoadingStateWidget(),
-                      onLoaded: (data) =>
+                      onLoaded: (loadedState) =>
                           BuildQuestionsScreen(
                               isLoading: false,
-                              hasMore: state.hasMore,
-                              questions: state.questions,
-                              getData: () => cubit.getData(currentState),
+                              questionsData: loadedState.firstModel,
+                              getData: () => _cubit.loadMoreData(),
                               isConnected: connectivityProvider.isConnected
                           ),
                       onError: (error) =>
                           ErrorStateWidget(error: error.message,
-                              onRetry: () => cubit.getData(currentState)),
+                              onRetry: () => _cubit.loadMoreData()),
                     );
                   }
               )

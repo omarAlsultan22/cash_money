@@ -1,35 +1,47 @@
 import 'package:cash_money/core/presentation/utils/helpers/validate/validator_input.dart';
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import '../../../../../core/presentation/widgets/navigation/navigator.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
-import '../../../../../core/presentation/widgets/app_spacing.dart';
-import '../../../../../core/data/models/message_result_model.dart';
 import 'package:cash_money/core/constants/app_labels_texts.dart';
 import 'package:cash_money/core/constants/app_hints_texts.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
-import 'package:cash_money/core/constants/app_numbers.dart';
-import 'package:cash_money/core/constants/app_states.dart';
+import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
+import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
-import '../../services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 
-class RegisterLayout extends StatefulWidget {
-  final AuthServices _authServices;
-  const RegisterLayout(this._authServices, {super.key});
+class SignUpLayout extends StatefulWidget {
+  final void Function({
+  required String userName,
+  required String userEmail,
+  required String userPassword,
+  required String userPhone,
+  required String userLocation
+  }) onUpdate;
+  final MessageResult messageResult;
+
+  const SignUpLayout({
+    super.key,
+    required this.onUpdate,
+    required this.messageResult
+  });
 
   @override
-  State<RegisterLayout> createState() => _RegisterLayoutState();
+  State<SignUpLayout> createState() => _SignUpLayoutState();
 }
 
-class _RegisterLayoutState extends State<RegisterLayout> {
+class _SignUpLayoutState extends State<SignUpLayout> {
+  bool _isObscure = true;
   final _formKey = GlobalKey<FormState>();
+
+  //controllers
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -37,11 +49,16 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   final _locationController = TextEditingController();
 
   //colors
-  static const _amber500 = AppColors.amber_500;
-  static const _brown900 = AppColors.brown_900;
+  static const _amber = AppColors.amber_500;
+  static const _brown = AppColors.brown_900;
 
-  bool _isObscure = true;
-  bool _isLoading = false;
+  static const _nameLabelText = AppLabelsTexts.name;
+
+  static const _spaceBeforeButton = AppSpaces.height_24;
+
+  static const _elevation = 2.0;
+  static const _fontSize = 18.0;
+  static const _radius = AppSizes.medium;
 
   @override
   void dispose() {
@@ -54,20 +71,33 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   @override
+  void didUpdateWidget(covariant SignUpLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.messageResult.message != null) {
+      _showMessageResult(widget.messageResult);
+    }
+    setState(() {});
+  }
+
+  void _showMessageResult(MessageResult messageResult) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        BuildSnackBar.build(messageResult.message!, messageResult.color!)
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _buildMainContent();
   }
 
   Widget _buildMainContent() {
-    const spaceBeforeButton = AppSpacing.height_24;
-
     return Scaffold(
-      backgroundColor: _brown900,
+      backgroundColor: _brown,
       appBar: _buildAppBar(),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: AppPaddings.paddingAll_20,
+            padding: AppPaddings.medium,
             child: RepaintBoundary(
               child: Form(
                 key: _formKey,
@@ -76,9 +106,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(context),
-                      spaceBeforeButton,
+                      _spaceBeforeButton,
                       _buildInputFields(),
-                      spaceBeforeButton,
+                      _spaceBeforeButton,
                       _buildRegisterButton(),
                     ],
                   ),
@@ -92,7 +122,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildInputFields() {
-    const spaceBetweenFields = AppSpacing.height_16;
+    const spaceBetweenFields = AppSpaces.height_16;
 
     return Column(
       children: [
@@ -111,9 +141,9 @@ class _RegisterLayoutState extends State<RegisterLayout> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: _brown900,
-      scrolledUnderElevation: AppNumbers.zero,
-      leading: const IconButtonWidget()
+        backgroundColor: _brown,
+        scrolledUnderElevation: AppSizes.none,
+        leading: const IconButtonWidget()
     );
   }
 
@@ -128,11 +158,11 @@ class _RegisterLayoutState extends State<RegisterLayout> {
               .textTheme
               .headlineLarge
               ?.copyWith(
-            color: _amber500,
+            color: _amber,
             fontWeight: FontWeight.bold,
           ),
         ),
-        AppSpacing.height_8,
+        AppSpaces.height_8,
         Text(
           'Register now to join the world of happiness',
           style: Theme
@@ -148,15 +178,13 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Widget _buildNameField() {
-    const name = AppLabelsTexts.name;
-
     return BuildInputField(
       controller: _nameController,
-      labelText: name,
+      labelText: _nameLabelText,
       hintText: AppHintsTexts.name,
       prefixIcon: Icons.person,
       autofillHints: const [AutofillHints.name],
-      validator: (value) => ValidateInput.validator(value!, name),
+      validator: (value) => ValidateInput.validator(value!, _nameLabelText),
     );
   }
 
@@ -215,7 +243,7 @@ class _RegisterLayoutState extends State<RegisterLayout> {
     return IconButton(
       icon: Icon(
         _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: _amber500,
+        color: _amber,
       ),
       onPressed: _togglePasswordVisibility,
     );
@@ -226,19 +254,19 @@ class _RegisterLayoutState extends State<RegisterLayout> {
       width: double.infinity,
       child: ElevatedButton(
         style: _registerButtonStyle(),
-        onPressed: _isLoading ? null : _submitForm,
+        onPressed: widget.messageResult.isLoading ? _submitForm : null,
         child: _buildRegisterButtonContent(),
       ),
     );
   }
 
   Widget _buildRegisterButtonContent() {
-    return _isLoading
+    return widget.messageResult.isLoading
         ? LoadingWidget.sizedBox
         : const Text(
       "REGISTER",
       style: TextStyle(
-        fontSize: 18,
+        fontSize: _fontSize,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -259,46 +287,28 @@ class _RegisterLayoutState extends State<RegisterLayout> {
   }
 
   Future<void> _performRegistration() async {
-    setState(() => _isLoading = true);
-    final message = await widget._authServices.signUp(
-      userName: _nameController.text.trim(),
-      userEmail: _emailController.text.trim(),
-      userPassword: _passwordController.text,
-      userPhone: _phoneController.text.trim(),
-      userLocation: _locationController.text.trim(),
+    widget.onUpdate(
+        userName: _nameController.text.trim(),
+        userEmail: _emailController.text.trim(),
+        userPassword: _passwordController.text,
+        userPhone: _phoneController.text.trim(),
+        userLocation: _locationController.text.trim()
     );
-    setState(() => _isLoading = false);
-    _showMessageResult(message);
   }
 
   void _hideKeyboard() {
     FocusScope.of(context).unfocus();
   }
 
-  void _showMessageResult(MessageResultModel message) {
-    if (message.isSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          BuildSnackBar.build('Register successfully', AppColors.green800)
-      );
-      navigator(context: context);
-    }
-    else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          BuildSnackBar.build(
-              ' ${AppStates.failed}${message.error}', AppColors.red800)
-      );
-    }
-  }
-
   ButtonStyle _registerButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: _amber500,
+      backgroundColor: _amber,
       foregroundColor: AppColors.black,
-      padding: AppPaddings.paddingVertical,
+      padding: AppPaddings.symmetricVertical,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppNumbers.fifty),
+        borderRadius: BorderRadius.circular(_radius),
       ),
-      elevation: 2,
+      elevation: _elevation,
     );
   }
 }

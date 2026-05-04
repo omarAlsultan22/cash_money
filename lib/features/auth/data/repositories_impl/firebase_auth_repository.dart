@@ -1,11 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cash_money/core/data/data_sources/remote/firebase_auth.dart';
 import '../../domain/repositories/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class FirebaseAuthRepository implements AuthRepository {
-  final FirebaseAuth _auth;
+  final FirebaseAuthService _auth;
 
-  FirebaseAuthRepository({required FirebaseAuth auth}) : _auth = auth;
+  FirebaseAuthRepository({required FirebaseAuthService auth}) : _auth = auth;
 
   @override
   Future<UserCredential> signIn({
@@ -13,7 +14,7 @@ class FirebaseAuthRepository implements AuthRepository {
     required String userPassword
   }) async {
     try {
-      return await _auth.signInWithEmailAndPassword(
+      return await _auth.signIn(
         email: userEmail,
         password: userPassword,
       ).then((value) {
@@ -33,7 +34,7 @@ class FirebaseAuthRepository implements AuthRepository {
   }) async {
     try {
       return await _auth
-          .createUserWithEmailAndPassword(
+          .signUp(
           email: email,
           password: password
       ).then((value) {
@@ -53,17 +54,14 @@ class FirebaseAuthRepository implements AuthRepository {
     required String newPassword
   }) async {
     try {
-      final user = _auth.currentUser;
+      final user = _auth.updateProfile(
+          newEmail: newEmail,
+          currentPassword: currentPassword,
+          newPassword: newPassword);
       return user;
     }
     catch (e) {
       rethrow;
     }
-  }
-
-
-  @override
-  Future<void> signOut() async {
-    _auth.signOut();
   }
 }
