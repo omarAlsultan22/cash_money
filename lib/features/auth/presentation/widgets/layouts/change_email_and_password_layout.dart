@@ -49,15 +49,6 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   static const _spacing = 20.0;
   static const _paddingHorizontal = EdgeInsets.symmetric(horizontal: 16);
 
-  //sizes
-  static const _fontSize = 16.0;
-  static const _strokeWidth = 2.0;
-
-  //colors
-  static const _brown = AppColors.brown_900;
-  static const _amber = AppColors.amber_600;
-  static const _white = AppColors.white;
-
   @override
   void dispose() {
     _newEmailController.dispose();
@@ -86,7 +77,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: _brown,
+        backgroundColor: AppColors.brown_900,
         appBar: _buildAppBar(),
         body: _buildBody(),
       ),
@@ -100,7 +91,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
       leading: const IconButtonWidget(),
       title: const Text(
         'Change email and password',
-        style: TextStyle(color: _white),
+        style: TextStyle(color: AppColors.white),
       ),
       actions: [_buildSaveButton()],
     );
@@ -125,16 +116,16 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
       width: _spacing,
       height: _spacing,
       child: CircularProgressIndicator(
-        strokeWidth: _strokeWidth,
-        color: _white,
+        strokeWidth: 2.0,
+        color: AppColors.white,
       )
       ,
     ) : const Text(
       'Save',
       style: TextStyle(
-        fontSize: _fontSize,
+        fontSize: AppSizes.fontSize_16,
         fontWeight: FontWeight.bold,
-        color: _white,
+        color: AppColors.white,
       ),
     );
   }
@@ -240,7 +231,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     return IconButton(
       icon: Icon(
         isObscure ? Icons.visibility_off : Icons.visibility,
-        color: _amber,
+        color: AppColors.amber_600,
       ),
       onPressed: () => onToggle(!isObscure),
     );
@@ -293,7 +284,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          _brown,
+          AppColors.brown_900,
           AppColors.brown_800,
         ],
       ),
@@ -302,7 +293,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
 
   ButtonStyle _saveButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: _amber,
+      backgroundColor: AppColors.amber_600,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radius),
       ),

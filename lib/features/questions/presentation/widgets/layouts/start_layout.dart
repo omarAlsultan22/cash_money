@@ -1,3 +1,4 @@
+import 'package:cash_money/features/questions/constants/questions_text_styles.dart';
 import 'package:cash_money/features/questions/data/models/questions_result.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/data/models/start_model.dart';
@@ -39,7 +40,7 @@ class BuildStartScreen extends StatefulWidget {
 class _BuildStartScreenState extends State<BuildStartScreen> {
 
   Timer? _timer;
-  int _timeLeft = _seconds;
+  int _timeLeft = AppDurations.oneSecond;
   bool _colors = false;
   late DataCubit _cubit;
   String? _userName;
@@ -48,44 +49,13 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   late int _points;
   late int _currentIndex;
 
-  //spaces
-  static const _vertical8 = 8.0;
-  static const _vertical6 = 8.0;
-  static const _horizontal = 12.0;
-  static const _widgetPadding = 5.0;
-  static const _leadingPadding = 5.0;
-  static const _questionHeight = 1.3;
-  static const _boxShadowOffsetY = 2.0;
-  static const _defaultPaddingValue = 20.0;
-
-  //values
-  static const _tow = 2;
-  static const _seconds = AppDurations.oneSecond;
-
-  //degrees
-  static const _opacityDegree02 = 0.2;
-  static const _opacityDegree08 = 0.8;
-
-  //colors
-  static const _white = AppColors.white;
-  static const _brown800 = AppColors.brown_800;
-  static const _brown900 = AppColors.brown_900;
-
-  //sizes
-  static const _iconSize = 20.0;
   static const _imageSize = 24.0;
-  static const _smallFontSize = 18.0;
-  static const _titleFontSize = 24.0;
-  static const _questionFontSize = 24.0;
-  static const _richTextFontSize = 18.0;
-  static const _userNameFontSize = 20.0;
-  static const _cardBorderRadius = 15.0;
-  static const _boxShadowBlurRadius = 4.0;
-  static const _borderRadius = AppSizes.radius;
+  static const _defaultPaddingValue = 20.0;
 
   void _startTimer(int length) {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: _seconds), (timer) {
+    _timer = Timer.periodic(
+        const Duration(seconds: AppDurations.oneSecond), (timer) {
       if (_timeLeft > 0) {
         setState(() {
           _timeLeft--;
@@ -118,8 +88,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     required bool isCorrect,
   }) {
     if (isCorrect) {
-      bool isFinished = _currentIndex > length / _tow;
-      String answers = _points < _tow ? 'answer' : 'answers';
+      bool isFinished = _currentIndex > length / 2;
+      String answers = _points < 2 ? 'answer' : 'answers';
       QuickAlert.show(
           context: context,
           text: 'You achieved $_points correct $answers out of $length',
@@ -154,7 +124,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
       );
 
       _isCurrentIndexSmaller(
-          isCorrect: _currentIndex < length - 1 && widget.questionsData.hasMore);
+          isCorrect: _currentIndex < length - 1 &&
+              widget.questionsData.hasMore);
 
       _startTimer(length);
     });
@@ -186,14 +157,14 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-        backgroundColor: _brown900,
+        backgroundColor: AppColors.brown_900,
         elevation: AppSizes.none,
         title: const Text(
             'Starting',
             style: TextStyle(
-                fontSize: _titleFontSize,
+                fontSize: 24.0,
                 fontWeight: FontWeight.bold,
-                color: _white
+                color: AppColors.white
             )
         ),
         leading: const IconButtonWidget()
@@ -201,17 +172,18 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   Widget _widgetBuilder() {
-    final currentQuestion = widget.questionsData.getCurrentQuestion(widget.gameState.currentIndex);
+    final currentQuestion = widget.questionsData.getCurrentQuestion(
+        widget.gameState.currentIndex);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: _brown800,
+        backgroundColor: AppColors.brown_800,
         appBar: _buildAppBar(),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                _brown900,
+                AppColors.brown_900,
                 AppColors.brown_700
               ],
               begin: Alignment.topCenter,
@@ -220,7 +192,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: _defaultPaddingValue, vertical: _defaultPaddingValue),
+                horizontal: _defaultPaddingValue,
+                vertical: _defaultPaddingValue),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -234,25 +207,25 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                             TextSpan(
                               text: 'Welcome ',
                               style: TextStyle(
-                                fontSize: _richTextFontSize,
-                                color: _white.withOpacity(_opacityDegree08),
+                                fontSize: 18.0,
+                                color: AppColors.white.withOpacity(0.8),
                               ),
                             ),
                             TextSpan(
                               text: _userName,
                               style: const TextStyle(
-                                fontSize: _userNameFontSize,
+                                fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
-                                color: _white,
+                                color: AppColors.white,
                               ),
                             ),
                             const WidgetSpan(
                               child: Padding(
-                                padding: EdgeInsets.only(left: _leadingPadding),
+                                padding: EdgeInsets.only(left: 5.0),
                                 child: Icon(
                                   Icons.waving_hand_sharp,
                                   color: AppColors.amber_500,
-                                  size: _iconSize,
+                                  size: 20.0,
                                 ),
                               ),
                             ),
@@ -262,15 +235,15 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: _horizontal, vertical: _vertical6),
+                          horizontal: 12.0, vertical: 6.0),
                       decoration: BoxDecoration(
-                        color: _brown900,
-                        borderRadius: BorderRadius.circular(_borderRadius),
+                        color: AppColors.brown_900,
+                        borderRadius: BorderRadius.circular(AppSizes.radius),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.black.withOpacity(_opacityDegree02),
-                            blurRadius: _boxShadowBlurRadius,
-                            offset: const Offset(0, _boxShadowOffsetY),
+                            color: AppColors.black.withOpacity(0.2),
+                            blurRadius: 4.0,
+                            offset: const Offset(0, 2.0),
                           ),
                         ],
                       ),
@@ -278,13 +251,9 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                         children: [
                           Text(
                             '$_points',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: _smallFontSize,
-                              color: _white,
-                            ),
+                            style: QuestionsTextStyles.textStyle,
                           ),
-                          const SizedBox(width: _widgetPadding),
+                          const SizedBox(width: 5.0),
                           Image.asset(
                             'assets/images/icon.png',
                             width: _imageSize,
@@ -300,7 +269,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                 Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(_cardBorderRadius),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   color: AppColors.brown_600,
                   child: Padding(
@@ -310,9 +279,9 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                       child: Text(currentQuestion,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: _questionFontSize,
+                          fontSize: 24.0,
                           color: Colors.amberAccent,
-                          height: _questionHeight,
+                          height: 1.3,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -324,11 +293,12 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                 Expanded(
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
-                    children: widget.questionsData.getCurrentAnswers(widget.gameState.currentIndex)
+                    children: widget.questionsData.getCurrentAnswers(
+                        widget.gameState.currentIndex)
                         .map((e) =>
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: _vertical8),
+                              vertical: 8.0),
                           child: AnswerButton(
                             answer: e.answer,
                             isCorrect: e.isCorrect,

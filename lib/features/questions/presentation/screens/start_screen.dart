@@ -1,5 +1,3 @@
-import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
-
 import '../cubits/data_cubit.dart';
 import '../states/data_state.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +8,7 @@ import '../widgets/connectivity_aware_screen.dart';
 import '../../../../core/presentation/widgets/states/error_state.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
+import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
 

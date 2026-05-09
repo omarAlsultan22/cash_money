@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 
-mixin AppPaddings {
+abstract class AppPaddings {
   static const _small = 16.0;
   static const _medium = 20.0;
   static const _large = 24.0;

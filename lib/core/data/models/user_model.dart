@@ -14,11 +14,6 @@ class UserModel {
     required this.isEmailVerified,
   });
 
-  static const _name = 'name';
-  static const _phone = 'phone';
-  static const _location = 'location';
-  static const _isEmailVerified = 'isEmailVerified';
-
   UserModel copyWith({
     String? userName,
     String? userPhone,
@@ -32,23 +27,29 @@ class UserModel {
         isEmailVerified: isEmailVerified ?? this.isEmailVerified);
   }
 
-  factory UserModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
+  factory UserModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
     return UserModel(
-      userName: data[_name]?.toString() ?? '',
-      userPhone: data[_phone]?.toString() ?? '',
-      userLocation: data[_location]?.toString() ?? '',
-      isEmailVerified: data[_isEmailVerified] ?? false,
+      userName: data['name']?.toString() ?? '',
+      userPhone: data['phone']?.toString() ?? '',
+      userLocation: data['location']?.toString() ?? '',
+      isEmailVerified: data['isEmailVerified'] ?? false,
     );
   }
 
+  UserModel.fromJson(Map<String, dynamic> json)
+      : userName = json['name']?.toString() ?? '',
+        userPhone = json['phone']?.toString() ?? '',
+        userLocation = json['location']?.toString() ?? '',
+        isEmailVerified = json['isEmailVerified'] ?? false;
+
+
   Map<String, dynamic> toJson() {
     return {
-      _name: userName,
-      _phone: userPhone,
-      _location: userLocation,
-      _isEmailVerified: isEmailVerified,
+      'name': userName,
+      'phone': userPhone,
+      'location': userLocation,
+      'isEmailVerified': isEmailVerified,
     };
   }
 }

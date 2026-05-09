@@ -19,7 +19,6 @@ class SettingsUseCase {
     }
   }
 
-
   Future<void> updateInfoExecute({
     required String userName,
     required String userPhone,

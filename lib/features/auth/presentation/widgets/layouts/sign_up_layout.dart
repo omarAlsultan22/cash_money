@@ -7,6 +7,7 @@ import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
 import 'package:cash_money/core/constants/app_labels_texts.dart';
 import 'package:cash_money/core/constants/app_hints_texts.dart';
+import 'package:cash_money/core/constants/app_text_styles.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
@@ -48,20 +49,6 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-  static const _elevation = 2.0;
-
-  static const _nameLabelText = AppLabelsTexts.name;
-
-  //colors
-  static const _amber = AppColors.amber_500;
-  static const _brown = AppColors.brown_900;
-
-  //sizes
-  static const _fontSize = 18.0;
-  static const _radius = AppSizes.medium;
-
-  static const _spaceBeforeButton = AppSpaces.height_24;
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -94,7 +81,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
 
   Widget _buildMainContent() {
     return Scaffold(
-      backgroundColor: _brown,
+      backgroundColor: AppColors.brown_900,
       appBar: _buildAppBar(),
       body: SafeArea(
         child: Center(
@@ -108,9 +95,9 @@ class _SignUpLayoutState extends State<SignUpLayout> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(context),
-                      _spaceBeforeButton,
+                      AppSpaces.height_24,
                       _buildInputFields(),
-                      _spaceBeforeButton,
+                      AppSpaces.height_24,
                       _buildRegisterButton(),
                     ],
                   ),
@@ -143,7 +130,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-        backgroundColor: _brown,
+        backgroundColor: AppColors.brown_900,
         scrolledUnderElevation: AppSizes.none,
         leading: const IconButtonWidget()
     );
@@ -160,7 +147,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
               .textTheme
               .headlineLarge
               ?.copyWith(
-            color: _amber,
+            color: AppColors.amber_500,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -182,11 +169,12 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   Widget _buildNameField() {
     return BuildInputField(
       controller: _nameController,
-      labelText: _nameLabelText,
+      labelText: AppLabelsTexts.name,
       hintText: AppHintsTexts.name,
       prefixIcon: Icons.person,
       autofillHints: const [AutofillHints.name],
-      validator: (value) => ValidateInput.validator(value!, _nameLabelText),
+      validator: (value) =>
+          ValidateInput.validator(value!, AppLabelsTexts.name),
     );
   }
 
@@ -216,28 +204,24 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   }
 
   Widget _buildPhoneField() {
-    const phoneNumber = AppLabelsTexts.phoneNumber;
-
     return BuildInputField(
       controller: _phoneController,
-      labelText: phoneNumber,
+      labelText: AppLabelsTexts.phoneNumber,
       hintText: AppHintsTexts.phoneNumber,
       prefixIcon: Icons.phone,
       keyboardType: TextInputType.phone,
       autofillHints: const [AutofillHints.telephoneNumber],
-      validator: (value) => ValidateInput.validator(value!, phoneNumber),
+      validator: (value) => ValidateInput.validator(value!, AppLabelsTexts.phoneNumber),
     );
   }
 
   Widget _buildLocationField() {
-    const location = AppLabelsTexts.location;
-
     return BuildInputField(
       controller: _locationController,
-      labelText: location,
+      labelText: AppLabelsTexts.location,
       hintText: AppHintsTexts.location,
       prefixIcon: Icons.location_on,
-      validator: (value) => ValidateInput.validator(value!, location),
+      validator: (value) => ValidateInput.validator(value!, AppLabelsTexts.location),
     );
   }
 
@@ -245,7 +229,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
     return IconButton(
       icon: Icon(
         _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: _amber,
+        color: AppColors.amber_500,
       ),
       onPressed: _togglePasswordVisibility,
     );
@@ -267,10 +251,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
         ? LoadingWidget.sizedBox
         : const Text(
       "REGISTER",
-      style: TextStyle(
-        fontSize: _fontSize,
-        fontWeight: FontWeight.bold,
-      ),
+      style: AppTextStyles.textStyle,
     );
   }
 
@@ -304,13 +285,13 @@ class _SignUpLayoutState extends State<SignUpLayout> {
 
   ButtonStyle _registerButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: _amber,
+      backgroundColor: AppColors.amber_500,
       foregroundColor: AppColors.black,
       padding: AppPaddings.symmetricVertical,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_radius),
+        borderRadius: BorderRadius.circular(AppSizes.medium),
       ),
-      elevation: _elevation,
+      elevation: 2.0,
     );
   }
 }

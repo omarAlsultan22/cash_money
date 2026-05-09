@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:cash_money/core/constants/app_strings.dart';
-
 import '../states/data_state.dart';
 import '../enums/questions_keys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

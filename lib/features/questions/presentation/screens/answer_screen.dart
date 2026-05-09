@@ -14,9 +14,7 @@ class AnswerScreen extends StatelessWidget {
     required this.isCorrect,
   }) : super(key: key);
 
-  static const _borderRadius = 15.0;
-  static const _paddingValue = 12.0;
-  static const _paddingForAll = EdgeInsets.all(_paddingValue);
+  static const _paddingForAll = EdgeInsets.all(12.0);
 
   Widget _buildWidget(BuildContext context) {
     return Scaffold(
@@ -33,7 +31,7 @@ class AnswerScreen extends StatelessWidget {
             elevation: 8,
             color: isCorrect ? AppColors.successGreen : AppColors.errorRed,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(_borderRadius),
+              borderRadius: BorderRadius.circular(15.0),
             ),
             child: Padding(
               padding: _paddingForAll,

@@ -1,3 +1,4 @@
+import 'package:cash_money/features/questions/constants/questions_text_styles.dart';
 import 'package:cash_money/core/constants/app_durations.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../core/constants/app_paddings.dart';
@@ -27,16 +28,7 @@ class _AnswerButtonState extends State<AnswerButton> {
 
   bool _isLoading = false;
 
-  static const _opacityDegree = 0.2;
-
-  //spaces
-  static const _dx = AppSizes.none;
-  static const _dy = 2.0;
-
-  //sizes
-  static const _blurRadius = 4.0;
-  static const _radius = AppSizes.radius;
-  static const _elevation = AppSizes.none;
+  static final _borderRadius = BorderRadius.circular(AppSizes.radius);
 
   void _showCorrectAnswer() {
     if (_isLoading) return;
@@ -55,12 +47,12 @@ class _AnswerButtonState extends State<AnswerButton> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: AppDurations.millSeconds),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(_radius),
+        borderRadius: _borderRadius,
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(_opacityDegree),
-            blurRadius: _blurRadius,
-            offset: const Offset(_dx, _dy),
+            color: AppColors.black.withOpacity(0.2),
+            blurRadius: 4.0,
+            offset: const Offset(AppSizes.none, 2.0),
           ),
         ],
       ),
@@ -69,20 +61,16 @@ class _AnswerButtonState extends State<AnswerButton> {
           backgroundColor: widget.color,
           padding: AppPaddings.symmetricVertical,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_radius),
+            borderRadius: _borderRadius,
           ),
-          elevation: _elevation,
+          elevation: AppSizes.none,
         ),
         onPressed: _showCorrectAnswer,
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Text(
             widget.answer!,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: AppSizes.fontSize_18,
-              color: AppColors.white,
-            ),
+            style: QuestionsTextStyles.textStyle,
           ),
         ),
       ),

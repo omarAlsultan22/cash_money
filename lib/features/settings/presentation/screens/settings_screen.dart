@@ -1,7 +1,7 @@
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
 import 'package:cash_money/features/settings/domain/useCases/settings_useCase.dart';
-import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
+import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
 import '../../../../core/presentation/widgets/states/error_state.dart';

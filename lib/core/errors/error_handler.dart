@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:async';
 import 'package:hive/hive.dart';
 import 'package:flutter/services.dart';
-import '../domain/services/connectivity_service/connectivity_service.dart';
 import 'exceptions/client_exception.dart';
 import 'exceptions/cache_exceptions.dart';
 import 'exceptions/unknown_exception.dart';
@@ -10,6 +9,7 @@ import 'exceptions/network_exception.dart';
 import 'exceptions/base/app_exception.dart';
 import 'exceptions/firebase_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../domain/services/connectivity_service/connectivity_service.dart';
 
 
 class ErrorHandler {

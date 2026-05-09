@@ -15,9 +15,6 @@ class InternetUnavailability extends StatelessWidget {
     this.connectivityService
   });
 
-  static const _spacing = 20.0;
-  static const _fontSize = 24.0;
-
   @override
   Widget build(BuildContext context) {
     Future<void> isInternetAvailable() async {
@@ -36,10 +33,10 @@ class InternetUnavailability extends StatelessWidget {
             size: 80.0,
             color: Color(0xFF757575),
           ),
-          const SizedBox(height: _spacing),
+          const SizedBox(height: 20.0),
           Text(message!,
               style: const TextStyle(
-                  fontSize: _fontSize,
+                  fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF424242)
               )

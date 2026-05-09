@@ -12,39 +12,20 @@ import '../../questions/presentation/screens/questions_screen.dart';
 class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
 
-  static const _opacityDegree = 0.3;
-
-  //sizes
-  static const _elevation = 5.0;
-  static const _iconSize = 28.0;
-  static const _fontSize = 20.0;
-  static const _blurRadius = 10.0;
-  static const _spreadRadius = 2.0;
-
-  //colors
-  static const _black = AppColors.black;
-  static const _white = AppColors.white;
-  static const _brown900 = AppColors.brown_900;
-
-  //spacing
-  static const _dx = AppSizes.none;
-  static const _dy = 5.0;
   static const _spacing = 200.0;
-  static const _symmetricalHorizontal = 24.0;
-  static const _widthSpacing = AppSizes.radius;
   static const _verticalSpacing20 = SizedBox(height: 20.0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _brown900,
+      backgroundColor: AppColors.brown_900,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              _brown900,
+              AppColors.brown_900,
               AppColors.brown_800,
               AppColors.brown_700,
             ],
@@ -67,10 +48,10 @@ class HomeLayout extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: _black.withOpacity(_opacityDegree),
-                            blurRadius: _blurRadius,
-                            spreadRadius: _spreadRadius,
-                            offset: const Offset(_dx, _dy),
+                            color: AppColors.black.withOpacity(0.3),
+                            blurRadius: 10.0,
+                            spreadRadius: 2.0,
+                            offset: const Offset(AppSizes.none, 5.0),
                           ),
                         ],
                       ),
@@ -130,12 +111,12 @@ class HomeLayout extends StatelessWidget {
           backgroundColor: color,
           padding: const EdgeInsets.symmetric(vertical: AppPaddings
               .vertical,
-              horizontal: _symmetricalHorizontal),
+              horizontal: 24.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.radius),
           ),
-          elevation: _elevation,
-          shadowColor: _black.withOpacity(_opacityDegree),
+          elevation: 5.0,
+          shadowColor: AppColors.black.withOpacity(0.3),
         ),
         onPressed: () {
           Navigator.push(
@@ -148,14 +129,14 @@ class HomeLayout extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: _white, size: _iconSize),
-            const SizedBox(width: _widthSpacing),
+            Icon(icon, color: AppColors.white, size: 28.0),
+            const SizedBox(width: AppSizes.radius),
             Text(
               title,
               style: const TextStyle(
-                fontSize: _fontSize,
+                fontSize: 20.0,
                 fontWeight: FontWeight.bold,
-                color: _white,
+                color: AppColors.white,
               ),
             ),
           ],

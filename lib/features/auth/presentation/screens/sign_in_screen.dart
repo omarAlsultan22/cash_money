@@ -1,6 +1,5 @@
-import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
-
 import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
+import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/auth/presentation/cubits/sign_in_cubit.dart';
 import 'package:cash_money/features/auth/domain/useCases/sign_in_useCase.dart';
 import '../../../../core/data/data_sources/remote/firebase_auth.dart';

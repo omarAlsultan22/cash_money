@@ -29,16 +29,9 @@ class BuildQuestionsScreen extends StatefulWidget {
 class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   final ScrollController _scrollController = ScrollController();
 
-  static const _white = Colors.white;
-
-  static const _elevation = AppSizes.none;
-
-  static const _borderRadius = AppSizes.radius;
-
-  //spaces
-  static const _paddingValue = 16.0;
-  static const _paddingForAll = EdgeInsets.all(_paddingValue);
   static const _specificPosition = AppSizes.medium;
+  static const _paddingForAll = EdgeInsets.all(16.0);
+  static final _borderRadius = BorderRadius.circular(AppSizes.radius);
 
   @override
   void initState() {
@@ -69,14 +62,14 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
         backgroundColor: AppColors.brown_800,
         appBar: AppBar(
             backgroundColor: AppColors.transparent,
-            scrolledUnderElevation: _elevation,
-            elevation: _elevation,
+            scrolledUnderElevation: AppSizes.none,
+            elevation: AppSizes.none,
             title: const Text(
               'Questions ',
               style: TextStyle(
                 fontSize: AppSizes.fontSize_24,
                 fontWeight: FontWeight.bold,
-                color: _white,
+                color: AppColors.white,
               ),
             ),
             leading: const IconButtonWidget()
@@ -109,11 +102,11 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                   elevation: 4,
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(_borderRadius),
+                    borderRadius: _borderRadius,
                   ),
                   color: AppColors.brown_600,
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(_borderRadius),
+                    borderRadius: _borderRadius,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -142,7 +135,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
               } else {
                 return Center(
                   child: widget.questionsData.hasMore
-                      ? const CircularProgressIndicator(color: _white)
+                      ? const CircularProgressIndicator(color: AppColors.white)
                       : const SizedBox(),
                 );
               }

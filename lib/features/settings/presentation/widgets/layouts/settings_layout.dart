@@ -7,6 +7,7 @@ import '../../../../../core/presentation/widgets/loading_widget.dart';
 import 'package:cash_money/core/constants/app_labels_texts.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_hints_texts.dart';
+import 'package:cash_money/core/constants/app_text_styles.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
@@ -36,25 +37,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-
-  //sizes
-  static const _elevation = 4.0;
-  static const _fontSize18 = 18.0;
-  static const _fontSize28 = 28.0;
-
-  //colors
-  static const _amber = AppColors.amber_600;
-  static const _brown = AppColors.brown_900;
-
-  //paddings
   static const _paddingVertical = AppPaddings.symmetricVertical;
-
-  //spacing
-  static const _spaceBetweenFields = AppSpaces.height_16;
-
-  //borderRadius
-  static const _radiusValue = 12.0;
-  static const _borderRadius = BorderRadius.all(Radius.circular(_radiusValue));
+  static const _roundedRectangleBorder = RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(12.0)));
 
   @override
   void initState() {
@@ -98,7 +83,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: _brown,
+        backgroundColor: AppColors.brown_900,
         appBar: _buildAppBar(),
         body: _buildBody(),
       ),
@@ -143,9 +128,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               _buildHeaderSection(),
               AppSpaces.height_32,
               _buildNameField(),
-              _spaceBetweenFields,
+              AppSpaces.height_16,
               _buildPhoneField(),
-              _spaceBetweenFields,
+              AppSpaces.height_16,
               _buildLocationField(),
               AppSpaces.height_24,
               _buildChangePasswordButton(),
@@ -165,7 +150,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         Text(
           'Update profile',
           style: TextStyle(
-            fontSize: _fontSize28,
+            fontSize: 28.0,
             fontWeight: FontWeight.bold,
             color: AppColors.amber_400,
           ),
@@ -257,8 +242,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         child: const Text(
           'Change email and password',
           style: TextStyle(
-            fontSize: _fontSize18,
-            color: _amber,
+            fontSize: AppSizes.fontSize_18,
+            color: AppColors.amber_600,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -292,10 +277,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         ? LoadingWidget.sizedBox
         : const Text(
       "Update",
-      style: TextStyle(
-        fontSize: _fontSize18,
-        fontWeight: FontWeight.bold,
-      ),
+      style: AppTextStyles.textStyle,
     );
   }
 
@@ -314,7 +296,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          _brown,
+        AppColors.brown_900,
           AppColors.brown_800,
         ],
       ),
@@ -324,21 +306,17 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   ButtonStyle _changePasswordButtonStyle() {
     return OutlinedButton.styleFrom(
       padding: _paddingVertical,
-      side: const BorderSide(color: _amber),
-      shape: const RoundedRectangleBorder(
-        borderRadius: _borderRadius,
-      ),
+      side: const BorderSide(color: AppColors.amber_600),
+      shape: _roundedRectangleBorder,
     );
   }
 
   ButtonStyle _updateButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: _amber,
+      backgroundColor: AppColors.amber_600,
       padding: _paddingVertical,
-      shape: const RoundedRectangleBorder(
-        borderRadius: _borderRadius,
-      ),
-      elevation: _elevation,
+      shape: _roundedRectangleBorder,
+      elevation: 4.0,
     );
   }
 }

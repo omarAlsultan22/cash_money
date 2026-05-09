@@ -4,9 +4,11 @@ import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
+import 'package:cash_money/core/constants/app_text_styles.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
+import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
@@ -43,16 +45,6 @@ class _SignInLayoutState extends State<SignInLayout> {
   //controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  static const _amber = AppColors.amber_500;
-
-  //sizes
-  static const _fontSize16 = 16.0;
-  static const _fontSize18 = 18.0;
-  static const _radius = 16.0;
-  static const _elevation = 2.0;
-
-  static const _spaceBetweenFields = AppSpaces.height_16;
 
   @override
   void initState() {
@@ -104,11 +96,11 @@ class _SignInLayoutState extends State<SignInLayout> {
                       _buildHeader(context),
                       AppSpaces.height_32,
                       _buildEmailField(),
-                      _spaceBetweenFields,
+                      AppSpaces.height_16,
                       _buildPasswordField(),
                       AppSpaces.height_24,
                       _buildLoginButton(),
-                      _spaceBetweenFields,
+                      AppSpaces.height_16,
                       _buildRegisterLink(),
                     ],
                   ),
@@ -132,7 +124,7 @@ class _SignInLayoutState extends State<SignInLayout> {
               .textTheme
               .headlineLarge
               ?.copyWith(
-            color: _amber,
+            color: AppColors.amber_500,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -180,7 +172,7 @@ class _SignInLayoutState extends State<SignInLayout> {
     return IconButton(
       icon: Icon(
         _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: _amber,
+        color: AppColors.amber_500,
       ),
       onPressed: _togglePasswordVisibility,
     );
@@ -201,11 +193,8 @@ class _SignInLayoutState extends State<SignInLayout> {
     return widget.messageResult.isLoading
         ? LoadingWidget.sizedBox
         : const Text(
-      "LOGIN",
-      style: TextStyle(
-        fontSize: _fontSize18,
-        fontWeight: FontWeight.bold,
-      ),
+        "LOGIN",
+        style: AppTextStyles.textStyle
     );
   }
 
@@ -218,13 +207,13 @@ class _SignInLayoutState extends State<SignInLayout> {
             text: "Don't have an account? ",
             style: TextStyle(
               color: Color(0xFFBDBDBD),
-              fontSize: _fontSize16,
+              fontSize: AppSizes.fontSize_16,
             ),
             children: [
               TextSpan(
                 text: "Register Now",
                 style: TextStyle(
-                  color: _amber,
+                  color: AppColors.amber_500,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -279,13 +268,13 @@ class _SignInLayoutState extends State<SignInLayout> {
 
   ButtonStyle _loginButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: _amber,
+      backgroundColor: AppColors.amber_500,
       foregroundColor: AppColors.black,
       padding: AppPaddings.symmetricVertical,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_radius),
+        borderRadius: BorderRadius.circular(16.0),
       ),
-      elevation: _elevation,
+      elevation: 2.0,
     );
   }
 }
