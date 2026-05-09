@@ -1,4 +1,4 @@
 mixin AuthHintsTexts {
-  static const emailHintText = 'Enter your email';
-  static const passwordHintText = 'Enter your password';
+  static const String emailHintText = 'Enter your email';
+  static const String passwordHintText = 'Enter your password';
 }

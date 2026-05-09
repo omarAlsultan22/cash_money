@@ -1,5 +1,5 @@
 mixin AppHintsTexts {
-  static const name = 'Enter your name';
-  static const phoneNumber = 'Enter your Phone number';
-  static const location = 'Enter your location';
+  static const String name = 'Enter your name';
+  static const String phoneNumber = 'Enter your Phone number';
+  static const String location = 'Enter your location';
 }

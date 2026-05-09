@@ -1,4 +1,4 @@
 mixin AuthLabelsTexts {
-  static const emailLabelText = 'Email';
-  static const passwordLabelText = 'Password';
+  static const String emailLabelText = 'Email';
+  static const String passwordLabelText = 'Password';
 }

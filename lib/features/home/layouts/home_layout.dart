@@ -109,8 +109,7 @@ class HomeLayout extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          padding: const EdgeInsets.symmetric(vertical: AppPaddings
-              .vertical,
+          padding: const EdgeInsets.symmetric(vertical: 16.0,
               horizontal: 24.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.radius),

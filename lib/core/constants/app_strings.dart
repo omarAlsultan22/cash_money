@@ -1,3 +1,3 @@
 mixin AppStrings {
-  static const noInternetMessage = 'No Internet Connection';
+  static const String noInternetMessage = 'No Internet Connection';
 }

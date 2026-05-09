@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 abstract class AppTextStyles {
-  static const textStyle = TextStyle(
+  static const TextStyle textStyle = TextStyle(
     fontSize: AppSizes.fontSize_18,
     fontWeight: FontWeight.bold,
   );

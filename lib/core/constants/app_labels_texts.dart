@@ -1,5 +1,5 @@
 mixin AppLabelsTexts {
-  static const name = 'Name';
-  static const phoneNumber = 'Phone Number';
-  static const location = 'Location';
+  static const String name = 'Name';
+  static const String phoneNumber = 'Phone Number';
+  static const String location = 'Location';
 }
