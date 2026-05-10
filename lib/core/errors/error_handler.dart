@@ -35,10 +35,10 @@ class ErrorHandler {
           return FirebaseAppException(message: 'Data not found');
         case 'already-exists':
           return FirebaseAppException(message: 'Data already exists');
-        case 'user-not-found': // <-- مضاف من الكود العربي
+        case 'user-not-found':
           return FirebaseAppException(
               message: 'No user registered with this email');
-        case 'invalid-email': // <-- مضاف من الكود العربي
+        case 'invalid-email':
           return FirebaseAppException(message: 'Invalid email address');
         default:
           return FirebaseAppException(message: 'Firebase error');
