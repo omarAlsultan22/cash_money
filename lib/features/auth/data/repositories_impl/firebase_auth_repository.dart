@@ -29,14 +29,14 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<UserCredential> signUp({
-    required String email,
-    required String password
+    required String userEmail,
+    required String userPassword
   }) async {
     try {
       return await _auth
           .signUp(
-          email: email,
-          password: password
+          email: userEmail,
+          password: userPassword
       ).then((value) {
         return value;
       });
@@ -63,5 +63,10 @@ class FirebaseAuthRepository implements AuthRepository {
     catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<void> sendResetEmail({required String userEmail}) async {
+    _auth.sendResetEmail(userEmail: userEmail);
   }
 }

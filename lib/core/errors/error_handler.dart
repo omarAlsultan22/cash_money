@@ -29,11 +29,17 @@ class ErrorHandler {
               message: 'No Internet Connection',
               connectivityService: connectivityService);
         case 'permission-denied':
-          return FirebaseAppException(message: 'You do not have permission to access');
+          return FirebaseAppException(
+              message: 'You do not have permission to access');
         case 'not-found':
           return FirebaseAppException(message: 'Data not found');
         case 'already-exists':
           return FirebaseAppException(message: 'Data already exists');
+        case 'user-not-found': // <-- مضاف من الكود العربي
+          return FirebaseAppException(
+              message: 'No user registered with this email');
+        case 'invalid-email': // <-- مضاف من الكود العربي
+          return FirebaseAppException(message: 'Invalid email address');
         default:
           return FirebaseAppException(message: 'Firebase error');
       }

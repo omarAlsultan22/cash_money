@@ -13,6 +13,7 @@ import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
+import '../../screens/forget_password_screen.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../screens/sign_up_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -102,6 +103,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                       _buildLoginButton(),
                       AppSpaces.height_16,
                       _buildRegisterLink(),
+                      _buildForgetPasswordLink()
                     ],
                   ),
                 ),
@@ -204,7 +206,7 @@ class _SignInLayoutState extends State<SignInLayout> {
         onPressed: _navigateToRegister,
         child: RichText(
           text: const TextSpan(
-            text: "Don't have an account? ",
+            text: 'Don\'t have an account? ',
             style: TextStyle(
               color: Color(0xFFBDBDBD),
               fontSize: AppSizes.fontSize_16,
@@ -218,6 +220,29 @@ class _SignInLayoutState extends State<SignInLayout> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForgetPasswordLink() {
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (
+                  context) => const ForgetPasswordScreen(),
+            ),
+          );
+        },
+        child: const Text(
+          'Forget password?',
+          style: TextStyle(
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
           ),
         ),
       ),
