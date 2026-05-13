@@ -1,6 +1,6 @@
 import '../states/auth_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/errors/error_handler.dart';
+import '../../../../core/errors/mappers/error_handler.dart';
 import '../../../../core/constants/app_strings.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/errors/exceptions/network_exception.dart';
@@ -48,8 +48,12 @@ class SignInCubit extends Cubit<AuthState> {
       );
       emit(AuthState(
           messageResult: MessageResult.success()));
-    } on AppException catch (e) {
-      final exception = ErrorHandler.handleException(e);
+    } on AppException catch (e, stackTrace) {
+      final errorHandler = ErrorHandler(
+          error: e,
+          stackTrace: stackTrace
+      );
+      final exception = errorHandler.handleException();
       emit(AuthState(messageResult: MessageResult.error(error: exception)));
     }
   }

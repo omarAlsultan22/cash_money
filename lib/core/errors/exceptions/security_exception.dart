@@ -7,4 +7,11 @@ class SecurityException extends AppException {
     super.statusCode,
     super.code
   });
+
+  @override
+  AppException getException(dynamic error) {
+    return SecurityException(
+        message: error.toString(),
+        statusCode: statusCode);
+  }
 }

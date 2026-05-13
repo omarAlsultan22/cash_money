@@ -53,8 +53,9 @@ class SettingsScreen extends StatelessWidget {
                           ),
                     ),
                 onError: (error) =>
-                    ErrorStateWidget(error: error.message,
-                        onRetry: () => cubit.getInfo()),
+                    error.buildErrorWidget(
+                        onRetry: () => cubit.getInfo()
+                    ),
               );
             }
         )

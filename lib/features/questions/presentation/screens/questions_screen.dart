@@ -67,8 +67,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                               isConnected: connectivityProvider.isConnected
                           ),
                       onError: (error) =>
-                          ErrorStateWidget(error: error.message,
-                              onRetry: () => _cubit.loadMoreData()),
+                          error.buildErrorWidget(
+                              onRetry: () => _cubit.loadMoreData()
+                          ),
                     );
                   }
               )

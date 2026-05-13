@@ -13,6 +13,13 @@ class NetworkException extends AppException {
   });
 
   @override
+  AppException getException(dynamic error) {
+    return NetworkException(
+        message: error.toString()
+    );
+  }
+
+  @override
   Widget buildErrorWidget({VoidCallback? onRetry}) {
     return InternetUnavailability(
       message: message,

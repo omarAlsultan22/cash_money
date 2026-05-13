@@ -1,6 +1,6 @@
 import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/errors/error_handler.dart';
+import '../../../../core/errors/mappers/error_handler.dart';
 import '../../domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
@@ -76,8 +76,12 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       emit(buildState(MessageResult.success()));
     }
-    on AppException catch (e) {
-      final exception = ErrorHandler.handleException(e);
+    on AppException catch (e, stackTrace) {
+      final errorHandler = ErrorHandler(
+          error: e,
+          stackTrace: stackTrace
+      );
+      final exception = errorHandler.handleException();
       emit(buildState(MessageResult.error(error: exception)));
     }
   }
@@ -108,8 +112,12 @@ class SettingsCubit extends Cubit<SettingsState> {
               firstModel: userModel,
               subState: SuccessState()));
     }
-    on AppException catch (e) {
-      final exception = ErrorHandler.handleException(e);
+    on AppException catch (e, stackTrace) {
+      final errorHandler = ErrorHandler(
+          error: e,
+          stackTrace: stackTrace
+      );
+      final exception = errorHandler.handleException();
       emit(
           state.updateState(
               subState: ErrorState(

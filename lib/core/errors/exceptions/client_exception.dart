@@ -7,4 +7,11 @@ class ClientException extends AppException {
     super.statusCode,
     super.code
   });
+
+  @override
+  AppException getException(dynamic error) {
+    return ClientException(
+        message: error.toString(),
+        statusCode: statusCode);
+  }
 }

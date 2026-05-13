@@ -71,8 +71,9 @@ class _StartScreenState extends State<StartScreen> {
                             isConnected: connectivityProvider.isConnected,
                           ),
                       onError: (error) =>
-                          ErrorStateWidget(error: error.message,
-                              onRetry: () => cubit.loadMoreData()),
+                          error.buildErrorWidget(
+                              onRetry: () => cubit.loadMoreData()
+                          ),
                     );
                   }
               )
