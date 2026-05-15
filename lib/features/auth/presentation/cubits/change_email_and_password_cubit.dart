@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
-import '../../../../core/errors/exceptions/network_exception.dart';
+import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/domain/services/connectivity_service/connectivity_service.dart';
 import 'package:cash_money/features/auth/domain/useCases/change_email_and_password_useCase.dart';
 
@@ -32,7 +32,7 @@ class ChangeEmailAndPasswordCubit extends Cubit<AuthState> {
       emit(
         AuthState(
           messageResult: MessageResult.error(
-              error: AppNetworkException(error: AppStrings.noInternetMessage)),
+              error: NetworkAppException(error: AppStrings.noInternetMessage)),
         ),
       );
       return;

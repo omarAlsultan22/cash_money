@@ -4,7 +4,7 @@ import '../../domain/useCases/settings_useCase.dart';
 import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
-import '../../../../core/errors/exceptions/network_exception.dart';
+import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
@@ -54,7 +54,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       emit(
           buildState(
             MessageResult.error(
-              error: AppNetworkException(
+              error: NetworkAppException(
                   error: internetUnavailable,
                   connectivityService: connectivityService
               ),
@@ -91,7 +91,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       emit(
           state.updateState(
             subState: ErrorState(
-              failure: AppNetworkException(
+              failure: NetworkAppException(
                   error: internetUnavailable,
                   connectivityService: connectivityService
               ),

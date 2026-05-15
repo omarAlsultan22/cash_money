@@ -1,9 +1,10 @@
 import '../base/app_exception.dart';
-import 'base/cache_exceptions.dart';
+import 'base/cache_app_exceptions.dart';
+import '../base/app_exception_convertible.dart';
 
 
-class SharedPrefsException extends CacheException {
-  SharedPrefsException({
+class SharedPrefsAppException extends CacheAppException implements AppExceptionConvertible{
+  SharedPrefsAppException({
     super.code,
     super.error,
     super.message,
@@ -11,21 +12,27 @@ class SharedPrefsException extends CacheException {
     super.statusCode,
   });
 
+  static const String _msgCorruptedFile =
+      'Local storage file is corrupted, it will be reinitialized';
+
+  static const String _msgConnectionIssue =
+      'Connection issue with storage system';
+
   static final Map<String, AppException> _exactMatches = {
     'streamcorrupted': SharedPrefsInitException(
-      message: 'Local storage file is corrupted, it will be reinitialized',
+      message: _msgCorruptedFile,
       platformCode: 'STREAM_CORRUPTED',
     ),
     'invalid stream header': SharedPrefsInitException(
-      message: 'Local storage file is corrupted, it will be reinitialized',
+      message: _msgCorruptedFile,
       platformCode: 'INVALID_STREAM_HEADER',
     ),
     'channel-error': SharedPrefsPlatformException(
-      message: 'Connection issue with storage system',
+      message: _msgConnectionIssue,
       platformCode: 'CHANNEL_ERROR',
     ),
     'unable to establish connection': SharedPrefsPlatformException(
-      message: 'Connection issue with storage system',
+      message: _msgConnectionIssue,
       platformCode: 'CONNECTION_FAILED',
     ),
   };
@@ -47,7 +54,7 @@ class SharedPrefsException extends CacheException {
 }
 
 
-class SharedPrefsInitException extends SharedPrefsException {
+class SharedPrefsInitException extends SharedPrefsAppException {
   final String? platformCode;
 
   SharedPrefsInitException({
@@ -58,7 +65,7 @@ class SharedPrefsInitException extends SharedPrefsException {
 }
 
 
-class SharedPrefsPlatformException extends SharedPrefsException {
+class SharedPrefsPlatformException extends SharedPrefsAppException {
   final String? platformCode;
 
   SharedPrefsPlatformException({
@@ -69,7 +76,7 @@ class SharedPrefsPlatformException extends SharedPrefsException {
 }
 
 
-class SharedPrefsOperationException extends SharedPrefsException {
+class SharedPrefsOperationException extends SharedPrefsAppException {
   final String? key;
 
   SharedPrefsOperationException({
@@ -81,7 +88,7 @@ class SharedPrefsOperationException extends SharedPrefsException {
 }
 
 
-class SharedPrefsCastException extends SharedPrefsException {
+class SharedPrefsCastException extends SharedPrefsAppException {
   final String? key;
   final String? expectedType;
 

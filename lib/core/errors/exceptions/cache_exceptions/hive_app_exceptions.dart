@@ -1,13 +1,19 @@
 import '../base/app_exception.dart';
-import 'base/cache_exceptions.dart';
+import 'base/cache_app_exceptions.dart';
+import '../base/app_exception_convertible.dart';
 
 
-class HiveException extends CacheException {
-  HiveException({
+class HiveAppExceptions extends CacheAppException implements AppExceptionConvertible{
+  HiveAppExceptions({
     super.code,
     super.error,
     super.operation
   });
+
+  static const String _msgDatabaseNotExist = 'Database does not exist';
+  static const String _msgFileSystemError = 'An error occurred in the database file';
+  static const String _msgEncryptionError = 'Error in database encryption/decryption';
+  static const String _msgNotInitialized = 'Database has not been initialized correctly';
 
   static String? extractBoxName(String errorString) {
     // Create the Regex separately and safely
@@ -26,22 +32,22 @@ class HiveException extends CacheException {
         ),
     'box not found': (msg) =>
         HiveBoxException(
-          error: 'Database does not exist',
+          error: _msgDatabaseNotExist,
           code: 'HIVE_BOX_NOT_FOUND',
         ),
     'box doesn\'t exist': (msg) =>
         HiveBoxException(
-          error: 'Database does not exist',
+          error: _msgDatabaseNotExist,
           code: 'HIVE_BOX_NOT_FOUND',
         ),
     'null': (msg) =>
         HiveBoxException(
-          error: 'Database has not been initialized correctly',
+          error: _msgNotInitialized,
           code: 'HIVE_BOX_NULL',
         ),
     'box': (msg) =>
         HiveBoxException(
-          error: 'Database has not been initialized correctly',
+          error: _msgNotInitialized,
           code: 'HIVE_BOX_NULL',
         ),
     'openbox': (msg) =>
@@ -56,12 +62,12 @@ class HiveException extends CacheException {
         ),
     'filesystemexception': (msg) =>
         HiveOperationException(
-          error: 'An error occurred in the database file',
+          error: _msgFileSystemError,
           operation: 'file_system',
         ),
     'file closed': (msg) =>
         HiveOperationException(
-          error: 'An error occurred in the database file',
+          error: _msgFileSystemError,
           operation: 'file_system',
         ),
     'compaction': (msg) =>
@@ -71,12 +77,12 @@ class HiveException extends CacheException {
         ),
     'encryption': (msg) =>
         HiveOperationException(
-          error: 'Error in database encryption/decryption',
+          error: _msgEncryptionError,
           operation: 'encryption',
         ),
     'decryption': (msg) =>
         HiveOperationException(
-          error: 'Error in database encryption/decryption',
+          error: _msgEncryptionError,
           operation: 'encryption',
         ),
     'put': (msg) =>
@@ -111,7 +117,7 @@ class HiveException extends CacheException {
 }
 
 
-class HiveCacheException extends HiveException {
+class HiveCacheException extends HiveAppExceptions {
   HiveCacheException({
     required super.error,
     super.code = 'HIVE_ERROR',
@@ -119,8 +125,8 @@ class HiveCacheException extends HiveException {
   });
 }
 
-/// خطأ في Box (مغلق، غير موجود، null)
-class HiveBoxException extends HiveException {
+
+class HiveBoxException extends HiveAppExceptions {
   final String? boxName;
 
   HiveBoxException({
@@ -130,8 +136,8 @@ class HiveBoxException extends HiveException {
   });
 }
 
-/// خطأ في فتح Hive Box
-class HiveOpenBoxException extends HiveException {
+
+class HiveOpenBoxException extends HiveAppExceptions {
   final String boxName;
   final String? path;
 
@@ -143,16 +149,16 @@ class HiveOpenBoxException extends HiveException {
   });
 }
 
-/// خطأ في إغلاق Hive Box
-class HiveCloseBoxException extends HiveException {
+
+class HiveCloseBoxException extends HiveAppExceptions {
   HiveCloseBoxException({
     super.error,
     super.code = 'HIVE_CLOSE_BOX_ERROR',
   });
 }
 
-/// خطأ في عمليات CRUD على Hive
-class HiveOperationException extends HiveException {
+
+class HiveOperationException extends HiveAppExceptions {
   final String? boxName;
   final dynamic key;
 
@@ -165,8 +171,8 @@ class HiveOperationException extends HiveException {
   });
 }
 
-/// خطأ في حفظ البيانات إلى Hive
-class HiveSaveException extends HiveException {
+
+class HiveSaveException extends HiveAppExceptions {
   HiveSaveException({
     required super.error,
     super.operation = 'save',
@@ -174,8 +180,8 @@ class HiveSaveException extends HiveException {
   });
 }
 
-/// خطأ في قراءة البيانات من Hive
-class HiveReadException extends HiveException {
+
+class HiveReadException extends HiveAppExceptions {
   HiveReadException({
     required super.error,
     super.operation = 'read',
@@ -183,8 +189,8 @@ class HiveReadException extends HiveException {
   });
 }
 
-/// خطأ في حذف البيانات من Hive
-class HiveDeleteException extends HiveException {
+
+class HiveDeleteException extends HiveAppExceptions {
   HiveDeleteException({
     required super.error,
     super.operation = 'delete',
@@ -192,8 +198,8 @@ class HiveDeleteException extends HiveException {
   });
 }
 
-/// خطأ في مسح كامل Box
-class HiveClearException extends HiveException {
+
+class HiveClearException extends HiveAppExceptions {
   HiveClearException({
     required super.error,
     super.operation = 'clear',

@@ -4,21 +4,14 @@ import '../../presentation/widgets/internet_unavailability.dart';
 import '../../domain/services/connectivity_service/connectivity_service.dart';
 
 
-class AppNetworkException extends AppException {
+class NetworkAppException extends AppException {
   final ConnectivityService? connectivityService;
 
-  AppNetworkException({
+  NetworkAppException({
     super.error,
     super.message,
     this.connectivityService
   });
-
-  @override
-  AppException getException() {
-    return AppNetworkException(
-        message: error.toString()
-    );
-  }
 
   @override
   Widget buildErrorWidget({VoidCallback? onRetry}) {
