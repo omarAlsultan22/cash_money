@@ -5,7 +5,7 @@ import 'network_exception.dart';
 
 class FirebaseAppException extends AppException {
   FirebaseAppException({
-    super.message,
+    super.error,
   });
 
   static final connectivityService = ConnectivityService();
@@ -21,16 +21,16 @@ class FirebaseAppException extends AppException {
         message: 'No Internet Connection',
         connectivityService: connectivityService),
     'permission-denied': FirebaseAppException(
-        message: 'You do not have permission to access'),
-    'not-found': FirebaseAppException(message: 'Data not found'),
-    'already-exists': FirebaseAppException(message: 'Data already exists'),
+        error: 'You do not have permission to access'),
+    'not-found': FirebaseAppException(error: 'Data not found'),
+    'already-exists': FirebaseAppException(error: 'Data already exists'),
     'user-not-found': FirebaseAppException(
-        message: 'No user registered with this email'),
-    'invalid-email': FirebaseAppException(message: 'Invalid email address'),
+        error: 'No user registered with this email'),
+    'invalid-email': FirebaseAppException(error: 'Invalid email address'),
   };
 
   @override
-  AppException getException(dynamic error) {
+  AppException getException() {
     final isKeyFound = map.containsKey(error.code);
     if (isKeyFound) {
       final value = map[error.code];
@@ -38,6 +38,6 @@ class FirebaseAppException extends AppException {
         return value;
       }
     }
-    return FirebaseAppException(message: 'Firebase error');
+    return FirebaseAppException(error: 'Firebase error');
   }
 }

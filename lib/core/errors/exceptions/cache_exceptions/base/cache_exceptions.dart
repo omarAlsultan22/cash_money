@@ -6,6 +6,7 @@ abstract class CacheException extends AppException {
 
   const CacheException({
     super.code,
+    super.error,
     super.message,
     this.operation,
     super.statusCode,

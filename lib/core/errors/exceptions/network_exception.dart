@@ -8,12 +8,13 @@ class NetworkException extends AppException {
   final ConnectivityService? connectivityService;
 
   NetworkException({
+    super.error,
     super.message,
     this.connectivityService
   });
 
   @override
-  AppException getException(dynamic error) {
+  AppException getException() {
     return NetworkException(
         message: error.toString()
     );

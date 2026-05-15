@@ -37,7 +37,7 @@ class MessageResult {
     return MessageResult(
         isLoading: false,
         color: AppColors.errorRed,
-        message: 'Update failed: ${error!.message}'
+        message: 'Update failed: ${error!.error}'
     );
   }
 }

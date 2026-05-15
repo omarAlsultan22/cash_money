@@ -32,7 +32,7 @@ class SignInCubit extends Cubit<AuthState> {
       emit(
         AuthState(
           messageResult: MessageResult.error(
-              error: NetworkException(message: AppStrings.noInternetMessage)),
+              error: NetworkException(error: AppStrings.noInternetMessage)),
         ),
       );
       return;

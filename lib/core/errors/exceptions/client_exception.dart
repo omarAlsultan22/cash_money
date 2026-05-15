@@ -3,15 +3,15 @@ import 'base/app_exception.dart';
 
 class ClientException extends AppException {
   ClientException({
-    required super.message,
+    required super.error,
     super.statusCode,
     super.code
   });
 
   @override
-  AppException getException(dynamic error) {
+  AppException getException() {
     return ClientException(
-        message: error.toString(),
+        error: error.toString(),
         statusCode: statusCode);
   }
 }

@@ -56,7 +56,7 @@ class SettingsCubit extends Cubit<SettingsState> {
           buildState(
             MessageResult.error(
               error: NetworkException(
-                  message: internetUnavailable,
+                  error: internetUnavailable,
                   connectivityService: connectivityService
               ),
             ),
@@ -93,7 +93,7 @@ class SettingsCubit extends Cubit<SettingsState> {
           state.updateState(
             subState: ErrorState(
               failure: NetworkException(
-                message: internetUnavailable,
+                error: internetUnavailable,
                 connectivityService: connectivityService
               ),
             ),

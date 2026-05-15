@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:hive/hive.dart';
+import 'package:flutter/services.dart';
 import '../exceptions/client_exception.dart';
 import '../exceptions/network_exception.dart';
 import '../exceptions/firebase_exception.dart';
 import '../exceptions/base/app_exception.dart';
-import 'package:flutter/services.dart';
-import '../exceptions/cache_exceptions/hive_exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../exceptions/cache_exceptions/hive_exceptions.dart';
 import '../exceptions/cache_exceptions/shared_prefs_exceptions.dart';
 import 'package:cash_money/core/domain/services/connectivity_service/connectivity_service.dart';
 
@@ -57,7 +57,7 @@ class ExceptionMapper {
   };
 
   static final Map<Type, AppException Function(dynamic)> _typePatterns = {
-    HiveError: (error) => HiveException(message: error.toString()),
+    HiveError: (error) => HiveException(error: error.toString()),
     PlatformException: (error) =>
         SharedPrefsException(
           message: (error as PlatformException).code,
@@ -68,21 +68,21 @@ class ExceptionMapper {
         ),
     FirebaseException: (error) =>
         FirebaseAppException(
-          message: (error as FirebaseException).message ?? 'Firebase error',
+          error: (error as FirebaseException).message ?? 'Firebase error',
         ),
     SocketException: (error) =>
         NetworkException(
-          message: 'No Internet Connection',
+          error: 'No Internet Connection',
           connectivityService: connectivityService,
         ),
     TimeoutException: (error) =>
         NetworkException(
-          message: 'Timeout expired, please try again later',
+          error: 'Timeout expired, please try again later',
           connectivityService: connectivityService,
         ),
     FormatException: (error) =>
         ClientException(
-          message: 'Invalid data format',
+          error: 'Invalid data format',
         ),
   };
 

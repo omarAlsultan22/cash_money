@@ -4,14 +4,16 @@ import 'base/app_exception.dart';
 class ServerException extends AppException {
   ServerException({
     super.code,
-    required super.message,
+    super.error,
+    super.message,
     required super.statusCode
   });
 
   @override
-  AppException getException(dynamic error) {
+  AppException getException() {
     return ServerException(
         message: error.toString(),
-        statusCode: statusCode);
+        statusCode: statusCode
+    );
   }
 }

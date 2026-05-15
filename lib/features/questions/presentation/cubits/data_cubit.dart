@@ -102,7 +102,7 @@ class DataCubit extends Cubit<DataState> {
           state.updateState(
               subState: ErrorState(
                   failure: NetworkException(
-                      message: AppStrings.noInternetMessage))
+                      error: AppStrings.noInternetMessage))
           )
       );
       return;

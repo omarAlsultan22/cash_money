@@ -5,7 +5,7 @@ import 'base/cache_exceptions.dart';
 class HiveException extends CacheException {
   HiveException({
     super.code,
-    super.message,
+    super.error,
     super.operation
   });
 
@@ -21,83 +21,83 @@ class HiveException extends CacheException {
       AppException Function(String errorMsg)> _errorFactories = {
     'box has already been closed': (msg) =>
         HiveBoxException(
-          message: 'Attempting to access a closed database',
+          error: 'Attempting to access a closed database',
           code: 'HIVE_BOX_CLOSED',
         ),
     'box not found': (msg) =>
         HiveBoxException(
-          message: 'Database does not exist',
+          error: 'Database does not exist',
           code: 'HIVE_BOX_NOT_FOUND',
         ),
     'box doesn\'t exist': (msg) =>
         HiveBoxException(
-          message: 'Database does not exist',
+          error: 'Database does not exist',
           code: 'HIVE_BOX_NOT_FOUND',
         ),
     'null': (msg) =>
         HiveBoxException(
-          message: 'Database has not been initialized correctly',
+          error: 'Database has not been initialized correctly',
           code: 'HIVE_BOX_NULL',
         ),
     'box': (msg) =>
         HiveBoxException(
-          message: 'Database has not been initialized correctly',
+          error: 'Database has not been initialized correctly',
           code: 'HIVE_BOX_NULL',
         ),
     'openbox': (msg) =>
         HiveOpenBoxException(
           boxName: extractBoxName(msg) ?? 'unknown',
-          message: 'Failed to open database: $msg',
+          error: 'Failed to open database: $msg',
         ),
     'failed to open': (msg) =>
         HiveOpenBoxException(
           boxName: extractBoxName(msg) ?? 'unknown',
-          message: 'Failed to open database: $msg',
+          error: 'Failed to open database: $msg',
         ),
     'filesystemexception': (msg) =>
         HiveOperationException(
-          message: 'An error occurred in the database file',
+          error: 'An error occurred in the database file',
           operation: 'file_system',
         ),
     'file closed': (msg) =>
         HiveOperationException(
-          message: 'An error occurred in the database file',
+          error: 'An error occurred in the database file',
           operation: 'file_system',
         ),
     'compaction': (msg) =>
         HiveOperationException(
-          message: 'An error occurred while compacting the database',
+          error: 'An error occurred while compacting the database',
           operation: 'compaction',
         ),
     'encryption': (msg) =>
         HiveOperationException(
-          message: 'Error in database encryption/decryption',
+          error: 'Error in database encryption/decryption',
           operation: 'encryption',
         ),
     'decryption': (msg) =>
         HiveOperationException(
-          message: 'Error in database encryption/decryption',
+          error: 'Error in database encryption/decryption',
           operation: 'encryption',
         ),
     'put': (msg) =>
         HiveOperationException(
-          message: 'Failed to save data to database',
+          error: 'Failed to save data to database',
           operation: 'put',
         ),
     'get': (msg) =>
         HiveOperationException(
-          message: 'Failed to read data from database',
+          error: 'Failed to read data from database',
           operation: 'get',
         ),
     'delete': (msg) =>
         HiveOperationException(
-          message: 'Failed to delete data from database',
+          error: 'Failed to delete data from database',
           operation: 'delete',
         ),
   };
 
   @override
-  AppException getException(dynamic error) {
+  AppException getException() {
     final errorStr = error.toString().toLowerCase();
 
     final isKeyFound = _errorFactories.containsKey(error);
@@ -105,7 +105,7 @@ class HiveException extends CacheException {
       return _errorFactories[errorStr]!(errorStr);
     }
     return HiveOperationException(
-      message: error.error ?? 'Local storage error: ${error.toString()}',
+      error: error.message ?? 'Local storage error: ${error.toString()}',
     );
   }
 }
@@ -113,7 +113,7 @@ class HiveException extends CacheException {
 
 class HiveCacheException extends HiveException {
   HiveCacheException({
-    required super.message,
+    required super.error,
     super.code = 'HIVE_ERROR',
     super.operation,
   });
@@ -124,7 +124,7 @@ class HiveBoxException extends HiveException {
   final String? boxName;
 
   HiveBoxException({
-    required super.message,
+    required super.error,
     this.boxName,
     super.code = 'HIVE_BOX_ERROR',
   });
@@ -137,7 +137,7 @@ class HiveOpenBoxException extends HiveException {
 
   HiveOpenBoxException({
     required this.boxName,
-    required super.message,
+    required super.error,
     this.path,
     super.code = 'HIVE_OPEN_BOX_ERROR',
   });
@@ -146,7 +146,7 @@ class HiveOpenBoxException extends HiveException {
 /// خطأ في إغلاق Hive Box
 class HiveCloseBoxException extends HiveException {
   HiveCloseBoxException({
-    super.message,
+    super.error,
     super.code = 'HIVE_CLOSE_BOX_ERROR',
   });
 }
@@ -157,7 +157,7 @@ class HiveOperationException extends HiveException {
   final dynamic key;
 
   HiveOperationException({
-    required super.message,
+    required super.error,
     this.boxName,
     this.key,
     super.operation,
@@ -168,7 +168,7 @@ class HiveOperationException extends HiveException {
 /// خطأ في حفظ البيانات إلى Hive
 class HiveSaveException extends HiveException {
   HiveSaveException({
-    required super.message,
+    required super.error,
     super.operation = 'save',
     super.code = 'HIVE_SAVE_ERROR',
   });
@@ -177,7 +177,7 @@ class HiveSaveException extends HiveException {
 /// خطأ في قراءة البيانات من Hive
 class HiveReadException extends HiveException {
   HiveReadException({
-    required super.message,
+    required super.error,
     super.operation = 'read',
     super.code = 'HIVE_READ_ERROR',
   });
@@ -186,7 +186,7 @@ class HiveReadException extends HiveException {
 /// خطأ في حذف البيانات من Hive
 class HiveDeleteException extends HiveException {
   HiveDeleteException({
-    required super.message,
+    required super.error,
     super.operation = 'delete',
     super.code = 'HIVE_DELETE_ERROR',
   });
@@ -195,7 +195,7 @@ class HiveDeleteException extends HiveException {
 /// خطأ في مسح كامل Box
 class HiveClearException extends HiveException {
   HiveClearException({
-    required super.message,
+    required super.error,
     super.operation = 'clear',
     super.code = 'HIVE_CLEAR_ERROR',
   });

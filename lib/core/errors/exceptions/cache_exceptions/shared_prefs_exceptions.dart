@@ -5,8 +5,10 @@ import 'base/cache_exceptions.dart';
 class SharedPrefsException extends CacheException {
   SharedPrefsException({
     super.code,
+    super.error,
+    super.message,
     super.operation,
-    super.statusCode, Object? message,
+    super.statusCode,
   });
 
   static final Map<String, AppException> _exactMatches = {
@@ -29,7 +31,7 @@ class SharedPrefsException extends CacheException {
   };
 
   @override
-  AppException getException(dynamic error) {
+  AppException getException() {
     final isKeyFound = _exactMatches.containsKey(error);
     if (isKeyFound) {
       final value = _exactMatches[error];
@@ -38,7 +40,7 @@ class SharedPrefsException extends CacheException {
       }
     }
     return SharedPrefsPlatformException(
-      message: error.error ?? 'Local storage platform error',
+      message: error.message ?? 'Local storage platform error',
       platformCode: error.code,
     );
   }
