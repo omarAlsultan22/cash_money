@@ -1,11 +1,10 @@
 import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/errors/mappers/error_handler.dart';
 import '../../domain/useCases/settings_useCase.dart';
+import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/errors/exceptions/network_exception.dart';
-import '../../../../core/errors/exceptions/base/app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
@@ -76,7 +75,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       emit(buildState(MessageResult.success()));
     }
-    on AppException catch (e, stackTrace) {
+    catch (e, stackTrace) {
       final errorHandler = ErrorHandler(
           error: e,
           stackTrace: stackTrace
@@ -93,8 +92,8 @@ class SettingsCubit extends Cubit<SettingsState> {
           state.updateState(
             subState: ErrorState(
               failure: NetworkException(
-                error: internetUnavailable,
-                connectivityService: connectivityService
+                  error: internetUnavailable,
+                  connectivityService: connectivityService
               ),
             ),
           )
@@ -112,7 +111,7 @@ class SettingsCubit extends Cubit<SettingsState> {
               firstModel: userModel,
               subState: SuccessState()));
     }
-    on AppException catch (e, stackTrace) {
+    catch (e, stackTrace) {
       final errorHandler = ErrorHandler(
           error: e,
           stackTrace: stackTrace
@@ -128,9 +127,9 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
-    @override
-    Future<void> close() {
-      _connectivityProvider.removeListener(_handleConnectionChange);
-      return super.close();
-    }
+  @override
+  Future<void> close() {
+    _connectivityProvider.removeListener(_handleConnectionChange);
+    return super.close();
+  }
 }

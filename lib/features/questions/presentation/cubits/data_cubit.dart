@@ -3,11 +3,10 @@ import '../states/data_state.dart';
 import '../enums/questions_keys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
-import 'package:cash_money/core/errors/mappers/error_handler.dart';
 import '../../domain/useCases/questions_data_useCase.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import '../../../../core/errors/exceptions/network_exception.dart';
-import '../../../../core/errors/exceptions/base/app_exception.dart';
+import 'package:cash_money/core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
 
@@ -115,7 +114,7 @@ class DataCubit extends Cubit<DataState> {
     try {
       _fetchData();
     }
-    on AppException catch (e, stackTrace) {
+    catch (e, stackTrace) {
       final exception =  ErrorHandler(error: e, stackTrace: stackTrace).handleException();
       emit(state.updateState(subState: ErrorState(failure: exception)));
     }

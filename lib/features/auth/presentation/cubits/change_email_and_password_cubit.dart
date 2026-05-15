@@ -4,7 +4,6 @@ import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/errors/exceptions/network_exception.dart';
-import '../../../../core/errors/exceptions/base/app_exception.dart';
 import 'package:cash_money/core/domain/services/connectivity_service/connectivity_service.dart';
 import 'package:cash_money/features/auth/domain/useCases/change_email_and_password_useCase.dart';
 
@@ -47,7 +46,7 @@ class ChangeEmailAndPasswordCubit extends Cubit<AuthState> {
       );
       emit(
           AuthState(messageResult: MessageResult.success()));
-    } on AppException catch (e, stackTrace) {
+    } catch (e, stackTrace) {
       final errorHandler = ErrorHandler(
           error: e,
           stackTrace: stackTrace
