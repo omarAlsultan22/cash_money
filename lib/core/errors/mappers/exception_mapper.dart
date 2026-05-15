@@ -67,21 +67,21 @@ class ExceptionMapper {
           message: (error as PlatformException).code,
         ),
     FirebaseException: (error) =>
-        FirebaseAppException(
+        AppFirebaseException(
           error: (error as FirebaseException).message ?? 'Firebase error',
         ),
     SocketException: (error) =>
-        NetworkException(
+        AppNetworkException(
           error: 'No Internet Connection',
           connectivityService: connectivityService,
         ),
     TimeoutException: (error) =>
-        NetworkException(
+        AppNetworkException(
           error: 'Timeout expired, please try again later',
           connectivityService: connectivityService,
         ),
     FormatException: (error) =>
-        ClientException(
+        AppClientException(
           error: 'Invalid data format',
         ),
   };

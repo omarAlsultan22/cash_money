@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import '../../presentation/widgets/states/error_state.dart';
 
 
-class UnknownException extends AppException{
-  UnknownException({
+class AppUnknownException extends AppException{
+  AppUnknownException({
     required super.message
   });
 
   @override
   AppException getException() {
-    return UnknownException(message: message);
+    return AppUnknownException(message: message);
   }
 
   @override

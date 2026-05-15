@@ -40,7 +40,7 @@ class ErrorHandler {
       }
     }
 
-    return UnknownException(message: error.toString());
+    return AppUnknownException(message: error.toString());
   }
 
   // ==================== Helper Functions for Checking ====================

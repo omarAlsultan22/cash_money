@@ -100,7 +100,7 @@ class DataCubit extends Cubit<DataState> {
       emit(
           state.updateState(
               subState: ErrorState(
-                  failure: NetworkException(
+                  failure: AppNetworkException(
                       error: AppStrings.noInternetMessage))
           )
       );

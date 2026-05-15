@@ -4,10 +4,10 @@ import '../../presentation/widgets/internet_unavailability.dart';
 import '../../domain/services/connectivity_service/connectivity_service.dart';
 
 
-class NetworkException extends AppException {
+class AppNetworkException extends AppException {
   final ConnectivityService? connectivityService;
 
-  NetworkException({
+  AppNetworkException({
     super.error,
     super.message,
     this.connectivityService
@@ -15,7 +15,7 @@ class NetworkException extends AppException {
 
   @override
   AppException getException() {
-    return NetworkException(
+    return AppNetworkException(
         message: error.toString()
     );
   }

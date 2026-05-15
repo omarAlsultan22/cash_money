@@ -3,30 +3,30 @@ import 'base/app_exception.dart';
 import 'network_exception.dart';
 
 
-class FirebaseAppException extends AppException {
-  FirebaseAppException({
+class AppFirebaseException extends AppException {
+  AppFirebaseException({
     super.error,
   });
 
   static final connectivityService = ConnectivityService();
 
   Map<String, AppException> map = {
-    'unavailable': NetworkException(
+    'unavailable': AppNetworkException(
         message: 'No Internet Connection',
         connectivityService: connectivityService),
-    'network-error': NetworkException(
+    'network-error': AppNetworkException(
         message: 'No Internet Connection',
         connectivityService: connectivityService),
-    'network-request-failed': NetworkException(
+    'network-request-failed': AppNetworkException(
         message: 'No Internet Connection',
         connectivityService: connectivityService),
-    'permission-denied': FirebaseAppException(
+    'permission-denied': AppFirebaseException(
         error: 'You do not have permission to access'),
-    'not-found': FirebaseAppException(error: 'Data not found'),
-    'already-exists': FirebaseAppException(error: 'Data already exists'),
-    'user-not-found': FirebaseAppException(
+    'not-found': AppFirebaseException(error: 'Data not found'),
+    'already-exists': AppFirebaseException(error: 'Data already exists'),
+    'user-not-found': AppFirebaseException(
         error: 'No user registered with this email'),
-    'invalid-email': FirebaseAppException(error: 'Invalid email address'),
+    'invalid-email': AppFirebaseException(error: 'Invalid email address'),
   };
 
   @override
@@ -38,6 +38,6 @@ class FirebaseAppException extends AppException {
         return value;
       }
     }
-    return FirebaseAppException(error: 'Firebase error');
+    return AppFirebaseException(error: 'Firebase error');
   }
 }

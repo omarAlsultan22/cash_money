@@ -1,8 +1,8 @@
 import 'base/app_exception.dart';
 
 
-class ClientException extends AppException {
-  ClientException({
+class AppClientException extends AppException {
+  AppClientException({
     required super.error,
     super.statusCode,
     super.code
@@ -10,7 +10,7 @@ class ClientException extends AppException {
 
   @override
   AppException getException() {
-    return ClientException(
+    return AppClientException(
         error: error.toString(),
         statusCode: statusCode);
   }

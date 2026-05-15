@@ -31,7 +31,7 @@ class ForgetPasswordCubit extends Cubit<AuthState> {
       emit(
         AuthState(
           messageResult: MessageResult.error(
-              error: NetworkException(error: AppStrings.noInternetMessage)),
+              error: AppNetworkException(error: AppStrings.noInternetMessage)),
         ),
       );
       return;
@@ -42,7 +42,7 @@ class ForgetPasswordCubit extends Cubit<AuthState> {
         emit(
             AuthState(
               messageResult: MessageResult.error(
-                  error: SecurityException(
+                  error: AppSecurityException(
                       error: 'Please enter your email')),
             )
         );

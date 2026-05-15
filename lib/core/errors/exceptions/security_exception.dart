@@ -1,8 +1,8 @@
 import 'base/app_exception.dart';
 
 
-class SecurityException extends AppException {
-  SecurityException({
+class AppSecurityException extends AppException {
+  AppSecurityException({
     super.statusCode,
     super.message,
     super.error,
@@ -11,7 +11,7 @@ class SecurityException extends AppException {
 
   @override
   AppException getException() {
-    return SecurityException(
+    return AppSecurityException(
         message: error.toString(),
         statusCode: statusCode
     );
