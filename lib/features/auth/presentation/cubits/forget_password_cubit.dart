@@ -43,7 +43,7 @@ class ForgetPasswordCubit extends Cubit<AuthState> {
             AuthState(
               messageResult: MessageResult.error(
                   error: SecurityAppException(
-                      error: 'Please enter your email')),
+                      message: 'Please enter your email')),
             )
         );
       }
