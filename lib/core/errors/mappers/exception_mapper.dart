@@ -91,7 +91,7 @@ class ExceptionMapper {
 
   Iterable<String> get keys => _stringPatterns.keys;
 
-  bool isKey(dynamic error) => _typePatterns.containsKey(error);
+  bool get isKey => _typePatterns.containsKey(error);
 
   AppException? mapByType() {
     final exception = _stringPatterns[error];

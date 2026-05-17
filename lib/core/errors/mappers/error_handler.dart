@@ -43,7 +43,7 @@ class ErrorHandler {
   }
 
   AppException? _mapByType() {
-    if (_exceptionMapper.isKey(error)) {
+    if (_exceptionMapper.isKey) {
       return _exceptionMapper.mapByType();
     }
     return null;
@@ -52,7 +52,7 @@ class ErrorHandler {
   AppException? _mapByStringPattern() {
     for (var key in _exceptionMapper.keys) {
       if (error.toString().contains(key)) {
-        return _exceptionMapper.mapByType();
+        return _exceptionMapper.mapByStringPattern();
       }
     }
     return null;
