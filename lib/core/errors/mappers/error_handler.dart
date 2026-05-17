@@ -1,6 +1,8 @@
+import '../exceptions/cache_exceptions/shared_prefs_app_exceptions.dart';
+import 'package:cash_money/core/errors/mappers/exception_mapper.dart';
 import '../exceptions/unknown_app_exception.dart';
 import '../exceptions/base/app_exception.dart';
-import 'package:cash_money/core/errors/mappers/exception_mapper.dart';
+import 'package:flutter/services.dart';
 
 
 class ErrorHandler {
@@ -34,10 +36,11 @@ class ErrorHandler {
     }
 
     if (_exceptionMapper.isSharedPrefsError()) {
-      final exception = _mapByType(error);
-      if (exception != null) {
-        return exception;
-      }
+      final prefsException = SharedPrefsAppException(
+        error: error,
+        message: (error as PlatformException).code,
+      );
+      return prefsException.getException();
     }
 
     return UnknownAppException(message: error.toString());
