@@ -6,6 +6,7 @@ import '../../domain/services/connectivity_service/connectivity_service.dart';
 
 class FirebaseAppException extends AppException implements AppExceptionConvertible {
   FirebaseAppException({
+    super.code,
     super.error,
     super.message
   });
@@ -14,36 +15,45 @@ class FirebaseAppException extends AppException implements AppExceptionConvertib
   static const String _msgNoInternet = 'No Internet Connection';
 
   Map<String, AppException> map = {
+    // Network
     'unavailable': NetworkAppException(
-        message: _msgNoInternet,
-        connectivityService: connectivityService),
+        message: _msgNoInternet, connectivityService: connectivityService),
     'network-error': NetworkAppException(
-        message: _msgNoInternet,
-        connectivityService: connectivityService),
+        message: _msgNoInternet, connectivityService: connectivityService),
     'network-request-failed': NetworkAppException(
-        message: _msgNoInternet,
-        connectivityService: connectivityService),
-    'permission-denied': FirebaseAppException(
+        message: _msgNoInternet, connectivityService: connectivityService),
+
+    // Firestore
+    'permission-denied': FirestoreAppException(code: 'permission-denied',
         message: 'You do not have permission to access'),
-    'not-found': FirebaseAppException(message: 'Data not found'),
-    'already-exists': FirebaseAppException(message: 'Data already exists'),
-    'user-not-found': FirebaseAppException(
-        message: 'No user registered with this email'),
-    'invalid-email': FirebaseAppException(message: 'Invalid email address'),
-    'wrong-password': FirebaseAppException(message: 'Wrong password'),
-    'email-already-in-use': FirebaseAppException(
-        message: 'Email already in use'),
-    'weak-password': FirebaseAppException(message: 'Weak password'),
-    'user-disabled': FirebaseAppException(message: 'User account is disabled'),
-    'too-many-requests': FirebaseAppException(
+    'not-found': FirestoreAppException(
+        code: 'not-found', message: 'Data not found'),
+    'already-exists': FirestoreAppException(
+        code: 'already-exists', message: 'Data already exists'),
+    'unauthenticated': FirestoreAppException(
+        code: 'unauthenticated', message: 'User is not authenticated'),
+    'failed-precondition': FirestoreAppException(
+        code: 'failed-precondition', message: 'Failed precondition'),
+
+    // Auth
+    'user-not-found': AuthAppException(
+        code: 'user-not-found', message: 'No user registered with this email'),
+    'invalid-email': AuthAppException(
+        code: 'invalid-email', message: 'Invalid email address'),
+    'wrong-password': AuthAppException(
+        code: 'wrong-password', message: 'Wrong password'),
+    'email-already-in-use': AuthAppException(
+        code: 'email-already-in-use', message: 'Email already in use'),
+    'weak-password': AuthAppException(
+        code: 'weak-password', message: 'Weak password'),
+    'user-disabled': AuthAppException(
+        code: 'user-disabled', message: 'User account is disabled'),
+    'too-many-requests': AuthAppException(code: 'too-many-requests',
         message: 'Too many requests, try again later'),
-    'invalid-credential': FirebaseAppException(
-        message: 'Invalid login credentials'),
-    'requires-recent-login': FirebaseAppException(
-        message: 'Please log in again'),
-    'unauthenticated': FirebaseAppException(
-        message: 'User is not authenticated'),
-    'failed-precondition': FirebaseAppException(message: 'Failed precondition'),
+    'invalid-credential': AuthAppException(
+        code: 'invalid-credential', message: 'Invalid login credentials'),
+    'requires-recent-login': AuthAppException(
+        code: 'requires-recent-login', message: 'Please log in again'),
   };
 
   @override
@@ -57,4 +67,28 @@ class FirebaseAppException extends AppException implements AppExceptionConvertib
     }
     return FirebaseAppException(message: 'Firebase error');
   }
+}
+
+
+class AuthAppException extends FirebaseAppException {
+  AuthAppException({
+    super.code,
+    required super.message
+  });
+}
+
+
+class FirestoreAppException extends FirebaseAppException {
+  FirestoreAppException({
+    super.code,
+    required super.message
+  });
+}
+
+
+class StorageAppException extends FirebaseAppException {
+  StorageAppException({
+    super.code,
+    required super.message
+  });
 }
