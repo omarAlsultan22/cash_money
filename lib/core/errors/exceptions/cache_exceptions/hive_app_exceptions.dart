@@ -1,6 +1,6 @@
 import '../base/app_exception.dart';
 import 'base/cache_app_exceptions.dart';
-import '../base/app_exception_convertible.dart';
+import '../base/exception_handler.dart';
 
 
 class HiveAppExceptions extends CacheAppException implements ExceptionHandler {
@@ -15,7 +15,7 @@ class HiveAppExceptions extends CacheAppException implements ExceptionHandler {
   static const String _msgEncryptionError = 'Error in database encryption/decryption';
   static const String _msgNotInitialized = 'Database has not been initialized correctly';
 
-  static String? extractBoxName(String errorString) {
+  static String? _extractBoxName(String errorString) {
     // Create the Regex separately and safely
     const pattern = r'box\s+["'']?(\w+)["'']?';
     final regex = RegExp(pattern);
@@ -52,12 +52,12 @@ class HiveAppExceptions extends CacheAppException implements ExceptionHandler {
         ),
     'openbox': (msg) =>
         HiveOpenBoxException(
-          boxName: extractBoxName(msg) ?? 'unknown',
+          boxName: _extractBoxName(msg) ?? 'unknown',
           error: 'Failed to open database: $msg',
         ),
     'failed to open': (msg) =>
         HiveOpenBoxException(
-          boxName: extractBoxName(msg) ?? 'unknown',
+          boxName: _extractBoxName(msg) ?? 'unknown',
           error: 'Failed to open database: $msg',
         ),
     'filesystemexception': (msg) =>

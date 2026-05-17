@@ -1,6 +1,6 @@
 import 'base/app_exception.dart';
 import 'network_app_exception.dart';
-import 'base/app_exception_convertible.dart';
+import 'base/exception_handler.dart';
 import '../../domain/services/connectivity_service/connectivity_service.dart';
 
 
@@ -11,17 +11,17 @@ class FirebaseAppException extends AppException implements ExceptionHandler {
     super.message
   });
 
-  static final connectivityService = ConnectivityService();
+  static final _connectivityService = ConnectivityService();
   static const String _msgNoInternet = 'No Internet Connection';
 
-  Map<String, AppException> map = {
+  static final Map<String, AppException> _errorFactories = {
     // Network
     'unavailable': NetworkAppException(
-        message: _msgNoInternet, connectivityService: connectivityService),
+        message: _msgNoInternet, connectivityService: _connectivityService),
     'network-error': NetworkAppException(
-        message: _msgNoInternet, connectivityService: connectivityService),
+        message: _msgNoInternet, connectivityService: _connectivityService),
     'network-request-failed': NetworkAppException(
-        message: _msgNoInternet, connectivityService: connectivityService),
+        message: _msgNoInternet, connectivityService: _connectivityService),
 
     // Firestore
     'permission-denied': FirestoreAppException(code: 'permission-denied',
@@ -58,13 +58,13 @@ class FirebaseAppException extends AppException implements ExceptionHandler {
 
   @override
   bool canHandle() {
-    return map.containsKey(error.code);
+    return _errorFactories.containsKey(error.code);
   }
 
   @override
   AppException? handle() {
     if (canHandle()) {
-      final exception = map[error.code];
+      final exception = _errorFactories[error.code];
       return exception;
     }
     return FirebaseAppException(message: 'Firebase error');
