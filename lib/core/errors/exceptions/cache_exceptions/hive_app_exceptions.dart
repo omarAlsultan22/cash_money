@@ -3,7 +3,7 @@ import 'base/cache_app_exceptions.dart';
 import '../base/app_exception_convertible.dart';
 
 
-class HiveAppExceptions extends CacheAppException implements AppExceptionConvertible{
+class HiveAppExceptions extends CacheAppException implements ExceptionHandler {
   HiveAppExceptions({
     super.code,
     super.error,
@@ -103,12 +103,17 @@ class HiveAppExceptions extends CacheAppException implements AppExceptionConvert
   };
 
   @override
-  AppException getException() {
+  bool canHandle() {
+    return _errorFactories.containsKey(error);
+  }
+
+  @override
+  AppException? handle() {
     final errorStr = error.toString().toLowerCase();
 
-    final isKeyFound = _errorFactories.containsKey(error);
-    if (isKeyFound) {
-      return _errorFactories[errorStr]!(errorStr);
+    if (canHandle()) {
+      final exception = _errorFactories[errorStr]!(errorStr);
+      return exception;
     }
     return HiveOperationException(
       error: error.message ?? 'Local storage error: ${error.toString()}',

@@ -3,7 +3,7 @@ import 'base/cache_app_exceptions.dart';
 import '../base/app_exception_convertible.dart';
 
 
-class SharedPrefsAppException extends CacheAppException implements AppExceptionConvertible{
+class SharedPrefsAppException extends CacheAppException implements ExceptionHandler {
   SharedPrefsAppException({
     super.code,
     super.error,
@@ -38,9 +38,13 @@ class SharedPrefsAppException extends CacheAppException implements AppExceptionC
   };
 
   @override
-  AppException getException() {
-    final isKeyFound = _exactMatches.containsKey(error);
-    if (isKeyFound) {
+  bool canHandle() {
+    return _exactMatches.containsKey(error);
+  }
+
+  @override
+  AppException handle() {
+    if (canHandle()) {
       final value = _exactMatches[error];
       if (value != null) {
         return value;

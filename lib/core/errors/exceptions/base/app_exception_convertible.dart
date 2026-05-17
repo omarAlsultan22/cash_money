@@ -1,6 +1,7 @@
 import 'app_exception.dart';
 
 
-abstract class AppExceptionConvertible {
-  AppException getException();
+abstract class ExceptionHandler {
+  bool canHandle();
+  AppException? handle();
 }

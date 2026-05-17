@@ -61,17 +61,17 @@ class ExceptionMapper {
     ),
   };
 
-  static final Map<Type, AppException Function(dynamic)> _typePatterns = {
+  static final Map<Type, AppException? Function(dynamic)> _typePatterns = {
     HiveError: (error) {
       final hiveException = HiveAppExceptions(error: error);
-      return hiveException.getException();
+      return hiveException.handle();
     },
     FirebaseException: (error) {
       final firebaseException = FirebaseAppException(
         message: (error as FirebaseException).message ?? 'خطأ في Firebase',
         error: error,
       );
-      return firebaseException.getException();
+      return firebaseException.handle();
     },
     SocketException: (error) =>
         NetworkAppException(
@@ -93,23 +93,9 @@ class ExceptionMapper {
 
   bool isKey(dynamic error) => _typePatterns.containsKey(error);
 
-  bool isSharedPrefsError() {
-    final errorStr = error.toString().toLowerCase();
-    return error is PlatformException &&
-        (errorStr.contains('shared_preferences') ||
-            errorStr.contains('sharedpreferences')) ||
-        error is MissingPluginException &&
-            errorStr.contains('shared_preferences') ||
-        errorStr.contains('sharedpreferences') ||
-        errorStr.contains('preferences') && errorStr.contains('instance');
-  }
-
   AppException? mapByType() {
     final exception = _stringPatterns[error];
-    if (exception != null) {
-      return exception;
-    }
-    return null;
+    return exception;
   }
 
   AppException? mapByStringPattern() {

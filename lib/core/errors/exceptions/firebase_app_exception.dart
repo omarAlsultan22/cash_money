@@ -4,7 +4,7 @@ import 'base/app_exception_convertible.dart';
 import '../../domain/services/connectivity_service/connectivity_service.dart';
 
 
-class FirebaseAppException extends AppException implements AppExceptionConvertible {
+class FirebaseAppException extends AppException implements ExceptionHandler {
   FirebaseAppException({
     super.code,
     super.error,
@@ -57,13 +57,15 @@ class FirebaseAppException extends AppException implements AppExceptionConvertib
   };
 
   @override
-  AppException getException() {
-    final isKeyFound = map.containsKey(error.code);
-    if (isKeyFound) {
-      final value = map[error.code];
-      if (value != null) {
-        return value;
-      }
+  bool canHandle() {
+    return map.containsKey(error.code);
+  }
+
+  @override
+  AppException? handle() {
+    if (canHandle()) {
+      final exception = map[error.code];
+      return exception;
     }
     return FirebaseAppException(message: 'Firebase error');
   }
