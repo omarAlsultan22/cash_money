@@ -104,16 +104,15 @@ class HiveAppExceptions extends CacheAppException implements ExceptionHandler {
 
   @override
   bool canHandle() {
-    return _errorFactories.containsKey(error);
+    final errorStr = error.toString().toLowerCase();
+    return _errorFactories.containsKey(errorStr);
   }
 
   @override
   AppException? handle() {
     final errorStr = error.toString().toLowerCase();
-
     if (canHandle()) {
-      final exception = _errorFactories[errorStr]!(errorStr);
-      return exception;
+      return _errorFactories[errorStr]!(errorStr);
     }
     return HiveOperationException(
       error: error.message ?? 'Local storage error: ${error.toString()}',

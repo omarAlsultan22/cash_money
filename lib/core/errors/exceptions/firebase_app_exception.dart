@@ -1,6 +1,7 @@
 import 'base/app_exception.dart';
 import 'network_app_exception.dart';
 import 'base/exception_handler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/services/connectivity_service/connectivity_service.dart';
 
 
@@ -58,14 +59,13 @@ class FirebaseAppException extends AppException implements ExceptionHandler {
 
   @override
   bool canHandle() {
-    return _errorFactories.containsKey(error.code);
+    return _errorFactories.containsKey((error as FirebaseException).code);
   }
 
   @override
   AppException? handle() {
     if (canHandle()) {
-      final exception = _errorFactories[error.code];
-      return exception;
+      return _errorFactories[(error as FirebaseException).code];
     }
     return FirebaseAppException(message: 'Firebase error');
   }

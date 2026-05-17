@@ -93,7 +93,7 @@ class ExceptionMapper {
 
   bool get isKey => _typePatterns.containsKey(error);
 
-  AppException? mapByType() {
+  AppException? mapByTypePattern() {
     final exception = _stringPatterns[error];
     return exception;
   }
