@@ -4,7 +4,7 @@ import 'base/app_exception_convertible.dart';
 import '../../domain/services/connectivity_service/connectivity_service.dart';
 
 
-class FirebaseAppException extends AppException implements AppExceptionConvertible{
+class FirebaseAppException extends AppException implements AppExceptionConvertible {
   FirebaseAppException({
     super.error,
     super.message
@@ -30,7 +30,22 @@ class FirebaseAppException extends AppException implements AppExceptionConvertib
     'user-not-found': FirebaseAppException(
         message: 'No user registered with this email'),
     'invalid-email': FirebaseAppException(message: 'Invalid email address'),
+    'wrong-password': FirebaseAppException(message: 'Wrong password'),
+    'email-already-in-use': FirebaseAppException(
+        message: 'Email already in use'),
+    'weak-password': FirebaseAppException(message: 'Weak password'),
+    'user-disabled': FirebaseAppException(message: 'User account is disabled'),
+    'too-many-requests': FirebaseAppException(
+        message: 'Too many requests, try again later'),
+    'invalid-credential': FirebaseAppException(
+        message: 'Invalid login credentials'),
+    'requires-recent-login': FirebaseAppException(
+        message: 'Please log in again'),
+    'unauthenticated': FirebaseAppException(
+        message: 'User is not authenticated'),
+    'failed-precondition': FirebaseAppException(message: 'Failed precondition'),
   };
+
 
   @override
   AppException getException() {
