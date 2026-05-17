@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:hive/hive.dart';
-import 'package:flutter/services.dart';
 import '../exceptions/base/app_exception.dart';
 import '../exceptions/client_app_exception.dart';
 import '../exceptions/network_app_exception.dart';
@@ -17,7 +16,7 @@ class ExceptionMapper {
 
   ExceptionMapper({required this.error});
 
-  static final connectivityService = ConnectivityService();
+  static final _connectivityService = ConnectivityService();
   static const String _msgCastError = 'Error in stored data type';
   static const String _msgWriteError = 'Failed to save data to local storage';
   static const String _msgReadError = 'Failed to read data from local storage';
@@ -76,12 +75,12 @@ class ExceptionMapper {
     SocketException: (error) =>
         NetworkAppException(
           message: 'No Internet Connection',
-          connectivityService: connectivityService,
+          connectivityService: _connectivityService,
         ),
     TimeoutException: (error) =>
         NetworkAppException(
           message: 'Timeout expired, please try again later',
-          connectivityService: connectivityService,
+          connectivityService: _connectivityService,
         ),
     FormatException: (error) =>
         ClientAppException(
