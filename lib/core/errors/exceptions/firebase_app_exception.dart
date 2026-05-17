@@ -1,5 +1,5 @@
-import 'network_app_exception.dart';
 import 'base/app_exception.dart';
+import 'network_app_exception.dart';
 import 'base/app_exception_convertible.dart';
 import '../../domain/services/connectivity_service/connectivity_service.dart';
 
@@ -45,7 +45,6 @@ class FirebaseAppException extends AppException implements AppExceptionConvertib
         message: 'User is not authenticated'),
     'failed-precondition': FirebaseAppException(message: 'Failed precondition'),
   };
-
 
   @override
   AppException getException() {
