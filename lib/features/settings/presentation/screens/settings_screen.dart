@@ -4,8 +4,7 @@ import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart'
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
-import '../../../../core/presentation/widgets/states/error_state.dart';
-import '../../data/repositories_impl/settings_repository.dart';
+import '../../data/repositories_impl/firestore_settings_repository.dart';
 import '../widgets/layouts/settings_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../states/settings_state.dart';

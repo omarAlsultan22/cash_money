@@ -1,8 +1,8 @@
 import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
+import '../../../settings/data/repositories_impl/firestore_settings_repository.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/auth/presentation/cubits/sign_up_cubit.dart';
 import 'package:cash_money/features/auth/domain/useCases/sign_up_useCase.dart';
-import '../../../settings/data/repositories_impl/settings_repository.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/data/data_sources/remote/firebase_auth.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
