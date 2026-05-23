@@ -28,6 +28,7 @@ class DataState extends MainAppSupState<QuestionsData, GameState> {
 
   DocumentSnapshot? get lastDocument => firstModel!.lastDocument;
 
+  @override
   LoadedState get dataModels =>
       MultiModelSuccessState<QuestionsData, GameState>(
           firstModel: firstModel,
