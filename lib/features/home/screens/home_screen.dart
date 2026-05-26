@@ -1,11 +1,7 @@
 import 'package:cash_money/core/domain/services/connectivity_service/connectivity_provider.dart';
 import '../../questions/data/repositories_impl/data_repository/firestore_data_repository.dart';
-import '../../questions/data/repositories_impl/data_repository/hive_data_repository.dart';
-import '../../../core/domain/services/connectivity_service/connectivity_service.dart';
-import '../../questions/data/repositories_impl/hybrid_data_repository.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../questions/domain/useCases/questions_data_useCase.dart';
-import 'package:cash_money/core/data/data_sources/local/hive.dart';
 import '../../questions/presentation/states/data_state.dart';
 import '../../questions/presentation/cubits/data_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,21 +15,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final hiveService = HiveService();
     final firestoreService = FirestoreService();
     final firestoreRepository = FirestoreDataRepository(repository: firestoreService);
-    final hiveRepository = HiveDataRepository(repository: hiveService);
-
-    final connectivityService = ConnectivityService();
-
-    final hybridRepository = HybridDataRepository(
-      remoteDatabase: firestoreRepository,
-      localDatabase: hiveRepository,
-      connectivityService: connectivityService,
-    );
-
     final questionsDataUseCase = QuestionsDataUseCase(
-        repository: hybridRepository
+        repository: firestoreRepository
     );
 
     final connectivityProvider = ConnectivityProvider();
