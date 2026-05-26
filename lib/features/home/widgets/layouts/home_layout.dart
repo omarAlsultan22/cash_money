@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../core/constants/app_spaces.dart';
+import '../../../../core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
-import '../../questions/presentation/screens/start_screen.dart';
-import '../../settings/presentation/screens/settings_screen.dart';
-import '../../questions/presentation/screens/questions_screen.dart';
+import '../../../questions/presentation/screens/start_screen.dart';
+import '../../../settings/presentation/screens/settings_screen.dart';
+import '../../../questions/presentation/screens/questions_screen.dart';
 
 
 class HomeLayout extends StatelessWidget {
