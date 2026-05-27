@@ -6,7 +6,7 @@ import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import '../../../../core/errors/exceptions/security_app_exception.dart';
-import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 
 
 class ForgetPasswordCubit extends Cubit<AuthState> {

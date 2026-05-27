@@ -8,7 +8,7 @@ import 'package:cash_money/core/constants/app_strings.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
-import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
+import '../../../../core/presentation/providers/connectivity_provider.dart';
 
 
 class DataCubit extends Cubit<DataState> {

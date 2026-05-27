@@ -1,6 +1,6 @@
 import 'package:cash_money/features/auth/presentation/widgets/layouts/forget_password_layout.dart';
 import 'package:cash_money/features/auth/presentation/cubits/forget_password_cubit.dart';
-import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 import '../../../../core/data/data_sources/remote/firebase_auth.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

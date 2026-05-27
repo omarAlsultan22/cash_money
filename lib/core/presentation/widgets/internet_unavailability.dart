@@ -1,4 +1,4 @@
-import '../../domain/services/connectivity_service/connectivity_service.dart';
+import '../../data/network/connectivity_service.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:flutter/material.dart';
 

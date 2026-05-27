@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
-import '../core/domain/services/connectivity_service/connectivity_provider.dart';
+import '../core/presentation/providers/connectivity_provider.dart';
 import 'package:cash_money/features/questions/presentation/cubits/data_cubit.dart';
 import 'package:cash_money/features/questions/domain/useCases/questions_data_useCase.dart';
 import 'package:cash_money/features/questions/data/repositories_impl/data_repository/firestore_data_repository.dart';

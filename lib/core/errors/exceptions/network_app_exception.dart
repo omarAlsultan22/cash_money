@@ -1,7 +1,7 @@
 import 'base/app_exception.dart';
 import 'package:flutter/cupertino.dart';
 import '../../presentation/widgets/internet_unavailability.dart';
-import '../../domain/services/connectivity_service/connectivity_service.dart';
+import '../../data/network/connectivity_service.dart';
 
 
 class NetworkAppException extends AppException {

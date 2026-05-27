@@ -5,7 +5,7 @@ import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/features/auth/domain/useCases/sign_in_useCase.dart';
-import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 
 
 class SignInCubit extends Cubit<AuthState> {

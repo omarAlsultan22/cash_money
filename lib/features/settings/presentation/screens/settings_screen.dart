@@ -1,4 +1,4 @@
-import '../../../../core/domain/services/connectivity_service/connectivity_provider.dart';
+import '../../../../core/presentation/providers/connectivity_provider.dart';
 import 'package:cash_money/features/settings/domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';

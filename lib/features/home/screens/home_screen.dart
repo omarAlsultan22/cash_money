@@ -1,4 +1,4 @@
-import 'package:cash_money/core/domain/services/connectivity_service/connectivity_provider.dart';
+import 'package:cash_money/core/presentation/providers/connectivity_provider.dart';
 import '../../questions/data/repositories_impl/data_repository/firestore_data_repository.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../questions/domain/useCases/questions_data_useCase.dart';

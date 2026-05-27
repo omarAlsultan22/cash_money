@@ -8,7 +8,7 @@ import '../exceptions/firebase_app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../exceptions/cache_exceptions/hive_app_exceptions.dart';
 import '../exceptions/cache_exceptions/shared_prefs_app_exceptions.dart';
-import 'package:cash_money/core/domain/services/connectivity_service/connectivity_service.dart';
+import 'package:cash_money/core/data/network/connectivity_service.dart';
 
 
 class ExceptionMapper {

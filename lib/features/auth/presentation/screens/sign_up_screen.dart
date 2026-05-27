@@ -1,4 +1,4 @@
-import '../../../../core/domain/services/connectivity_service/connectivity_service.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 import '../../../settings/data/repositories_impl/firestore_settings_repository.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/auth/presentation/cubits/sign_up_cubit.dart';
