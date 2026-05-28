@@ -47,8 +47,6 @@ class SettingsScreen extends StatelessWidget {
                       onUpdate: (userModel) =>
                           cubit.updateInfo(
                               userName: userModel.userName,
-                              userPhone: userModel.userPhone,
-                              userLocation: userModel.userLocation
                           ),
                     ),
                 onError: (error) =>

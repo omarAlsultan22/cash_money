@@ -12,7 +12,5 @@ abstract class SettingsRepository {
 
   Future<void> updateUserInfo({
     required String userName,
-    required String userPhone,
-    required String userLocation
   });
 }

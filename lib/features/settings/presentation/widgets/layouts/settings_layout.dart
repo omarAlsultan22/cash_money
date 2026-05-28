@@ -34,8 +34,6 @@ class SettingsLayout extends StatefulWidget {
 class _SettingsLayoutState extends State<SettingsLayout> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _locationController = TextEditingController();
 
   static const _paddingVertical = AppPaddings.symmetricVertical;
   static const _roundedRectangleBorder = RoundedRectangleBorder(
@@ -46,8 +44,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     super.initState();
     _initializeControllers(
         userName: widget.userModel.userName,
-        userPhone: widget.userModel.userPhone,
-        userLocation: widget.userModel.userLocation
     );
   }
 
@@ -63,19 +59,13 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   @override
   void dispose() {
     _nameController.dispose();
-    _phoneController.dispose();
-    _locationController.dispose();
     super.dispose();
   }
 
   void _initializeControllers({
     required String? userName,
-    required String? userPhone,
-    required String? userLocation,
   }) {
     _nameController.text = userName ?? '';
-    _phoneController.text = userPhone ?? '';
-    _locationController.text = userLocation ?? '';
   }
 
   @override
@@ -128,10 +118,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               _buildHeaderSection(),
               AppSpaces.height_32,
               _buildNameField(),
-              AppSpaces.height_16,
-              _buildPhoneField(),
-              AppSpaces.height_16,
-              _buildLocationField(),
               AppSpaces.height_24,
               _buildChangePasswordButton(),
               AppSpaces.height_16,
@@ -176,31 +162,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       hint: AppHintsTexts.name,
       icon: Icons.person,
       validator: (value) => ValidateInput.validator(value, name),
-    );
-  }
-
-  Widget _buildPhoneField() {
-    const phoneNumber = AppLabelsTexts.phoneNumber;
-
-    return _buildCustomInputField(
-      controller: _phoneController,
-      label: phoneNumber,
-      hint: AppHintsTexts.phoneNumber,
-      icon: Icons.phone,
-      keyboardType: TextInputType.phone,
-      validator: (value) => ValidateInput.validator(value, phoneNumber),
-    );
-  }
-
-  Widget _buildLocationField() {
-    const location = AppLabelsTexts.location;
-
-    return _buildCustomInputField(
-      controller: _locationController,
-      label: location,
-      hint: AppHintsTexts.location,
-      icon: Icons.location_on,
-      validator: (value) => ValidateInput.validator(value, location),
     );
   }
 
@@ -260,9 +221,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             widget.onUpdate(
                 UserModel(
                     userName: _nameController.text,
-                    userPhone: _phoneController.text,
-                    userLocation: _locationController.text,
-                    isEmailVerified: true
                 )
             );
             setState(() {});

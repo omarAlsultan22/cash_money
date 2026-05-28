@@ -39,8 +39,6 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> updateInfo({
     required String userName,
-    required String userPhone,
-    required String userLocation
   }) async {
     SettingsState buildState(MessageResult messageResult) {
       return state.updateState(
@@ -69,8 +67,6 @@ class SettingsCubit extends Cubit<SettingsState> {
     try {
       await _settingsUseCase.updateInfoExecute(
         userName: userName,
-        userPhone: userPhone,
-        userLocation: userLocation,
       );
 
       emit(buildState(MessageResult.success()));

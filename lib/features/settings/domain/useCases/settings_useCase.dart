@@ -21,14 +21,10 @@ class SettingsUseCase {
 
   Future<void> updateInfoExecute({
     required String userName,
-    required String userPhone,
-    required String userLocation
   }) async {
     try {
       await _repository.updateUserInfo(
           userName: userName,
-          userPhone: userPhone,
-          userLocation: userLocation
       );
     }
     catch (e) {

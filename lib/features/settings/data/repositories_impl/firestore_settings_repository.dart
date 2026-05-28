@@ -52,17 +52,12 @@ class FirestoreSettingsRepository implements SettingsRepository {
   @override
   Future<void> updateUserInfo({
     required String userName,
-    required String userPhone,
-    required String userLocation
   }) async {
     try {
       final userId = await _cacheHelper.getValue(key: uId);
 
       final userModel = UserModel(
           userName: userName,
-          userPhone: userPhone,
-          userLocation: userLocation,
-          isEmailVerified: false
       );
       await _repository.updateDocument(
           docId: userId,

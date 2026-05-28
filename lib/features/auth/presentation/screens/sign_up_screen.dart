@@ -1,4 +1,3 @@
-import '../../../../core/data/network/connectivity_service.dart';
 import '../../../settings/data/repositories_impl/firestore_settings_repository.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/auth/presentation/cubits/sign_up_cubit.dart';
@@ -6,6 +5,7 @@ import 'package:cash_money/features/auth/domain/useCases/sign_up_useCase.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/data/data_sources/remote/firebase_auth.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 import '../widgets/layouts/sign_up_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -39,15 +39,11 @@ class SignUpScreen extends StatelessWidget {
                 required String userName,
                 required String userEmail,
                 required String userPassword,
-                required String userPhone,
-                required String userLocation
               }) =>
                   cubit.signUp(
                       userName: userName,
                       userEmail: userEmail,
                       userPassword: userPassword,
-                      userPhone: userPhone,
-                      userLocation: userLocation
                   )
           );
         }

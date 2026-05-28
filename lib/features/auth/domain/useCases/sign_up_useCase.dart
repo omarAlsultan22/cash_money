@@ -23,8 +23,6 @@ class SignUpUseCase {
     required String userName,
     required String userEmail,
     required String userPassword,
-    required String userPhone,
-    required String userLocation,
   }) async {
     try {
       final userCredential = await _authRepository.signUp(
@@ -34,9 +32,6 @@ class SignUpUseCase {
 
       UserModel userModel = UserModel(
         userName: userName,
-        userPhone: userPhone,
-        userLocation: userLocation,
-        isEmailVerified: false,
       );
 
       await _settingsRepository.createUserInfo(

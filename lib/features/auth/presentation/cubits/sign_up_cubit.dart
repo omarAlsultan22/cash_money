@@ -27,8 +27,6 @@ class SignUpCubit extends Cubit<AuthState> {
     required String userName,
     required String userEmail,
     required String userPassword,
-    required String userPhone,
-    required String userLocation,
   }) async {
     final isConnected = await _connectivityService.checkInternetConnection();
     if (!isConnected) {
@@ -46,8 +44,6 @@ class SignUpCubit extends Cubit<AuthState> {
           userName: userName,
           userEmail: userEmail,
           userPassword: userPassword,
-          userPhone: userPhone,
-          userLocation: userLocation
       );
       emit(AuthState(
           messageResult: MessageResult.success()));

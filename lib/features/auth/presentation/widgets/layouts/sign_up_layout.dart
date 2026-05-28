@@ -23,8 +23,6 @@ class SignUpLayout extends StatefulWidget {
   required String userName,
   required String userEmail,
   required String userPassword,
-  required String userPhone,
-  required String userLocation
   }) onUpdate;
   final MessageResult messageResult;
 
@@ -46,16 +44,12 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _locationController = TextEditingController();
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _phoneController.dispose();
-    _locationController.dispose();
     super.dispose();
   }
 
@@ -120,10 +114,6 @@ class _SignUpLayoutState extends State<SignUpLayout> {
         _buildEmailField(),
         spaceBetweenFields,
         _buildPasswordField(),
-        spaceBetweenFields,
-        _buildPhoneField(),
-        spaceBetweenFields,
-        _buildLocationField(),
       ],
     );
   }
@@ -203,28 +193,6 @@ class _SignUpLayoutState extends State<SignUpLayout> {
     );
   }
 
-  Widget _buildPhoneField() {
-    return BuildInputField(
-      controller: _phoneController,
-      labelText: AppLabelsTexts.phoneNumber,
-      hintText: AppHintsTexts.phoneNumber,
-      prefixIcon: Icons.phone,
-      keyboardType: TextInputType.phone,
-      autofillHints: const [AutofillHints.telephoneNumber],
-      validator: (value) => ValidateInput.validator(value!, AppLabelsTexts.phoneNumber),
-    );
-  }
-
-  Widget _buildLocationField() {
-    return BuildInputField(
-      controller: _locationController,
-      labelText: AppLabelsTexts.location,
-      hintText: AppHintsTexts.location,
-      prefixIcon: Icons.location_on,
-      validator: (value) => ValidateInput.validator(value!, AppLabelsTexts.location),
-    );
-  }
-
   Widget _buildPasswordVisibilityToggle() {
     return IconButton(
       icon: Icon(
@@ -274,8 +242,6 @@ class _SignUpLayoutState extends State<SignUpLayout> {
         userName: _nameController.text.trim(),
         userEmail: _emailController.text.trim(),
         userPassword: _passwordController.text,
-        userPhone: _phoneController.text.trim(),
-        userLocation: _locationController.text.trim()
     );
   }
 
