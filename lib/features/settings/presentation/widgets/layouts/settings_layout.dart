@@ -4,12 +4,11 @@ import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/presentation/widgets/text_form_field.dart';
 import '../../../../../core/presentation/widgets/loading_widget.dart';
-import 'package:cash_money/core/constants/app_labels_texts.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
-import 'package:cash_money/core/constants/app_hints_texts.dart';
 import 'package:cash_money/core/constants/app_text_styles.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/data/models/user_model.dart';
+import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_spaces.dart';
@@ -154,14 +153,12 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   Widget _buildNameField() {
-    const name = AppLabelsTexts.name;
-
     return _buildCustomInputField(
       controller: _nameController,
-      label: name,
-      hint: AppHintsTexts.name,
+      label: AppStrings.nameLabel,
+      hint: AppStrings.nameHint,
       icon: Icons.person,
-      validator: (value) => ValidateInput.validator(value, name),
+      validator: (value) => ValidateInput.validator(value, AppStrings.nameLabel),
     );
   }
 

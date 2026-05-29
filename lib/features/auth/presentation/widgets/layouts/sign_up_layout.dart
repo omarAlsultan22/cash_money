@@ -5,11 +5,10 @@ import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
-import 'package:cash_money/core/constants/app_labels_texts.dart';
-import 'package:cash_money/core/constants/app_hints_texts.dart';
 import 'package:cash_money/core/constants/app_text_styles.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import '../../../../../core/data/models/message_result.dart';
+import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_spaces.dart';
@@ -159,12 +158,12 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   Widget _buildNameField() {
     return BuildInputField(
       controller: _nameController,
-      labelText: AppLabelsTexts.name,
-      hintText: AppHintsTexts.name,
+      labelText: AppStrings.nameLabel,
+      hintText: AppStrings.nameHint,
       prefixIcon: Icons.person,
       autofillHints: const [AutofillHints.name],
       validator: (value) =>
-          ValidateInput.validator(value!, AppLabelsTexts.name),
+          ValidateInput.validator(value!, AppStrings.nameLabel),
     );
   }
 
