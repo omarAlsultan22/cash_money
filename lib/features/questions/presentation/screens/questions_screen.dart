@@ -1,5 +1,5 @@
-import '../../../../core/presentation/providers/connectivity_provider.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
+import '../../../../core/presentation/providers/connectivity_provider.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
 import '../../../../core/presentation/widgets/states/error_state.dart';
