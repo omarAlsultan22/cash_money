@@ -264,7 +264,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                     ),
                   ],
                 ),
-                AppSpaces.height_40,
+                AppSpaces.vertical_40,
                 // Question Card
                 Card(
                   elevation: 4,
@@ -288,7 +288,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                     ),
                   ),
                 ),
-                AppSpaces.height_30,
+                AppSpaces.vertical_30,
                 // Answers Section
                 Expanded(
                   child: ListView(

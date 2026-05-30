@@ -26,7 +26,7 @@ class ErrorStateWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: _paddingHorizontal),
             child: Text('Error: $message'),
           ),
-          AppSpaces.height_30,
+          AppSpaces.vertical_30,
           ElevatedButton(
             onPressed: onRetry,
             child: Text(buttonText!),

@@ -131,7 +131,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   Widget _buildBody() {
-    const spaceBetweenFields = AppSpaces.height_16;
+    const spaceBetweenFields = AppSpaces.vertical_16;
 
     return IgnorePointer(
       ignoring: widget.messageResult.isLoading,
@@ -216,7 +216,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   Widget _buildLoadingIndicator() {
     return const Column(
       children: [
-        AppSpaces.height_24,
+        AppSpaces.vertical_24,
         CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(AppColors.amber_500),
         ),

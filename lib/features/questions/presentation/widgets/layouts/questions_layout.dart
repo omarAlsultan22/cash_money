@@ -141,7 +141,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
               }
             },
             separatorBuilder: (context, index) =>
-            AppSpaces.height_8,
+            AppSpaces.vertical_8,
           ),
         ),
       ),

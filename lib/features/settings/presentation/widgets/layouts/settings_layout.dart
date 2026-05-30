@@ -115,11 +115,11 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderSection(),
-              AppSpaces.height_32,
+              AppSpaces.vertical_32,
               _buildNameField(),
-              AppSpaces.height_24,
+              AppSpaces.vertical_24,
               _buildChangePasswordButton(),
-              AppSpaces.height_16,
+              AppSpaces.vertical_16,
               _buildUpdateButton(),
             ],
           ),
@@ -140,7 +140,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             color: AppColors.amber_400,
           ),
         ),
-        AppSpaces.height_8,
+        AppSpaces.vertical_8,
         Text(
           'Update your personal information',
           style: TextStyle(
@@ -180,7 +180,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             fontSize: AppSizes.fontSize_16,
           ),
         ),
-        AppSpaces.height_8,
+        AppSpaces.vertical_8,
         BuildInputField(
           controller: controller,
           hintText: hint,

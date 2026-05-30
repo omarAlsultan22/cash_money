@@ -63,7 +63,7 @@ class HomeLayout extends StatelessWidget {
                       ),
                     ),
                   ),
-                  AppSpaces.height_40,
+                  AppSpaces.vertical_40,
                   // Buttons Section
                   _buildMenuButton(
                     context,

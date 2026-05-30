@@ -88,9 +88,9 @@ class _SignUpLayoutState extends State<SignUpLayout> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(context),
-                      AppSpaces.height_24,
+                      AppSpaces.vertical_24,
                       _buildInputFields(),
-                      AppSpaces.height_24,
+                      AppSpaces.vertical_24,
                       _buildRegisterButton(),
                     ],
                   ),
@@ -104,7 +104,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   }
 
   Widget _buildInputFields() {
-    const spaceBetweenFields = AppSpaces.height_16;
+    const spaceBetweenFields = AppSpaces.vertical_16;
 
     return Column(
       children: [
@@ -140,7 +140,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        AppSpaces.height_8,
+        AppSpaces.vertical_8,
         Text(
           'Register now to join the world of happiness',
           style: Theme

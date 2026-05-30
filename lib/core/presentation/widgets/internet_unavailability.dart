@@ -41,7 +41,7 @@ class InternetUnavailability extends StatelessWidget {
                   color: Color(0xFF424242)
               )
           ),
-          AppSpaces.height_30,
+          AppSpaces.vertical_30,
           ElevatedButton(
             onPressed: isInternetAvailable,
             child: const Text('Retry'),

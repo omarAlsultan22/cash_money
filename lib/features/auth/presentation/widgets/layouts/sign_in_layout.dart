@@ -95,13 +95,13 @@ class _SignInLayoutState extends State<SignInLayout> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(context),
-                      AppSpaces.height_32,
+                      AppSpaces.vertical_32,
                       _buildEmailField(),
-                      AppSpaces.height_16,
+                      AppSpaces.vertical_16,
                       _buildPasswordField(),
-                      AppSpaces.height_24,
+                      AppSpaces.vertical_24,
                       _buildLoginButton(),
-                      AppSpaces.height_16,
+                      AppSpaces.vertical_16,
                       _buildRegisterLink(),
                       _buildForgetPasswordLink()
                     ],
@@ -130,7 +130,7 @@ class _SignInLayoutState extends State<SignInLayout> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        AppSpaces.height_8,
+        AppSpaces.vertical_8,
         Text(
           'Login now to communicate with friends',
           style: Theme
