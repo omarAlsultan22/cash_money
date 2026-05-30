@@ -2,7 +2,6 @@ import 'package:cash_money/features/questions/presentation/enums/questions_keys.
 import '../../../../core/presentation/providers/connectivity_provider.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
-import '../../../../core/presentation/widgets/states/error_state.dart';
 import '../widgets/connectivity_aware_screen.dart';
 import '../widgets/layouts/questions_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
