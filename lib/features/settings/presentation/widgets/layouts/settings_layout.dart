@@ -34,7 +34,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
 
-  static const _paddingVertical = AppPaddings.symmetricVertical;
+  static const _paddingVertical = AppPaddings.verticalSymmetric;
   static const _roundedRectangleBorder = RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(12.0)));
 

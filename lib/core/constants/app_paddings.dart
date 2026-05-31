@@ -8,6 +8,6 @@ abstract class AppPaddings {
 
   static const EdgeInsets medium = EdgeInsets.all(_medium);
   static const EdgeInsets large = EdgeInsets.all(_large);
-  static const EdgeInsets symmetricVertical = EdgeInsets.symmetric(
+  static const EdgeInsets verticalSymmetric = EdgeInsets.symmetric(
       vertical: _small);
 }

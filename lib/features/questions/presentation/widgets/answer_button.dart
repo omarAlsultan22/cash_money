@@ -59,7 +59,7 @@ class _AnswerButtonState extends State<AnswerButton> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: widget.color,
-          padding: AppPaddings.symmetricVertical,
+          padding: AppPaddings.verticalSymmetric,
           shape: RoundedRectangleBorder(
             borderRadius: _borderRadius,
           ),

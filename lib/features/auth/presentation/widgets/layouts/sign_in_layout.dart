@@ -295,7 +295,7 @@ class _SignInLayoutState extends State<SignInLayout> {
     return ElevatedButton.styleFrom(
       backgroundColor: AppColors.amber_500,
       foregroundColor: AppColors.black,
-      padding: AppPaddings.symmetricVertical,
+      padding: AppPaddings.verticalSymmetric,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
