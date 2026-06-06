@@ -1,6 +1,7 @@
-import '../../../../core/presentation/providers/connectivity_provider.dart';
+import 'package:cash_money/core/presentation/states/loaded_states.dart';
 import 'package:cash_money/features/settings/domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
+import '../../../../core/presentation/providers/connectivity_provider.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
@@ -40,15 +41,19 @@ class SettingsScreen extends StatelessWidget {
                 const InitialStateWidget(),
                 onLoading: () =>
                 const LoadingStateWidget(),
-                onLoaded: (loadedState) =>
+                onLoaded: (loadedState) {
+                  if (loadedState is DoubleModelSuccessState) {
                     SettingsLayout(
                       userModel: loadedState.firstModel,
                       messageResult: loadedState.secondModel,
                       onUpdate: (userModel) =>
                           cubit.updateInfo(
-                              userName: userModel.userName,
+                            userName: userModel.userName,
                           ),
-                    ),
+                    );
+                  }
+                  return const InitialStateWidget();
+                },
                 onError: (error) =>
                     error.buildErrorWidget(
                         onRetry: () => cubit.getInfo()

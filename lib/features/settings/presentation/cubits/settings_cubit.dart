@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/useCases/settings_useCase.dart';
 import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
-import '../../../../core/data/network/connectivity_service.dart';
 import '../../../../core/presentation/providers/connectivity_provider.dart';
 
 
@@ -21,7 +21,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       : _settingsUseCase = settingsUseCase,
         _connectivityProvider = connectivityProvider,
         super(
-          SettingsState(subState: InitialState()));
+          SettingsState.initial());
 
   static SettingsCubit get(context) => BlocProvider.of(context);
 
@@ -41,7 +41,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     required String userName,
   }) async {
     SettingsState buildState(MessageResult messageResult) {
-      return state.updateState(
+      return state.copyWith(
           firstModel: state.userModel,
           secondModel: messageResult,
           subState: SuccessState()
@@ -85,7 +85,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     if (!_connectivityProvider.isConnected && state.firstModel == null) {
       final connectivityService = ConnectivityService();
       emit(
-          state.updateState(
+          state.copyWith(
             subState: ErrorState(
               failure: NetworkAppException(
                   error: internetUnavailable,
@@ -97,13 +97,13 @@ class SettingsCubit extends Cubit<SettingsState> {
       return;
     }
     emit(
-        state.updateState(
+        state.copyWith(
             subState: LoadingState()));
 
     try {
       final userModel = await _settingsUseCase.getInfoExecute();
       emit(
-          state.updateState(
+          state.copyWith(
               firstModel: userModel,
               subState: SuccessState()));
     }
@@ -114,7 +114,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       );
       final exception = errorHandler.handleException();
       emit(
-          state.updateState(
+          state.copyWith(
               subState: ErrorState(
                   failure: exception
               )

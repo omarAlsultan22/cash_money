@@ -1,8 +1,8 @@
 import 'package:cash_money/features/questions/data/models/start_model.dart';
 import '../../../../core/presentation/states/base/main_app_sub_state.dart';
-import '../../../../core/presentation/states/base/main_app_sup_state.dart';
 import '../../../../core/presentation/states/base/main_loaded_state.dart';
-import 'package:cash_money/core/presentation/states/loaded_states.dart';
+import 'package:cash_money/core/presentation/states/app_sup_states.dart';
+import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/errors/exceptions/base/app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../data/models/questions_result.dart';
@@ -10,7 +10,7 @@ import '../../data/models/question_model.dart';
 import '../enums/questions_keys.dart';
 
 
-class DataState extends MainAppSupState<QuestionsData, GameState> {
+class DataState extends DoubleModelAppState<QuestionsData, GameState> {
   final QuestionsKeys? key;
 
   DataState({
@@ -20,6 +20,14 @@ class DataState extends MainAppSupState<QuestionsData, GameState> {
     required super.subState,
   });
 
+  factory DataState.initial(){
+    return DataState(
+        firstModel: null,
+        secondModel: null,
+        subState: InitialState()
+    );
+  }
+
   bool get hasMore => firstModel!.hasMore;
 
   bool get listIsEmpty => firstModel!.listIsEmpty;
@@ -27,13 +35,6 @@ class DataState extends MainAppSupState<QuestionsData, GameState> {
   List<QuestionModel> get questions => firstModel!.questions;
 
   DocumentSnapshot? get lastDocument => firstModel!.lastDocument;
-
-  @override
-  LoadedState get dataModels =>
-      MultiModelSuccessState<QuestionsData, GameState>(
-          firstModel: firstModel,
-          secondModel: secondModel
-      );
 
   QuestionsData copyWithQuestions({
     bool? hasMore,
@@ -56,7 +57,7 @@ class DataState extends MainAppSupState<QuestionsData, GameState> {
       );
 
   @override
-  DataState updateState({
+  DataState copyWith({
     QuestionsKeys? key,
     QuestionsData? firstModel,
     GameState? secondModel,

@@ -2,6 +2,7 @@ import 'package:cash_money/features/questions/presentation/enums/questions_keys.
 import '../../../../core/presentation/providers/connectivity_provider.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
+import 'package:cash_money/core/presentation/states/loaded_states.dart';
 import '../widgets/connectivity_aware_screen.dart';
 import '../widgets/layouts/questions_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +45,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isErrorState(DataState current) {
+    bool isCurrentScreen(DataState current) {
       return current.key == _questionsScreen;
     }
 
@@ -53,18 +54,22 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           return ConnectivityAwareScreen(
               isConnected: connectivityProvider.isConnected,
               child: BlocBuilder<DataCubit, DataState>(
-                  buildWhen: (previous, current) => isErrorState(current),
+                  buildWhen: (previous, current) => isCurrentScreen(current),
                   builder: (context, state) {
                     return state.when(
                       onInitial: () => const InitialStateWidget(),
                       onLoading: () => const LoadingStateWidget(),
-                      onLoaded: (loadedState) =>
+                      onLoaded: (loadedState) {
+                        if (loadedState is DoubleModelSuccessState) {
                           BuildQuestionsScreen(
                               isLoading: false,
                               questionsData: loadedState.firstModel,
                               getData: () => _cubit.loadMoreData(),
                               isConnected: connectivityProvider.isConnected
-                          ),
+                          );
+                        }
+                        return const InitialStateWidget();
+                      },
                       onError: (error) =>
                           error.buildErrorWidget(
                               onRetry: () => _cubit.loadMoreData()

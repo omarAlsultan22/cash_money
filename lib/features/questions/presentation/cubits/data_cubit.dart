@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import '../../domain/useCases/questions_data_useCase.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
-import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/errors/mappers/error_handler.dart';
+import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/presentation/providers/connectivity_provider.dart';
 
@@ -22,9 +22,7 @@ class DataCubit extends Cubit<DataState> {
       : _questionsDataUseCase = questionsDataUseCase,
         _connectivityProvider = connectivityProvider,
         super(
-          DataState(
-              subState: InitialState()
-          )
+          DataState.initial()
       );
 
   static DataCubit get(context) => BlocProvider.of(context);
@@ -43,7 +41,7 @@ class DataCubit extends Cubit<DataState> {
   void restLock() {
     final questions = state.copyWithQuestions(hasMore: true);
     emit(
-        state.updateState(firstModel: questions)
+        state.copyWith(firstModel: questions)
     );
   }
 
@@ -53,7 +51,7 @@ class DataCubit extends Cubit<DataState> {
         currentIndex: 0
     );
     emit(
-        state.updateState(
+        state.copyWith(
             secondModel: startModel
         )
     );
@@ -63,7 +61,7 @@ class DataCubit extends Cubit<DataState> {
     final startModel = state.copyWithStart(
         points: points
     );
-    emit(state.updateState(secondModel: startModel)
+    emit(state.copyWith(secondModel: startModel)
     );
   }
 
@@ -71,19 +69,24 @@ class DataCubit extends Cubit<DataState> {
     final startModel = state.copyWithStart(
         currentIndex: currentIndex
     );
-    emit(state.updateState(
+    emit(state.copyWith(
         secondModel: startModel)
     );
   }
 
-  Future<void> _fetchData()async {
+  Future<void> _fetchData() async {
     try {
       final result = await _questionsDataUseCase.execute(params:
       GetQuestionsParams(
         lastDocument: state.lastDocument,
       ));
 
-      emit(state.updateState(
+      if (result!.listIsEmpty) {
+        emit(state.copyWith(subState: InitialState()));
+        return;
+      }
+
+      emit(state.copyWith(
           firstModel: result,
           subState: SuccessState())
       );
@@ -98,7 +101,7 @@ class DataCubit extends Cubit<DataState> {
 
     if (!_connectivityProvider.isConnected) {
       emit(
-          state.updateState(
+          state.copyWith(
               subState: ErrorState(
                   failure: NetworkAppException(
                       error: AppStrings.noInternetMessage))
@@ -107,7 +110,7 @@ class DataCubit extends Cubit<DataState> {
       return;
     }
     emit(
-        state.updateState(
+        state.copyWith(
             key: key,
             subState: LoadingState())
     );
@@ -115,8 +118,9 @@ class DataCubit extends Cubit<DataState> {
       _fetchData();
     }
     catch (e, stackTrace) {
-      final exception =  ErrorHandler(error: e, stackTrace: stackTrace).handleException();
-      emit(state.updateState(subState: ErrorState(failure: exception)));
+      final exception = ErrorHandler(error: e, stackTrace: stackTrace)
+          .handleException();
+      emit(state.copyWith(subState: ErrorState(failure: exception)));
     }
   }
 
