@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../../features/questions/data/models/answer_model.dart';
-import '../../../../features/questions/data/models/question_model.dart';
+import '../models/answer_model.dart';
+import '../models/question_model.dart';
 
 
 class DataConverter {

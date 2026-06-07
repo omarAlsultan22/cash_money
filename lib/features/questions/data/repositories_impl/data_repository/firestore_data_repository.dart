@@ -1,5 +1,5 @@
 import '../../../../../core/data/data_sources/remote/firestore.dart';
-import '../../../../../core/presentation/utils/helpers/data_converter.dart';
+import '../../converters/data_converter.dart';
 import '../../../domain/repositories/app_data_repository.dart';
 import 'package:cash_money/core/constants/app_durations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
