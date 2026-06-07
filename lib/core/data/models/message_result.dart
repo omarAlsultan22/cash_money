@@ -4,7 +4,6 @@ import '../../errors/exceptions/base/app_exception.dart';
 
 
 class MessageResult {
-  final String? error;
   final bool isLoading;
   final String? message;
   final Color? color;
@@ -12,10 +11,12 @@ class MessageResult {
   MessageResult({
     this.isLoading = false,
     this.message,
-    this.error,
     this.color
   });
 
+  factory MessageResult.initial(){
+    return MessageResult();
+  }
 
   factory MessageResult.loading(){
     return MessageResult(
@@ -25,7 +26,6 @@ class MessageResult {
 
   factory MessageResult.success({String? message}){
     return MessageResult(
-        isLoading: false,
         color: AppColors.successGreen,
         message: message ?? 'Updated Successfully'
     );
@@ -35,7 +35,6 @@ class MessageResult {
     AppException? error,
   }){
     return MessageResult(
-        isLoading: false,
         color: AppColors.errorRed,
         message: 'Update failed: ${error!.error}'
     );

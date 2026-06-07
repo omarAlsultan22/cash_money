@@ -19,7 +19,7 @@ class SettingsState extends DoubleModelAppState<UserModel, MessageResult> {
   factory SettingsState.initial(){
     return SettingsState(
         firstModel: null,
-        secondModel: null,
+        secondModel: MessageResult.initial(),
         subState: InitialState()
     );
   }

@@ -2,10 +2,10 @@ import '../states/auth_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/errors/mappers/error_handler.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/features/auth/domain/useCases/sign_up_useCase.dart';
-import '../../../../core/data/network/connectivity_service.dart';
 
 
 class SignUpCubit extends Cubit<AuthState> {
@@ -19,7 +19,7 @@ class SignUpCubit extends Cubit<AuthState> {
   })
       : _useCase = useCase,
         _connectivityService = connectivityService,
-        super(const AuthState());
+        super(AuthState.initial());
 
   static SignUpCubit get(context) => BlocProvider.of(context);
 
