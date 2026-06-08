@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import '../../domain/useCases/questions_data_useCase.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
-import 'package:cash_money/core/errors/mappers/error_handler.dart';
+import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/presentation/providers/connectivity_provider.dart';
 
 
-class DataCubit extends Cubit<DataState> {
+class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
   final QuestionsDataUseCase _questionsDataUseCase;
   final ConnectivityProvider _connectivityProvider;
 
@@ -118,9 +118,14 @@ class DataCubit extends Cubit<DataState> {
       _fetchData();
     }
     catch (e, stackTrace) {
-      final exception = ErrorHandler(error: e, stackTrace: stackTrace)
-          .handleException();
-      emit(state.copyWith(subState: ErrorState(failure: exception)));
+      handleError(e, stackTrace,
+          onError: (failure) =>
+              state.copyWith(
+                  subState: ErrorState(
+                      failure: failure
+                  )
+              )
+      );
     }
   }
 

@@ -1,16 +1,16 @@
 import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/useCases/settings_useCase.dart';
-import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import '../../../../core/data/network/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
+import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/presentation/providers/connectivity_provider.dart';
 
 
-class SettingsCubit extends Cubit<SettingsState> {
+class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<SettingsState> {
   final SettingsUseCase _settingsUseCase;
   final ConnectivityProvider _connectivityProvider;
 
@@ -72,12 +72,11 @@ class SettingsCubit extends Cubit<SettingsState> {
       emit(buildState(MessageResult.success()));
     }
     catch (e, stackTrace) {
-      final errorHandler = ErrorHandler(
-          error: e,
-          stackTrace: stackTrace
+      handleError(e, stackTrace,
+          onError: (failure) =>
+              state.copyWith(secondModel: MessageResult.error(error: failure)
+              )
       );
-      final exception = errorHandler.handleException();
-      emit(buildState(MessageResult.error(error: exception)));
     }
   }
 
@@ -108,17 +107,13 @@ class SettingsCubit extends Cubit<SettingsState> {
               subState: SuccessState()));
     }
     catch (e, stackTrace) {
-      final errorHandler = ErrorHandler(
-          error: e,
-          stackTrace: stackTrace
-      );
-      final exception = errorHandler.handleException();
-      emit(
-          state.copyWith(
-              subState: ErrorState(
-                  failure: exception
+      handleError(e, stackTrace,
+          onError: (failure) =>
+              state.copyWith(
+                  subState: ErrorState(
+                      failure: failure
+                  )
               )
-          )
       );
     }
   }

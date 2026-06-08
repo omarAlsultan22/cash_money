@@ -1,14 +1,14 @@
 import '../states/auth_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_strings.dart';
-import '../../../../core/errors/mappers/error_handler.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
-import '../../../../core/errors/exceptions/network_app_exception.dart';
-import 'package:cash_money/features/auth/domain/useCases/sign_in_useCase.dart';
 import '../../../../core/data/network/connectivity_service.dart';
+import '../../../../core/errors/exceptions/network_app_exception.dart';
+import '../../../../core/presentation/mixins/error_handler_mixin.dart';
+import 'package:cash_money/features/auth/domain/useCases/sign_in_useCase.dart';
 
 
-class SignInCubit extends Cubit<AuthState> {
+class SignInCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
   final SignInUseCase _useCase;
   final ConnectivityService _connectivityService;
 
@@ -48,12 +48,11 @@ class SignInCubit extends Cubit<AuthState> {
       emit(AuthState(
           messageResult: MessageResult.success()));
     } catch (e, stackTrace) {
-      final errorHandler = ErrorHandler(
-          error: e,
-          stackTrace: stackTrace
+      handleError(e, stackTrace,
+          onError: (failure) =>
+              AuthState(messageResult: MessageResult.error(error: failure)
+              )
       );
-      final exception = errorHandler.handleException();
-      emit(AuthState(messageResult: MessageResult.error(error: exception)));
     }
   }
 }
