@@ -1,8 +1,8 @@
 import 'package:cash_money/core/presentation/utils/helpers/validate/validator_input.dart';
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
+import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
 import 'package:cash_money/core/constants/app_text_styles.dart';
@@ -62,8 +62,10 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   }
 
   void _showMessageResult(MessageResult messageResult) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        BuildSnackBar.build(messageResult.message!, messageResult.color!)
+    BuildSnackBar.show(
+        context: context,
+        message: messageResult.message!,
+        backgroundColor: messageResult.color!
     );
   }
 

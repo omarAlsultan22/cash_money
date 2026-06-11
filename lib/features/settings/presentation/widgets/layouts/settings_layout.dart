@@ -80,8 +80,10 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   void _showMessageResult(MessageResult messageResult) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        BuildSnackBar.build(messageResult.message!, messageResult.color!)
+    BuildSnackBar.show(
+        message: messageResult.message!,
+        backgroundColor: messageResult.color!,
+        context: context
     );
   }
 

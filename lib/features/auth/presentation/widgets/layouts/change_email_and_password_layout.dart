@@ -1,7 +1,7 @@
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
-import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
+import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
@@ -250,8 +250,11 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     if (!_formKey.currentState!.validate()) return false;
 
     if (_newPasswordController.text != _repeatNewPasswordController.text) {
-      BuildSnackBar.build(
-          'The new password does not match', AppColors.errorRed);
+      BuildSnackBar.show(
+          message: 'The new password does not match',
+          backgroundColor: AppColors.errorRed,
+          context: context
+      );
       return false;
     }
 
@@ -273,8 +276,10 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   void _showMessageResult(MessageResult messageResult) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        BuildSnackBar.build(messageResult.message!, messageResult.color!)
+    BuildSnackBar.show(
+        context: context,
+        message: messageResult.message!,
+        backgroundColor: messageResult.color!
     );
   }
 

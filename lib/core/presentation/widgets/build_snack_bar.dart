@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 
 class BuildSnackBar {
-  static const _durationSeconds = 3;
-
-  static SnackBar build(String message, Color backgroundColor) {
+  static SnackBar create({
+    required String message,
+    required Color backgroundColor,
+  }) {
     return SnackBar(
       content: Text(message),
       backgroundColor: backgroundColor,
@@ -12,7 +13,17 @@ class BuildSnackBar {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      duration: const Duration(seconds: _durationSeconds),
+      duration: const Duration(seconds: 3),
+    );
+  }
+
+  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> show({
+    required String message,
+    required Color backgroundColor,
+    required BuildContext context,
+  }) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      create(message: message, backgroundColor: backgroundColor),
     );
   }
 }
