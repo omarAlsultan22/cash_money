@@ -1,7 +1,7 @@
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
+import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
-import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
 import 'package:cash_money/core/constants/app_text_styles.dart';
@@ -11,8 +11,8 @@ import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../../core/constants/app_spaces.dart';
-import '../../screens/forget_password_screen.dart';
 import '../../utils/validate/validate_password.dart';
+import '../../screens/forget_password_screen.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../screens/sign_up_screen.dart';

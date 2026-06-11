@@ -2,7 +2,7 @@ import 'package:cash_money/core/presentation/utils/helpers/validate/validator_in
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
-import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
+import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
 import 'package:cash_money/core/constants/app_text_styles.dart';

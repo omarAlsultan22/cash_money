@@ -1,7 +1,7 @@
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
-import 'package:cash_money/core/presentation/widgets/text_form_field.dart';
+import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';

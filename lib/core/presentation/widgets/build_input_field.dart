@@ -3,22 +3,23 @@ import 'package:flutter/material.dart';
 
 
 class BuildInputField extends StatelessWidget {
+  bool obscureText;
+  final String hintText;
   final String? labelText;
   final Widget? suffixIcon;
-  bool obscureText = false;
+  final IconData prefixIcon;
   final List<String>? autofillHints;
   final TextInputType? keyboardType;
   final TextEditingController controller;
-  final String hintText;
-  final IconData prefixIcon;
   final String? Function(dynamic value) validator;
 
   BuildInputField({
+    super.key,
     this.labelText,
     this.suffixIcon,
-    this.obscureText = false,
     this.autofillHints,
     this.keyboardType,
+    this.obscureText = false,
     required this.controller,
     required this.hintText,
     required this.prefixIcon,
