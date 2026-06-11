@@ -1,4 +1,4 @@
-import '../../../settings/data/repositories_impl/firestore_settings_repository.dart';
+import 'package:cash_money/features/auth/data/repositories_impl/firebase_sign_up_repository.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/auth/presentation/cubits/sign_up_cubit.dart';
 import 'package:cash_money/features/auth/domain/useCases/sign_up_useCase.dart';
@@ -21,12 +21,11 @@ class SignUpScreen extends StatelessWidget {
     final repository = FirestoreService();
     final cacheHelper = CacheHelper();
     final authRepository = FirebaseAuthRepository(auth: auth);
-    final settingsRepository = FirestoreSettingsRepository(
-        repository: repository, cacheHelper: cacheHelper);
+    final signUpRepository = FirebaseSignUpRepository(repository: repository);
     final useCase = SignUpUseCase(
         cacheHelper: cacheHelper,
         authRepository: authRepository,
-        settingsRepository: settingsRepository
+        signUpRepository: signUpRepository
     );
     final connectivityService = ConnectivityService();
     final cubit = SignUpCubit(
@@ -41,9 +40,9 @@ class SignUpScreen extends StatelessWidget {
                 required String userPassword,
               }) =>
                   cubit.signUp(
-                      userName: userName,
-                      userEmail: userEmail,
-                      userPassword: userPassword,
+                    userName: userName,
+                    userEmail: userEmail,
+                    userPassword: userPassword,
                   )
           );
         }

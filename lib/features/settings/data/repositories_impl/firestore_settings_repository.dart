@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../domain/repositories/settings_repository.dart';
@@ -6,42 +5,24 @@ import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/data/data_sources/local/shared_preferences.dart';
 
 
-class FirestoreSettingsRepository implements SettingsRepository {
+class FirebaseSignUpRepository implements SettingsRepository {
   final CacheHelper _cacheHelper;
   final FirestoreService _repository;
 
-  FirestoreSettingsRepository({
+  FirebaseSignUpRepository({
     required CacheHelper cacheHelper,
     required FirestoreService repository
   })
       : _repository = repository,
         _cacheHelper = cacheHelper;
 
-  static const uId = AppKeys.uId;
-  static const users = AppKeys.users;
-
-  @override
-  Future<void> createUserInfo({
-    required UserModel userModel,
-    required UserCredential userCredential
-  }) async {
-    try {
-      await _repository.setData(
-          collectionPath: users,
-          docId: userCredential.user!.uid,
-          data: userModel.toJson());
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   @override
   Future<UserModel> getUserInfo() async {
     try {
-      final userId = await _cacheHelper.getValue(key: uId);
+      final userId = await _cacheHelper.getValue(key: AppKeys.uId);
       final jsonData = await _repository.getDocument(
           docId: userId,
-          collectionPath: users);
+          collectionPath: AppKeys.users);
       return UserModel.fromDocumentSnapshot(jsonData);
     }
     catch (e) {
@@ -54,14 +35,14 @@ class FirestoreSettingsRepository implements SettingsRepository {
     required String userName,
   }) async {
     try {
-      final userId = await _cacheHelper.getValue(key: uId);
+      final userId = await _cacheHelper.getValue(key: AppKeys.uId);
 
       final userModel = UserModel(
-          userName: userName,
+        userName: userName,
       );
       await _repository.updateDocument(
           docId: userId,
-          collectionPath: users,
+          collectionPath: AppKeys.users,
           data: userModel.toJson());
     }
     catch (e) {

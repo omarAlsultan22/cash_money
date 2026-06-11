@@ -20,7 +20,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final repository = FirestoreService();
     final cacheHelper = CacheHelper();
-    final settingsRepository = FirestoreSettingsRepository(
+    final settingsRepository = FirebaseSignUpRepository(
         repository: repository,
         cacheHelper: cacheHelper);
     final settingsUseCase = SettingsUseCase(
