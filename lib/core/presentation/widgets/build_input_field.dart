@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 
 class BuildInputField extends StatelessWidget {
   bool obscureText;
-  final String hintText;
+  final String? hintText;
   final String? labelText;
   final Widget? suffixIcon;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
+  final InputDecoration? decoration;
   final List<String>? autofillHints;
   final TextInputType? keyboardType;
   final TextEditingController controller;
@@ -15,14 +16,15 @@ class BuildInputField extends StatelessWidget {
 
   BuildInputField({
     super.key,
+    this.hintText,
     this.labelText,
+    this.prefixIcon,
     this.suffixIcon,
+    this.decoration,
     this.autofillHints,
     this.keyboardType,
     this.obscureText = false,
     required this.controller,
-    required this.hintText,
-    required this.prefixIcon,
     required this.validator
   });
 
@@ -36,7 +38,7 @@ class BuildInputField extends StatelessWidget {
       cursorRadius: const Radius.circular(100.0),
       autofillHints: autofillHints,
       validator: validator,
-      decoration: InputDecoration(
+      decoration: decoration ?? InputDecoration(
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
         ),

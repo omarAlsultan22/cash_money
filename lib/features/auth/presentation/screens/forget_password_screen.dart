@@ -16,22 +16,24 @@ class ForgetPasswordScreen extends StatelessWidget {
     final auth = FirebaseAuthService();
     final authRepository = FirebaseAuthRepository(auth: auth);
     final connectivityService = ConnectivityService();
-    final cubit = ForgetPasswordCubit(
-        repository: authRepository,
-        connectivityService: connectivityService
-    );
-    return BlocBuilder<ForgetPasswordCubit, AuthState>(
-        builder: (context, state) {
-          return ForgetPasswordLayout(
-              messageResult: state.messageResult!,
-              onUpdate: ({
-                required String userEmail,
-              }) =>
-                  cubit.sendResetEmail(
-                      userEmail: userEmail
-                  )
-          );
-        }
+    return BlocProvider<ForgetPasswordCubit>(
+        create: (context) =>
+            ForgetPasswordCubit(repository: authRepository,
+                connectivityService: connectivityService),
+        child: BlocBuilder<ForgetPasswordCubit, AuthState>(
+            builder: (context, state) {
+              final cubit = ForgetPasswordCubit.get(context);
+              return ForgetPasswordLayout(
+                  messageResult: state.messageResult!,
+                  onUpdate: ({
+                    required String userEmail,
+                  }) =>
+                      cubit.sendResetEmail(
+                          userEmail: userEmail
+                      )
+              );
+            }
+        )
     );
   }
 }

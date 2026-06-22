@@ -81,6 +81,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
         lastDocument: state.lastDocument,
       ));
 
+      print(result!.length);
       if (result!.listIsEmpty) {
         emit(state.copyWith(subState: InitialState()));
         return;

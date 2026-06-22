@@ -60,7 +60,7 @@ class _StartScreenState extends State<StartScreen> {
                     final cacheHelper = CacheHelper();
                     final cubit = DataCubit.get(context);
                     return state.when(
-                      onInitial: () => const InitialStateWidget(),
+                      onInitial: () => const InitialStateWidget(text: 'Data', icon: Icons.menu),
                       onLoading: () => const LoadingStateWidget(),
                       onLoaded: (loadedState) {
                         if (loadedState is DoubleModelSuccessState) {
@@ -72,7 +72,7 @@ class _StartScreenState extends State<StartScreen> {
                             isConnected: connectivityProvider.isConnected,
                           );
                         }
-                        return const InitialStateWidget();
+                        return const InitialStateWidget(text: 'Data', icon: Icons.menu);
                       },
                       onError: (error) =>
                           error.buildErrorWidget(

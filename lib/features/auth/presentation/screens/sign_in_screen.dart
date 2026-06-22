@@ -22,22 +22,26 @@ class SignInScreen extends StatelessWidget {
         cacheHelper: cacheHelper,
         authRepository: authRepository);
     final connectivityService = ConnectivityService();
-    final cubit = SignInCubit(
-        useCase: useCase, connectivityService: connectivityService);
-    return BlocBuilder<SignInCubit, AuthState>(
-        builder: (context, state) {
-          return SignInLayout(
-              cacheHelper: cacheHelper,
-              messageResult: state.messageResult!,
-              onUpdate: ({
-                required String userEmail,
-                required String userPassword
-              }) =>
-                  cubit.signIn(
-                      userEmail: userEmail, userPassword: userPassword
-                  )
-          );
-        }
+    return BlocProvider<SignInCubit>(
+      create: (context) =>
+          SignInCubit(
+              useCase: useCase, connectivityService: connectivityService),
+      child: BlocBuilder<SignInCubit, AuthState>(
+          builder: (context, state) {
+            final cubit = SignInCubit.get(context);
+            return SignInLayout(
+                cacheHelper: cacheHelper,
+                messageResult: state.messageResult!,
+                onUpdate: ({
+                  required String userEmail,
+                  required String userPassword
+                }) =>
+                    cubit.signIn(
+                        userEmail: userEmail, userPassword: userPassword
+                    )
+            );
+          }
+      ),
     );
   }
 }

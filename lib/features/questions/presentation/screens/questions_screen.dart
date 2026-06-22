@@ -32,8 +32,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   void _cubitInitialization() {
     _cubit = DataCubit.get(context);
-    _cubit
-      ..getData(_questionsScreen)
+    _cubit..getData(_questionsScreen)
       ..startMonitoring();
   }
 
@@ -57,7 +56,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   buildWhen: (previous, current) => isCurrentScreen(current),
                   builder: (context, state) {
                     return state.when(
-                      onInitial: () => const InitialStateWidget(),
+                      onInitial: () => const InitialStateWidget(text: 'Data', icon: Icons.menu),
                       onLoading: () => const LoadingStateWidget(),
                       onLoaded: (loadedState) {
                         if (loadedState is DoubleModelSuccessState) {
@@ -68,7 +67,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                               isConnected: connectivityProvider.isConnected
                           );
                         }
-                        return const InitialStateWidget();
+                        return const InitialStateWidget(text: 'Data', icon: Icons.menu);
                       },
                       onError: (error) =>
                           error.buildErrorWidget(

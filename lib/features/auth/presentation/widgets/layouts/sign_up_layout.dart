@@ -14,11 +14,12 @@ import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 
 
 class SignUpLayout extends StatefulWidget {
-  final void Function({
+  final Future<void> Function({
   required String userName,
   required String userEmail,
   required String userPassword,
@@ -56,9 +57,12 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   void didUpdateWidget(covariant SignUpLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.messageResult.message != null) {
-      _showMessageResult(widget.messageResult);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showMessageResult(widget.messageResult);
+      });
+      setState(() {});
+      Navigator.pop(context);
     }
-    setState(() {});
   }
 
   void _showMessageResult(MessageResult messageResult) {
@@ -209,7 +213,7 @@ class _SignUpLayoutState extends State<SignUpLayout> {
       width: double.infinity,
       child: ElevatedButton(
         style: _registerButtonStyle(),
-        onPressed: widget.messageResult.isLoading ? _submitForm : null,
+        onPressed: _submitForm,
         child: _buildRegisterButtonContent(),
       ),
     );
@@ -240,9 +244,9 @@ class _SignUpLayoutState extends State<SignUpLayout> {
 
   Future<void> _performRegistration() async {
     widget.onUpdate(
-        userName: _nameController.text.trim(),
-        userEmail: _emailController.text.trim(),
-        userPassword: _passwordController.text,
+      userName: _nameController.text,
+      userEmail: _emailController.text.trim(),
+      userPassword: _passwordController.text,
     );
   }
 

@@ -9,9 +9,9 @@ class UserModel {
   });
 
   factory UserModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data()!;
+    final data = document.data();
     return UserModel(
-      userName: data['name']?.toString() ?? '',
+      userName: data!['name'].toString(),
     );
   }
 

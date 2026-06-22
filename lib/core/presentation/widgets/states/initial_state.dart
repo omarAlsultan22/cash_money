@@ -3,14 +3,34 @@ import 'package:flutter/material.dart';
 
 
 class InitialStateWidget extends StatelessWidget {
-  const InitialStateWidget({super.key});
+  final String text;
+  final IconData icon;
+
+  const InitialStateWidget({required this.text, required this.icon, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: Text('No data found',
-            style: TextStyle(color: AppColors.white
-            )
+    return Scaffold(
+        backgroundColor: AppColors.brown_900,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 100.0,
+                color: const Color(0xFFE0E0E0),
+              ),
+              Text(
+                'No $text Found',
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.grey500,
+                ),
+              ),
+            ],
+          ),
         )
     );
   }

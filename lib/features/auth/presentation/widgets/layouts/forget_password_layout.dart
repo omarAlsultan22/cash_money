@@ -1,8 +1,11 @@
+import 'package:cash_money/core/presentation/utils/helpers/validate/validator_input.dart';
 import 'package:cash_money/features/auth/constants/auth_lables_texts.dart';
+import '../../../../../core/presentation/widgets/build_input_field.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import '../../../../../core/data/models/message_result.dart';
 import '../../../../../core/constants/app_colors.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 
 
@@ -39,9 +42,12 @@ class _ForgotPasswordScreenState extends State<ForgetPasswordLayout> {
   void didUpdateWidget(covariant ForgetPasswordLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.messageResult.message != null) {
-      _showMessageResult(widget.messageResult);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showMessageResult(widget.messageResult);
+      });
+      setState(() {});
+      Navigator.pop(context);
     }
-    setState(() {});
   }
 
   void _showMessageResult(MessageResult messageResult) {
@@ -49,8 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgetPasswordLayout> {
         context: context,
         message: messageResult.message!,
         backgroundColor: messageResult.color!
-    );
-    Navigator.pop(context);
+    ).close();
   }
 
   Future<void> _sendResetEmail() async {
@@ -63,19 +68,22 @@ class _ForgotPasswordScreenState extends State<ForgetPasswordLayout> {
     return Scaffold(
       backgroundColor: AppColors.brown_900,
       appBar: AppBar(
-          title: const Text('Forget Password'),
+          title: const Text('Forget Password', style: TextStyle(color: AppColors.white)),
           backgroundColor: AppColors.transparent
+          ,
       ),
       body: Padding(
         padding: AppPaddings.medium,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            BuildInputField(
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: AuthLabelsTexts.emailLabelText,
                 border: OutlineInputBorder(),
               ),
+              validator: (value) => ValidateInput.validator(value, AuthLabelsTexts.emailLabelText),
             ),
             const SizedBox(height: 20),
             ElevatedButton(

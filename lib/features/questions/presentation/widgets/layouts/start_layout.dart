@@ -4,7 +4,6 @@ import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/data/models/start_model.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/presentation/widgets/connection_banner.dart';
-import 'package:cash_money/core/constants/app_durations.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
@@ -40,7 +39,7 @@ class BuildStartScreen extends StatefulWidget {
 class _BuildStartScreenState extends State<BuildStartScreen> {
 
   Timer? _timer;
-  int _timeLeft = AppDurations.oneSecond;
+  int _timeLeft = 1;
   bool _colors = false;
   late DataCubit _cubit;
   String? _userName;
@@ -55,7 +54,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   void _startTimer(int length) {
     _timer?.cancel();
     _timer = Timer.periodic(
-        const Duration(seconds: AppDurations.oneSecond), (timer) {
+        const Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
         setState(() {
           _timeLeft--;

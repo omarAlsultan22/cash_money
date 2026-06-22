@@ -17,8 +17,8 @@ class FirestoreService {
 
   // إضافة بيانات بمعرف محدد
   Future<void> setData({
-    required String collectionPath,
     required String docId,
+    required String collectionPath,
     required Map<String, dynamic> data,
   }) async {
     await _firestore.collection(collectionPath).doc(docId).set(data).timeout(_duration);

@@ -19,14 +19,17 @@ class FirebaseSignUpRepository implements SettingsRepository {
   @override
   Future<UserModel> getUserInfo() async {
     try {
-      final userId = await _cacheHelper.getValue(key: AppKeys.uId);
+      final docId = await _cacheHelper.getValue(key: AppKeys.uId);
+      print(docId);
       final jsonData = await _repository.getDocument(
-          docId: userId,
+          docId: docId,
           collectionPath: AppKeys.users);
+      print("info is ${jsonData.data()}");
       return UserModel.fromDocumentSnapshot(jsonData);
     }
     catch (e) {
-      rethrow;
+
+    rethrow;
     }
   }
 

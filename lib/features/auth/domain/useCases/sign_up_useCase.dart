@@ -36,8 +36,6 @@ class SignUpUseCase {
 
       await _signUpRepository.createUserInfo(
           userModel: userModel, userCredential: userCredential);
-
-      await _cacheHelper.putValue(key: 'userName', value: userName);
     } catch (e) {
     rethrow;
     }

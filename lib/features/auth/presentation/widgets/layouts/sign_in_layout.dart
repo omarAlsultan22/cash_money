@@ -16,12 +16,14 @@ import '../../screens/forget_password_screen.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../screens/sign_up_screen.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../navigation/navigator.dart';
 
 
 class SignInLayout extends StatefulWidget {
-  final void Function({
+  final Future<void> Function({
   required String userEmail,
   required String userPassword
   }) onUpdate;
@@ -64,7 +66,9 @@ class _SignInLayoutState extends State<SignInLayout> {
   void didUpdateWidget(covariant SignInLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.messageResult.message != null) {
-      _showMessageResult(widget.messageResult);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showMessageResult(widget.messageResult);
+      });
     }
     setState(() {});
   }
@@ -187,7 +191,7 @@ class _SignInLayoutState extends State<SignInLayout> {
       width: double.infinity,
       child: ElevatedButton(
         style: _loginButtonStyle(),
-        onPressed: widget.messageResult.isLoading ? () => _submitForm() : null,
+        onPressed: _submitForm,
         child: _buildLoginButtonContent(),
       ),
     );
@@ -253,11 +257,10 @@ class _SignInLayoutState extends State<SignInLayout> {
 
   Future<void> _checkLoginStatus() async {
     final value = await widget.cacheHelper.getValue(key: AppKeys.uId);
-    if (value?.isNotEmpty ?? false) {
-      _navigateToHome();
+    if (value != null) {
+      BuildNavigator.build(context: context, link: const HomeScreen());
     }
   }
-
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -269,13 +272,6 @@ class _SignInLayoutState extends State<SignInLayout> {
     Navigator.push(
       context,
       CupertinoPageRoute(builder: (context) => const SignUpScreen()),
-    );
-  }
-
-  void _navigateToHome() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:cash_money/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
@@ -10,11 +11,13 @@ import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../utils/validate/validate_email.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
+import '../navigation/navigator.dart';
 
 
 class ChangeEmailAndPasswordLayout extends StatefulWidget {
-  final void Function({
+  final Future<void> Function({
   required String newEmail,
   required String currentPassword,
   required String newPassword
@@ -63,9 +66,12 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     super.didUpdateWidget(oldWidget);
     if (widget.messageResult.message != null) {
       _clearUserData();
-      _showMessageResult(widget.messageResult);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showMessageResult(widget.messageResult);
+      });
+      setState(() {});
+      BuildNavigator.build(context: context, link: const SignInScreen());
     }
-    setState(() {});
   }
 
   @override

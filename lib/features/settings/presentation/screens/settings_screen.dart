@@ -1,4 +1,3 @@
-import 'package:cash_money/core/presentation/states/loaded_states.dart';
 import 'package:cash_money/features/settings/domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import '../../../../core/presentation/providers/connectivity_provider.dart';
@@ -6,6 +5,7 @@ import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
 import '../../data/repositories_impl/firestore_settings_repository.dart';
+import 'package:cash_money/core/presentation/states/loaded_states.dart';
 import '../widgets/layouts/settings_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../states/settings_state.dart';
@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
     final settingsUseCase = SettingsUseCase(
         repository: settingsRepository);
     final connectivityProvider = ConnectivityProvider();
-    return BlocProvider(
+    return BlocProvider<SettingsCubit>(
         create: (context) =>
         SettingsCubit(
             settingsUseCase: settingsUseCase,
@@ -38,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
               final cubit = SettingsCubit.get(context);
               return state.when(
                 onInitial: () =>
-                const InitialStateWidget(),
+                const InitialStateWidget(text: 'Info', icon: Icons.info_outline),
                 onLoading: () =>
                 const LoadingStateWidget(),
                 onLoaded: (loadedState) {
@@ -52,7 +52,7 @@ class SettingsScreen extends StatelessWidget {
                           ),
                     );
                   }
-                  return const InitialStateWidget();
+                  return const InitialStateWidget(text: 'Info', icon: Icons.info_outline);
                 },
                 onError: (error) =>
                     error.buildErrorWidget(

@@ -28,24 +28,28 @@ class SignUpScreen extends StatelessWidget {
         signUpRepository: signUpRepository
     );
     final connectivityService = ConnectivityService();
-    final cubit = SignUpCubit(
-        useCase: useCase, connectivityService: connectivityService);
-    return BlocBuilder<SignUpCubit, AuthState>(
-        builder: (context, state) {
-          return SignUpLayout(
-              messageResult: state.messageResult!,
-              onUpdate: ({
-                required String userName,
-                required String userEmail,
-                required String userPassword,
-              }) =>
-                  cubit.signUp(
-                    userName: userName,
-                    userEmail: userEmail,
-                    userPassword: userPassword,
-                  )
-          );
-        }
+    return BlocProvider<SignUpCubit>(
+        create: (context) =>
+            SignUpCubit(
+                useCase: useCase, connectivityService: connectivityService),
+        child: BlocBuilder<SignUpCubit, AuthState>(
+            builder: (context, state) {
+              final cubit = SignUpCubit.get(context);
+              return SignUpLayout(
+                  messageResult: state.messageResult!,
+                  onUpdate: ({
+                    required String userName,
+                    required String userEmail,
+                    required String userPassword,
+                  }) =>
+                      cubit.signUp(
+                        userName: userName,
+                        userEmail: userEmail,
+                        userPassword: userPassword,
+                      )
+              );
+            }
+        )
     );
   }
 }
