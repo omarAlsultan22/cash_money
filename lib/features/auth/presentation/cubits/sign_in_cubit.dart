@@ -41,7 +41,7 @@ class SignInCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
       if (userEmail.isEmpty || userPassword.isEmpty) {
         throw('Fields cannot be empty.');
       }
-      _useCase.signInExecute(
+      _useCase.execute(
           userEmail: userEmail,
           userPassword: userPassword
       );

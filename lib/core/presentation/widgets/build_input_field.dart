@@ -6,6 +6,7 @@ class BuildInputField extends StatelessWidget {
   bool obscureText;
   final String? hintText;
   final String? labelText;
+  final String? helperText;
   final Widget? suffixIcon;
   final IconData? prefixIcon;
   final InputDecoration? decoration;
@@ -17,6 +18,7 @@ class BuildInputField extends StatelessWidget {
   BuildInputField({
     super.key,
     this.hintText,
+    this.helperText,
     this.labelText,
     this.prefixIcon,
     this.suffixIcon,
@@ -42,10 +44,11 @@ class BuildInputField extends StatelessWidget {
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
         ),
+        filled: true,
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.grey),
         labelText: labelText,
-        filled: true,
+        helperText: helperText,
         fillColor: AppColors.brown_700.withOpacity(0.5),
         labelStyle: const TextStyle(color: AppColors.amber_500),
         prefixIcon: Icon(prefixIcon, color: AppColors.amber_500),

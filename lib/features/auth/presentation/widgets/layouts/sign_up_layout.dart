@@ -60,8 +60,10 @@ class _SignUpLayoutState extends State<SignUpLayout> {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         _showMessageResult(widget.messageResult);
       });
+      if (widget.messageResult.error == null) {
+        Navigator.pop(context);
+      }
       setState(() {});
-      Navigator.pop(context);
     }
   }
 
@@ -163,38 +165,39 @@ class _SignUpLayoutState extends State<SignUpLayout> {
 
   Widget _buildNameField() {
     return BuildInputField(
-      controller: _nameController,
-      labelText: AppStrings.nameLabel,
-      hintText: AppStrings.nameHint,
-      prefixIcon: Icons.person,
-      autofillHints: const [AutofillHints.name],
-      validator: (value) =>
-          ValidateInput.validator(value!, AppStrings.nameLabel),
+        prefixIcon: Icons.person,
+        controller: _nameController,
+        labelText: AppStrings.nameLabel,
+        hintText: AppStrings.nameHint,
+        autofillHints: const [AutofillHints.name],
+        validator: (value) =>
+            ValidateInput.validator(value!, AppStrings.nameLabel)
     );
   }
 
   Widget _buildEmailField() {
     return BuildInputField(
-      controller: _emailController,
-      labelText: AuthLabelsTexts.emailLabelText,
-      hintText: AuthHintsTexts.emailHintText,
-      prefixIcon: Icons.email,
-      keyboardType: TextInputType.emailAddress,
-      autofillHints: const [AutofillHints.email],
-      validator: (value) => ValidateEmail.validator(value!),
+        prefixIcon: Icons.email,
+        controller: _emailController,
+        labelText: AuthLabelsTexts.emailLabelText,
+        hintText: AuthHintsTexts.emailHintText,
+        helperText: 'For example: example@gmail.com',
+        keyboardType: TextInputType.emailAddress,
+        autofillHints: const [AutofillHints.email],
+        validator: (value) => ValidateEmail.validator(value!)
     );
   }
 
   Widget _buildPasswordField() {
     return BuildInputField(
-      controller: _passwordController,
-      labelText: AuthLabelsTexts.passwordLabelText,
-      hintText: AuthHintsTexts.passwordHintText,
-      prefixIcon: Icons.lock,
-      obscureText: _isObscure,
-      suffixIcon: _buildPasswordVisibilityToggle(),
-      autofillHints: const [AutofillHints.newPassword],
-      validator: (value) => ValidatePassword.validator(value!),
+        prefixIcon: Icons.lock,
+        obscureText: _isObscure,
+        controller: _passwordController,
+        labelText: AuthLabelsTexts.passwordLabelText,
+        hintText: AuthHintsTexts.passwordHintText,
+        suffixIcon: _buildPasswordVisibilityToggle(),
+        autofillHints: const [AutofillHints.newPassword],
+        validator: (value) => ValidatePassword.validator(value!)
     );
   }
 

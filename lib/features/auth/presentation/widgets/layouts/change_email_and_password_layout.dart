@@ -69,8 +69,10 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
       SchedulerBinding.instance.addPostFrameCallback((_) {
         _showMessageResult(widget.messageResult);
       });
+      if (widget.messageResult.error == null) {
+        BuildNavigator.build(context: context, link: const SignInScreen());
+      }
       setState(() {});
-      BuildNavigator.build(context: context, link: const SignInScreen());
     }
   }
 

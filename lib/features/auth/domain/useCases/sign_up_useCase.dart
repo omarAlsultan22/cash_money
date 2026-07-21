@@ -19,7 +19,7 @@ class SignUpUseCase {
         _authRepository = authRepository,
         _signUpRepository = signUpRepository;
 
-  Future<void> signUpExecute({
+  Future<void> execute({
     required String userName,
     required String userEmail,
     required String userPassword,

@@ -39,7 +39,7 @@ class ChangeEmailAndPasswordCubit extends Cubit<AuthState> with ErrorHandlerMixi
     }
     emit(AuthState(messageResult: MessageResult.loading()));
     try {
-      _useCase.updateProfileExecute(
+      _useCase.execute(
           newEmail: newEmail,
           newPassword: newPassword,
           currentPassword: currentPassword

@@ -13,7 +13,7 @@ class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
 
   static const _spacing = 200.0;
-  static const _verticalSpacing20 = SizedBox(height: 20.0);
+  static const _verticalSpacing = SizedBox(height: 20.0);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class HomeLayout extends StatelessWidget {
                     page: const StartScreen(),
                     color: AppColors.successGreen,
                   ),
-                  _verticalSpacing20,
+                  _verticalSpacing,
                   _buildMenuButton(
                     context,
                     title: 'Questions',
@@ -80,7 +80,7 @@ class HomeLayout extends StatelessWidget {
                     page: const QuestionsScreen(),
                     color: const Color(0xFF1565C0),
                   ),
-                  _verticalSpacing20,
+                  _verticalSpacing,
                   _buildMenuButton(
                     context,
                     title: 'Settings',

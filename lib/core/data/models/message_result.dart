@@ -4,13 +4,15 @@ import '../../errors/exceptions/base/app_exception.dart';
 
 
 class MessageResult {
+  final Color? color;
   final bool isLoading;
   final String? message;
-  final Color? color;
+  final AppException? error;
 
   MessageResult({
     this.isLoading = false,
     this.message,
+    this.error,
     this.color
   });
 
@@ -35,6 +37,7 @@ class MessageResult {
     AppException? error,
   }){
     return MessageResult(
+        error: error,
         color: AppColors.errorRed,
         message: 'Update failed: ${error!.error}'
     );

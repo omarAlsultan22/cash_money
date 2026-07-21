@@ -7,8 +7,8 @@ import '../exceptions/network_app_exception.dart';
 import '../exceptions/firebase_app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../exceptions/cache_exceptions/hive_app_exceptions.dart';
-import '../exceptions/cache_exceptions/shared_prefs_app_exceptions.dart';
 import 'package:cash_money/core/data/network/connectivity_service.dart';
+import '../exceptions/cache_exceptions/shared_prefs_app_exceptions.dart';
 
 
 class ExceptionMapper {
@@ -60,7 +60,7 @@ class ExceptionMapper {
     ),
   };
 
-  static final Map<Type, AppException? Function(dynamic)> _typePatterns = {
+  static final Map<Object, AppException? Function(dynamic)> _typePatterns = {
     HiveError: (error) {
       final hiveException = HiveAppExceptions(error: error);
       return hiveException.handle();

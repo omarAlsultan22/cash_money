@@ -40,7 +40,7 @@ class SignUpCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
     }
     emit(AuthState(messageResult: MessageResult.loading()));
     try {
-      await _useCase.signUpExecute(
+      await _useCase.execute(
           userName: userName,
           userEmail: userEmail,
           userPassword: userPassword,

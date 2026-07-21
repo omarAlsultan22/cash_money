@@ -11,7 +11,7 @@ class ChangeEmailAndPasswordUseCase {
       :
         _authRepository = authRepository;
 
-  Future<void> updateProfileExecute({
+  Future<void> execute({
     required String newEmail,
     required String newPassword,
     required String currentPassword

@@ -45,5 +45,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>cachmoney-8f3b8</string>
+            </array>
+        </dict>
+    </array>
+
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+        <string>applinks:cachmoney-8f3b8.firebaseapp.com</string>
+        <string>applinks:cachmoney-8f3b8.web.app</string>
+    </array>
 </dict>
 </plist>

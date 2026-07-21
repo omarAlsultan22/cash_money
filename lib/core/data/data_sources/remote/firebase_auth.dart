@@ -34,10 +34,12 @@ class FirebaseAuthService {
     return user;
   }
 
-  Future<void> sendResetEmail({
+  Future<void> sendPasswordResetEmail({
     required String userEmail,
+    required ActionCodeSettings actionCodeSettings
   }) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: userEmail).timeout(
+    await _firebaseAuth.sendSignInLinkToEmail(
+        email: userEmail, actionCodeSettings: actionCodeSettings).timeout(
         AppDurations.seconds);
   }
 

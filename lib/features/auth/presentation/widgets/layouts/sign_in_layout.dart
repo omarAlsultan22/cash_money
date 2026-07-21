@@ -12,7 +12,6 @@ import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
-import '../../screens/forget_password_screen.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../screens/sign_up_screen.dart';
@@ -69,6 +68,9 @@ class _SignInLayoutState extends State<SignInLayout> {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         _showMessageResult(widget.messageResult);
       });
+      if (widget.messageResult.error == null) {
+        _navigateToHome();
+      }
     }
     setState(() {});
   }
@@ -109,7 +111,6 @@ class _SignInLayoutState extends State<SignInLayout> {
                       _buildLoginButton(),
                       AppSpaces.vertical_16,
                       _buildRegisterLink(),
-                      _buildForgetPasswordLink()
                     ],
                   ),
                 ),
@@ -232,34 +233,15 @@ class _SignInLayoutState extends State<SignInLayout> {
     );
   }
 
-  Widget _buildForgetPasswordLink() {
-    return Center(
-      child: TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (
-                  context) => const ForgetPasswordScreen(),
-            ),
-          );
-        },
-        child: const Text(
-          'Forget password?',
-          style: TextStyle(
-            color: Colors.blue,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> _checkLoginStatus() async {
     final value = await widget.cacheHelper.getValue(key: AppKeys.uId);
-    if (value != null) {
-      BuildNavigator.build(context: context, link: const HomeScreen());
+    if (value != null && widget.messageResult.error == null) {
+      _navigateToHome();
     }
+  }
+
+  void _navigateToHome() {
+    BuildNavigator.build(context: context, link: const HomeScreen());
   }
 
   void _togglePasswordVisibility() {
