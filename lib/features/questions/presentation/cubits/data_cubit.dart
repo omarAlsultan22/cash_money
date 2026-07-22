@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import '../../domain/useCases/questions_data_useCase.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
+import '../../../../core/data/network/connectivity_service.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
-import '../../../../core/presentation/providers/connectivity_provider.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/domain/useCases/points_useCase.dart';
 
@@ -16,19 +16,19 @@ import 'package:cash_money/features/questions/domain/useCases/points_useCase.dar
 class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
   final CacheHelper _cacheHelper;
   final PointsUseCase _pointsUseCase;
+  final ConnectivityService _connectivityService;
   final QuestionsDataUseCase _questionsDataUseCase;
-  final ConnectivityProvider _connectivityProvider;
 
   DataCubit({
     required CacheHelper cacheHelper,
     required PointsUseCase pointsUseCase,
-    required QuestionsDataUseCase questionsDataUseCase,
-    required ConnectivityProvider connectivityProvider
+    required ConnectivityService connectivityService,
+    required QuestionsDataUseCase questionsDataUseCase
   })
       : _cacheHelper = cacheHelper,
         _pointsUseCase = pointsUseCase,
         _questionsDataUseCase = questionsDataUseCase,
-        _connectivityProvider = connectivityProvider,
+        _connectivityService = connectivityService,
         super(
           DataState.initial()
       );
@@ -74,7 +74,9 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
   Future<void> getData(QuestionsKeys? key) async {
     if (!state.listIsEmpty) return;
 
-    if (!_connectivityProvider.isConnected) {
+    final isConnected = await _connectivityService.checkInternetConnection();
+
+    if (!isConnected) {
       emit(
           state.copyWith(
               subState: ErrorState(

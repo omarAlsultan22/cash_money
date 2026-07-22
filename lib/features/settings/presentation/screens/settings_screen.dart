@@ -1,6 +1,6 @@
 import 'package:cash_money/features/settings/domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
-import '../../../../core/presentation/providers/connectivity_provider.dart';
+import 'package:cash_money/core/data/network/connectivity_service.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
@@ -25,20 +25,20 @@ class SettingsScreen extends StatelessWidget {
         cacheHelper: cacheHelper);
     final settingsUseCase = SettingsUseCase(
         repository: settingsRepository);
-    final connectivityProvider = ConnectivityProvider();
+    final connectivityService = ConnectivityService();
     return BlocProvider<SettingsCubit>(
         create: (context) =>
         SettingsCubit(
             settingsUseCase: settingsUseCase,
-            connectivityProvider: connectivityProvider)
-          ..getInfo()
-          ..startMonitoring(),
+            connectivityService: connectivityService)
+          ..getInfo(),
         child: BlocBuilder<SettingsCubit, SettingsState>(
             builder: (context, state) {
               final cubit = SettingsCubit.get(context);
               return state.when(
                 onInitial: () =>
-                const InitialStateWidget(text: 'Info', icon: Icons.info_outline),
+                const InitialStateWidget(
+                    text: 'Info', icon: Icons.info_outline),
                 onLoading: () =>
                 const LoadingStateWidget(),
                 onLoaded: (loadedState) {
@@ -52,7 +52,8 @@ class SettingsScreen extends StatelessWidget {
                           ),
                     );
                   }
-                  return const InitialStateWidget(text: 'Info', icon: Icons.info_outline);
+                  return const InitialStateWidget(
+                      text: 'Info', icon: Icons.info_outline);
                 },
                 onError: (error) =>
                     error.buildErrorWidget(

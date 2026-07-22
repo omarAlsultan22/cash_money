@@ -1,3 +1,4 @@
+import 'dart:io';
 import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/useCases/settings_useCase.dart';
@@ -5,37 +6,25 @@ import 'package:cash_money/core/constants/app_strings.dart';
 import '../../../../core/data/network/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
-import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
-import '../../../../core/presentation/providers/connectivity_provider.dart';
 
 
 class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<SettingsState> {
   final SettingsUseCase _settingsUseCase;
-  final ConnectivityProvider _connectivityProvider;
+  final ConnectivityService _connectivityService;
 
   SettingsCubit({
     required SettingsUseCase settingsUseCase,
-    required ConnectivityProvider connectivityProvider
+    required ConnectivityService connectivityService
   })
       : _settingsUseCase = settingsUseCase,
-        _connectivityProvider = connectivityProvider,
+        _connectivityService = connectivityService,
         super(
           SettingsState.initial());
 
   static SettingsCubit get(context) => BlocProvider.of(context);
 
   static const internetUnavailable = AppStrings.noInternetMessage;
-
-  void startMonitoring() {
-    _connectivityProvider.addListener(_handleConnectionChange);
-  }
-
-  void _handleConnectionChange() {
-    if (_connectivityProvider.isConnected && state.userModel == null) {
-      getInfo();
-    }
-  }
 
   Future<void> updateInfo({
     required String userName,
@@ -47,17 +36,17 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
           subState: SuccessState()
       );
     }
-    if (!_connectivityProvider.isConnected) {
-      final connectivityService = ConnectivityService();
-      emit(
-          buildState(
-            MessageResult.error(
-              error: NetworkAppException(
-                  error: internetUnavailable,
-                  connectivityService: connectivityService
-              ),
-            ),
-          )
+
+    final isConnected = await _connectivityService.checkInternetConnection();
+
+    if (!isConnected) {
+      handleError(SocketException, StackTrace.current,
+          onError: (failure) =>
+              buildState(
+                MessageResult.error(
+                    error: failure
+                ),
+              )
       );
       return;
     }
@@ -74,24 +63,23 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
     catch (e, stackTrace) {
       handleError(e, stackTrace,
           onError: (failure) =>
-              state.copyWith(secondModel: MessageResult.error(error: failure)
+              buildState(MessageResult.error(error: failure)
               )
       );
     }
   }
 
   Future<void> getInfo() async {
-    if (!_connectivityProvider.isConnected && state.firstModel == null) {
-      final connectivityService = ConnectivityService();
-      emit(
-          state.copyWith(
-            subState: ErrorState(
-              failure: NetworkAppException(
-                  error: internetUnavailable,
-                  connectivityService: connectivityService
-              ),
-            ),
-          )
+    final isConnected = await _connectivityService.checkInternetConnection();
+
+    if (!isConnected && state.firstModel == null) {
+      handleError(SocketException, StackTrace.current,
+          onError: (failure) =>
+              state.copyWith(
+                subState: ErrorState(
+                    failure: failure
+                ),
+              )
       );
       return;
     }
@@ -116,11 +104,5 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
               )
       );
     }
-  }
-
-  @override
-  Future<void> close() {
-    _connectivityProvider.removeListener(_handleConnectionChange);
-    return super.close();
   }
 }
