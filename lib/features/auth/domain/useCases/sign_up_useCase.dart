@@ -35,9 +35,11 @@ class SignUpUseCase {
       );
 
       await _signUpRepository.createUserInfo(
-          userModel: userModel, userCredential: userCredential);
+          userModel: userModel, userCredential: userCredential)
+          .whenComplete(() async =>
+      await _cacheHelper.setString(key: 'userName', value: userName));
     } catch (e) {
-    rethrow;
+      rethrow;
     }
   }
 }

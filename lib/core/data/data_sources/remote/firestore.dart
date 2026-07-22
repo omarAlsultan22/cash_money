@@ -1,5 +1,5 @@
-import 'package:cash_money/core/constants/app_durations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cash_money/core/constants/app_durations.dart';
 
 
 class FirestoreService {

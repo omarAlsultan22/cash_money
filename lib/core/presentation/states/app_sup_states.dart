@@ -1,7 +1,30 @@
+import '../../../features/questions/presentation/enums/questions_keys.dart';
 import 'base/main_app_sup_state.dart';
 import 'base/main_app_sub_state.dart';
 import 'base/main_loaded_state.dart';
 import 'loaded_states.dart';
+
+
+abstract class SingleModelAppState<T> extends MainAppSupState {
+  final T? firstModel;
+
+  SingleModelAppState({
+    required super.subState,
+    required this.firstModel,
+  });
+
+  @override
+  LoadedState get dataModels =>
+      SingleModelSuccessState(
+        firstModel: firstModel,
+      );
+
+  SingleModelAppState copyWith({
+    QuestionsKeys? key,
+    T? firstModel,
+    MainAppSubState? subState
+  });
+}
 
 
 abstract class DoubleModelAppState<T, U> extends MainAppSupState {

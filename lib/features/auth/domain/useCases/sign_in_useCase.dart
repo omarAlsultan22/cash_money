@@ -24,7 +24,7 @@ class SignInUseCase {
           userEmail: userEmail,
           userPassword: userPassword
       );
-      _cacheHelper.putValue(key: AppKeys.uId, value: userCredential.user!.uid);
+      _cacheHelper.setString(key: AppKeys.uId, value: userCredential.user!.uid);
     } catch (e) {
       rethrow;
     }

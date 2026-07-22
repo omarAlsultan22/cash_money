@@ -7,4 +7,10 @@ abstract class AppDataRepository {
     required DocumentSnapshot? lastDocument,
     required int limit
   });
+
+  Future<int?> getPoints();
+
+  Future<void> putPoints({
+    required int points
+  });
 }

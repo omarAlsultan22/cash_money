@@ -3,31 +3,28 @@ import 'package:cash_money/features/questions/data/models/questions_result.dart'
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/data/models/start_model.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
-import '../../../../../core/presentation/widgets/connection_banner.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_paddings.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter/material.dart';
-import '../../cubits/data_cubit.dart';
 import '../answer_button.dart';
 import 'dart:async';
 
 
 class BuildStartScreen extends StatefulWidget {
-  final bool isConnected;
   final GameState gameState;
   final VoidCallback getData;
   final CacheHelper cacheHelper;
+  final void Function(int) onSave;
   final QuestionsData questionsData;
 
   const BuildStartScreen({
     super.key,
+    required this.onSave,
     required this.getData,
     required this.gameState,
-    required this.isConnected,
     required this.cacheHelper,
     required this.questionsData
   });
@@ -41,7 +38,6 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   Timer? _timer;
   int _timeLeft = 1;
   bool _colors = false;
-  late DataCubit _cubit;
   String? _userName;
 
   //counters
@@ -98,7 +94,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
           confirmBtnText: 'Okay'
       ).whenComplete(() {
         Navigator.pop(context);
-        _resetQuiz();
+        _savePoints(_points);
       });
       _timer?.cancel();
       return;
@@ -135,8 +131,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     _currentIndex = widget.gameState.currentIndex;
   }
 
-  void _resetQuiz() {
-    _cubit.resetQuiz();
+  void _savePoints(int points) {
+    widget.onSave(points);
   }
 
   @override
@@ -144,7 +140,6 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     super.initState();
     _initCounters();
     _colors = false;
-    _cubit = context.read<DataCubit>();
     _userName = await widget.cacheHelper.getValue(key: 'userName') ?? 'Sir';
   }
 
@@ -325,17 +320,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          ConnectionBanner(
-            isVisible: widget.isConnected,
-            bgColor: widget.isConnected ? AppColors.green700 : AppColors
-                .red700,
-          ),
-          Expanded(
-              child: _widgetBuilder()
-          )
-        ]
+    return Expanded(
+        child: _widgetBuilder()
     );
   }
 }

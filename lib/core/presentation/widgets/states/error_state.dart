@@ -1,3 +1,4 @@
+import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class ErrorStateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(leading: const IconButtonWidget()),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

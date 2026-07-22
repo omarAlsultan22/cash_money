@@ -1,4 +1,3 @@
-import 'package:cash_money/features/questions/data/models/start_model.dart';
 import '../../../../core/presentation/states/base/main_app_sub_state.dart';
 import '../../../../core/presentation/states/base/main_loaded_state.dart';
 import 'package:cash_money/core/presentation/states/app_sup_states.dart';
@@ -10,20 +9,18 @@ import '../../data/models/question_model.dart';
 import '../enums/questions_keys.dart';
 
 
-class DataState extends DoubleModelAppState<QuestionsData, GameState> {
+class DataState extends SingleModelAppState<QuestionsData> {
   final QuestionsKeys? key;
 
   DataState({
     this.key,
     super.firstModel,
-    super.secondModel,
     required super.subState,
   });
 
   factory DataState.initial(){
     return DataState(
         firstModel: null,
-        secondModel: null,
         subState: InitialState()
     );
   }
@@ -32,11 +29,9 @@ class DataState extends DoubleModelAppState<QuestionsData, GameState> {
 
   bool get listIsEmpty => firstModel!.listIsEmpty;
 
-  List<QuestionModel> get questions => firstModel!.questions;
-
   DocumentSnapshot? get lastDocument => firstModel!.lastDocument;
 
-  QuestionsData copyWithQuestions({
+  QuestionsData updateData({
     bool? hasMore,
     List<QuestionModel>? questions,
     DocumentSnapshot? lastDocument
@@ -47,27 +42,16 @@ class DataState extends DoubleModelAppState<QuestionsData, GameState> {
           lastDocument: lastDocument
       );
 
-  GameState copyWithStart({
-    int? points,
-    int? currentIndex,
-  }) =>
-      secondModel!.copyWith(
-          points: points,
-          currentIndex: currentIndex
-      );
-
   @override
   DataState copyWith({
     QuestionsKeys? key,
     QuestionsData? firstModel,
-    GameState? secondModel,
     MainAppSubState? subState
   }) =>
       DataState(
         key: key ?? this.key,
         subState: subState ?? this.subState,
         firstModel: firstModel ?? this.firstModel,
-        secondModel: secondModel ?? this.secondModel,
       );
 
   @override

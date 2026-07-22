@@ -4,21 +4,18 @@ import '../../screens/answer_screen.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
-import '../../../../../core/presentation/widgets/connection_banner.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/features/questions/data/models/questions_result.dart';
 
 
 class BuildQuestionsScreen extends StatefulWidget {
   bool isLoading;
-  final bool isConnected;
   final VoidCallback getData;
   final QuestionsData questionsData;
   BuildQuestionsScreen({
     super.key,
     required this.getData,
     required this.isLoading,
-    required this.isConnected,
     required this.questionsData
   });
 
@@ -150,18 +147,10 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          ConnectionBanner(
-            isVisible: widget.isConnected,
-            bgColor: widget.isConnected ? AppColors.green700 : AppColors
-                .red700,
-          ),
-          Expanded(
-              child: _widgetBuilder()
-          )
-        ]
-    );
+    return
+      Expanded(
+          child: _widgetBuilder()
+      );
   }
 }
 

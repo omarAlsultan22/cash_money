@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../core/data/data_sources/local/shared_preferences.dart';
 import '../features/auth/presentation/screens/sign_in_screen.dart';
-import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../core/presentation/providers/connectivity_provider.dart';
+import '../features/questions/domain/useCases/points_useCase.dart';
+import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import 'package:cash_money/features/questions/presentation/cubits/data_cubit.dart';
 import 'package:cash_money/features/questions/domain/useCases/questions_data_useCase.dart';
-import 'package:cash_money/features/questions/data/repositories_impl/data_repository/firestore_data_repository.dart';
+import 'package:cash_money/features/questions/data/repositories_impl/firestore_data_repository.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -14,9 +16,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cacheHelper = CacheHelper();
     final firestoreService = FirestoreService();
-    final repository = FirestoreDataRepository(repository: firestoreService);
-    final questionsDataUseCase = QuestionsDataUseCase(repository: repository);
+    final firestoreDataRepository = FirestoreDataRepository(
+        repository: firestoreService);
+    final pointsUseCase = PointsUseCase(repository: firestoreDataRepository);
+    final questionsDataUseCase = QuestionsDataUseCase(
+        repository: firestoreDataRepository
+    );
+
     final connectivityProvider = ConnectivityProvider();
 
     return MultiProvider(
@@ -25,6 +33,8 @@ class MyApp extends StatelessWidget {
             create: (context) => ConnectivityProvider()),
         BlocProvider<DataCubit>(create: (context) =>
             DataCubit(
+                cacheHelper: cacheHelper,
+                pointsUseCase: pointsUseCase,
                 questionsDataUseCase: questionsDataUseCase,
                 connectivityProvider: connectivityProvider
             )

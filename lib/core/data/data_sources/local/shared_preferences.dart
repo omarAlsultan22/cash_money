@@ -9,7 +9,7 @@ class CacheHelper {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<bool> putValue({
+  Future<bool> setString({
     required String key,
     required String value,
   }) async {
@@ -20,6 +20,19 @@ class CacheHelper {
     required String key,
   }) async {
     return sharedPreferences.getString(key);
+  }
+
+  Future<bool> setInt({
+    required String key,
+    required int value,
+  }) async {
+    return await sharedPreferences.setInt(key, value);
+  }
+
+  Future<int?> getInt({
+    required String key,
+  }) async {
+    return sharedPreferences.getInt(key);
   }
 
   Future<bool?> saveData({

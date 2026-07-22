@@ -1,12 +1,9 @@
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
-import '../../../../core/presentation/providers/connectivity_provider.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
 import 'package:cash_money/core/presentation/states/loaded_states.dart';
-import '../widgets/connectivity_aware_screen.dart';
 import '../widgets/layouts/questions_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import '../states/data_state.dart';
 import '../cubits/data_cubit.dart';
@@ -32,8 +29,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   void _cubitInitialization() {
     _cubit = DataCubit.get(context);
-    _cubit..getData(_questionsScreen)
-      ..startMonitoring();
+    _cubit.getData(_questionsScreen);
   }
 
   @override
@@ -48,34 +44,27 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       return current.key == _questionsScreen;
     }
 
-    return Consumer<ConnectivityProvider>(
-        builder: (context, connectivityProvider, childWidget) {
-          return ConnectivityAwareScreen(
-              isConnected: connectivityProvider.isConnected,
-              child: BlocBuilder<DataCubit, DataState>(
-                  buildWhen: (previous, current) => isCurrentScreen(current),
-                  builder: (context, state) {
-                    return state.when(
-                      onInitial: () => const InitialStateWidget(text: 'Data', icon: Icons.menu),
-                      onLoading: () => const LoadingStateWidget(),
-                      onLoaded: (loadedState) {
-                        if (loadedState is DoubleModelSuccessState) {
-                          BuildQuestionsScreen(
-                              isLoading: false,
-                              questionsData: loadedState.firstModel,
-                              getData: () => _cubit.loadMoreData(),
-                              isConnected: connectivityProvider.isConnected
-                          );
-                        }
-                        return const InitialStateWidget(text: 'Data', icon: Icons.menu);
-                      },
-                      onError: (error) =>
-                          error.buildErrorWidget(
-                              onRetry: () => _cubit.loadMoreData()
-                          ),
-                    );
-                  }
-              )
+    return BlocBuilder<DataCubit, DataState>(
+        buildWhen: (previous, current) => isCurrentScreen(current),
+        builder: (context, state) {
+          return state.when(
+            onInitial: () =>
+            const InitialStateWidget(text: 'Data', icon: Icons.menu),
+            onLoading: () => const LoadingStateWidget(),
+            onLoaded: (loadedState) {
+              if (loadedState is DoubleModelSuccessState) {
+                return BuildQuestionsScreen(
+                  isLoading: false,
+                  questionsData: loadedState.firstModel,
+                  getData: () => _cubit.loadMoreData(),
+                );
+              }
+              return const InitialStateWidget(text: 'Data', icon: Icons.menu);
+            },
+            onError: (error) =>
+                error.buildErrorWidget(
+                    onRetry: () => _cubit.loadMoreData()
+                ),
           );
         }
     );

@@ -1,14 +1,11 @@
 import '../cubits/data_cubit.dart';
 import '../states/data_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../widgets/layouts/start_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/connectivity_aware_screen.dart';
 import 'package:cash_money/core/presentation/states/loaded_states.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
-import '../../../../core/presentation/providers/connectivity_provider.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
 
@@ -33,9 +30,7 @@ class _StartScreenState extends State<StartScreen> {
 
   void _cubitInitialization() {
     _cubit = DataCubit.get(context);
-    _cubit
-      ..getData(_startScreen)
-      ..startMonitoring();
+    _cubit.getData(_startScreen);
   }
 
   @override
@@ -50,37 +45,33 @@ class _StartScreenState extends State<StartScreen> {
       return current.key == _startScreen;
     }
 
-    return Consumer<ConnectivityProvider>(
-        builder: (context, connectivityProvider, childWidget) {
-          return ConnectivityAwareScreen(
-              isConnected: connectivityProvider.isConnected,
-              child: BlocBuilder<DataCubit, DataState>(
-                  buildWhen: (previous, current) => isCurrentScreen(current),
-                  builder: (context, state) {
-                    final cacheHelper = CacheHelper();
-                    final cubit = DataCubit.get(context);
-                    return state.when(
-                      onInitial: () => const InitialStateWidget(text: 'Data', icon: Icons.menu),
-                      onLoading: () => const LoadingStateWidget(),
-                      onLoaded: (loadedState) {
-                        if (loadedState is DoubleModelSuccessState) {
-                          BuildStartScreen(
-                            cacheHelper: cacheHelper,
-                            questionsData: loadedState.firstModel,
-                            gameState: loadedState.secondModel,
-                            getData: () => cubit.loadMoreData(),
-                            isConnected: connectivityProvider.isConnected,
-                          );
-                        }
-                        return const InitialStateWidget(text: 'Data', icon: Icons.menu);
-                      },
-                      onError: (error) =>
-                          error.buildErrorWidget(
-                              onRetry: () => cubit.loadMoreData()
-                          ),
-                    );
-                  }
-              )
+    return BlocBuilder<DataCubit, DataState>(
+        buildWhen: (previous, current) => isCurrentScreen(current),
+        builder: (context, state) {
+          final cacheHelper = CacheHelper();
+          final cubit = DataCubit.get(context);
+          return state.when(
+            onInitial: () =>
+            const InitialStateWidget(text: 'Data', icon: Icons.menu),
+            onLoading: () => const LoadingStateWidget(),
+            onLoaded: (loadedState) {
+              if (loadedState is DoubleModelSuccessState) {
+                return BuildStartScreen(
+                    cacheHelper: cacheHelper,
+                    questionsData: loadedState.firstModel,
+                    gameState: loadedState.secondModel,
+                    getData: () => cubit.loadMoreData(),
+                    onSave: (points) =>
+                        cubit.putPoints(points: points)
+                );
+              }
+              return const InitialStateWidget(
+                  text: 'Data', icon: Icons.menu);
+            },
+            onError: (error) =>
+                error.buildErrorWidget(
+                    onRetry: () => cubit.loadMoreData()
+                ),
           );
         }
     );

@@ -9,17 +9,25 @@ import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/presentation/providers/connectivity_provider.dart';
+import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
+import 'package:cash_money/features/questions/domain/useCases/points_useCase.dart';
 
 
 class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
+  final CacheHelper _cacheHelper;
+  final PointsUseCase _pointsUseCase;
   final QuestionsDataUseCase _questionsDataUseCase;
   final ConnectivityProvider _connectivityProvider;
 
   DataCubit({
+    required CacheHelper cacheHelper,
+    required PointsUseCase pointsUseCase,
     required QuestionsDataUseCase questionsDataUseCase,
     required ConnectivityProvider connectivityProvider
   })
-      : _questionsDataUseCase = questionsDataUseCase,
+      : _cacheHelper = cacheHelper,
+        _pointsUseCase = pointsUseCase,
+        _questionsDataUseCase = questionsDataUseCase,
         _connectivityProvider = connectivityProvider,
         super(
           DataState.initial()
@@ -27,51 +35,18 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
 
   static DataCubit get(context) => BlocProvider.of(context);
 
-  void startMonitoring() {
-    _connectivityProvider.addListener(_handleConnectionChange);
-  }
-
-  void _handleConnectionChange() {
-    if (_connectivityProvider.isConnected && state.listIsEmpty) {
-      restLock();
-      getData(state.key);
+  Future<void> putPoints({required int points}) async {
+    final value = await _cacheHelper.getInt(key: 'points');
+    if (value == null) {
+      await _pointsUseCase.putPointsExecute(points: points);
     }
   }
 
-  void restLock() {
-    final questions = state.copyWithQuestions(hasMore: true);
-    emit(
-        state.copyWith(firstModel: questions)
-    );
-  }
-
-  void resetQuiz() {
-    final startModel = state.copyWithStart(
-        points: 0,
-        currentIndex: 0
-    );
-    emit(
-        state.copyWith(
-            secondModel: startModel
-        )
-    );
-  }
-
-  void incrementPoints(int points) {
-    final startModel = state.copyWithStart(
-        points: points
-    );
-    emit(state.copyWith(secondModel: startModel)
-    );
-  }
-
-  void incrementCurrentIndex(int currentIndex) {
-    final startModel = state.copyWithStart(
-        currentIndex: currentIndex
-    );
-    emit(state.copyWith(
-        secondModel: startModel)
-    );
+  Future<void> getPoints() async {
+    final points = await _pointsUseCase.getPointsExecute();
+    if(points != null) {
+      _cacheHelper.setInt(key: 'points', value: points);
+    }
   }
 
   Future<void> _fetchData() async {
@@ -81,7 +56,6 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
         lastDocument: state.lastDocument,
       ));
 
-      print(result!.length);
       if (result!.listIsEmpty) {
         emit(state.copyWith(subState: InitialState()));
         return;
@@ -140,11 +114,5 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
         loadMoreData();
       });
     }
-  }
-
-  @override
-  Future<void> close() {
-    _connectivityProvider.removeListener(_handleConnectionChange);
-    return super.close();
   }
 }
