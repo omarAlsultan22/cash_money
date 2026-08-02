@@ -3,7 +3,7 @@ import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
-import '../../../../core/data/network/connectivity_service.dart';
+import '../../../../core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';

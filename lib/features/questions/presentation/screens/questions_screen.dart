@@ -1,7 +1,6 @@
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
 import '../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../core/presentation/widgets/states/loading_state.dart';
-import 'package:cash_money/core/presentation/states/loaded_states.dart';
 import '../widgets/layouts/questions_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -51,15 +50,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             onInitial: () =>
             const InitialStateWidget(text: 'Data', icon: Icons.menu),
             onLoading: () => const LoadingStateWidget(),
-            onLoaded: (loadedState) {
-              if (loadedState is DoubleModelSuccessState) {
-                return BuildQuestionsScreen(
-                  isLoading: false,
-                  questionsData: loadedState.firstModel,
-                  getData: () => _cubit.loadMoreData(),
-                );
-              }
-              return const InitialStateWidget(text: 'Data', icon: Icons.menu);
+            onLoaded: (data) {
+              return BuildQuestionsScreen(
+                isLoading: false,
+                questionsData: data.firstModel,
+                getData: () => _cubit.loadMoreData(),
+              );
             },
             onError: (error) =>
                 error.buildErrorWidget(

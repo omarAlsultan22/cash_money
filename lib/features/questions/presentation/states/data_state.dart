@@ -1,9 +1,9 @@
 import '../../../../core/presentation/states/base/main_app_sub_state.dart';
-import '../../../../core/presentation/states/base/main_loaded_state.dart';
 import 'package:cash_money/core/presentation/states/app_sup_states.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/errors/exceptions/base/app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../../core/presentation/states/loaded_states.dart';
 import '../../data/models/questions_result.dart';
 import '../../data/models/question_model.dart';
 import '../enums/questions_keys.dart';
@@ -14,14 +14,15 @@ class DataState extends SingleModelAppState<QuestionsData> {
 
   DataState({
     this.key,
-    super.firstModel,
     required super.subState,
+    required super.firstModel,
   });
 
   factory DataState.initial(){
     return DataState(
-        firstModel: null,
-        subState: InitialState()
+      key: null,
+      subState: InitialState(),
+      firstModel: const QuestionsData(),
     );
   }
 
@@ -59,7 +60,7 @@ class DataState extends SingleModelAppState<QuestionsData> {
     R Function()? onConnection,
     required R Function() onInitial,
     required R Function() onLoading,
-    required R Function(LoadedState) onLoaded,
+    required R Function(SingleModelSuccessState) onLoaded,
     required R Function(AppException) onError
   }) {
     return subState.when(

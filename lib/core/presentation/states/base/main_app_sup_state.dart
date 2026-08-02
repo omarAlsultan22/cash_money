@@ -3,7 +3,7 @@ import 'main_app_sub_state.dart';
 import '../../../errors/exceptions/base/app_exception.dart';
 
 
-abstract class MainAppSupState<T, U>{
+abstract class MainAppSupState{
   final MainAppSubState subState;
 
   MainAppSupState({

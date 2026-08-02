@@ -5,7 +5,7 @@ import 'package:cash_money/features/auth/domain/useCases/sign_up_useCase.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/data/data_sources/remote/firebase_auth.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
-import '../../../../core/data/network/connectivity_service.dart';
+import '../../../../core/services/connectivity_service.dart';
 import '../widgets/layouts/sign_up_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';

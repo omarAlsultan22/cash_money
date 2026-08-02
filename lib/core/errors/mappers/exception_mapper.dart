@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:hive/hive.dart';
 import '../exceptions/base/app_exception.dart';
 import '../exceptions/client_app_exception.dart';
+import '../../services/connectivity_service.dart';
 import '../exceptions/network_app_exception.dart';
 import '../exceptions/firebase_app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../exceptions/cache_exceptions/hive_app_exceptions.dart';
-import 'package:cash_money/core/data/network/connectivity_service.dart';
 import '../exceptions/cache_exceptions/shared_prefs_app_exceptions.dart';
 
 

@@ -1,25 +1,25 @@
-import 'package:cash_money/core/constants/app_spaces.dart';
-import '../../data/network/connectivity_service.dart';
-import 'package:flutter/material.dart';
 import 'icon_button_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:cash_money/core/constants/app_spaces.dart';
+import 'package:cash_money/core/services/connectivity_service.dart';
 
 
 class InternetUnavailability extends StatelessWidget {
   final String? message;
   final VoidCallback? onRetry;
-  final ConnectivityService? connectivityService;
+  final ConnectivityService? connectivityProvider;
 
   const InternetUnavailability({
     super.key,
     this.onRetry,
     this.message,
-    this.connectivityService
+    this.connectivityProvider
   });
 
   @override
   Widget build(BuildContext context) {
     Future<void> isInternetAvailable() async {
-      final isConnected = await connectivityService!.checkInternetConnection();
+      final isConnected = await connectivityProvider!.checkInternetConnection();
       if (isConnected) {
         onRetry?.call();
       }

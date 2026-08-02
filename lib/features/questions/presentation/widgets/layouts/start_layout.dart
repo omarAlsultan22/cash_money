@@ -1,8 +1,9 @@
 import 'package:cash_money/features/questions/constants/questions_text_styles.dart';
 import 'package:cash_money/features/questions/data/models/questions_result.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
-import 'package:cash_money/features/questions/data/models/start_model.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
+import 'package:cash_money/core/services/connectivity_service.dart';
+import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
@@ -14,19 +15,19 @@ import 'dart:async';
 
 
 class BuildStartScreen extends StatefulWidget {
-  final GameState gameState;
   final VoidCallback getData;
   final CacheHelper cacheHelper;
   final void Function(int) onSave;
   final QuestionsData questionsData;
+  final ConnectivityService connectivityService;
 
   const BuildStartScreen({
     super.key,
     required this.onSave,
     required this.getData,
-    required this.gameState,
     required this.cacheHelper,
-    required this.questionsData
+    required this.questionsData,
+    required this.connectivityService
   });
 
   @override
@@ -78,18 +79,31 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     }
   }
 
-  void _isCurrentIndexEquivalent({
+  Future<void> _isCurrentIndexEquivalent({
     required int length,
     required bool isCorrect,
-  }) {
+  }) async {
+    final isConnected = await widget.connectivityService
+        .checkInternetConnection();
+
+    final isFinished = _currentIndex > length / 2;
+    final answers = _points < 2 ? 'answer' : 'answers';
+    final text = isConnected
+        ? 'You achieved $_points correct $answers out of $length'
+        : 'Sorry, your points could not be saved';
+    final type = isConnected ? isFinished
+        ? QuickAlertType.success
+        : QuickAlertType.error : QuickAlertType.error;
+    final title = isConnected
+        ? isFinished ? 'Congratulations' : 'Try again'
+        : AppStrings.noInternetMessage;
+
     if (isCorrect) {
-      bool isFinished = _currentIndex > length / 2;
-      String answers = _points < 2 ? 'answer' : 'answers';
       QuickAlert.show(
           context: context,
-          text: 'You achieved $_points correct $answers out of $length',
-          type: isFinished ? QuickAlertType.success : QuickAlertType.error,
-          title: isFinished ? 'Congratulations' : 'Try again',
+          text: text,
+          type: type,
+          title: title,
           showConfirmBtn: true,
           confirmBtnText: 'Okay'
       ).whenComplete(() {
@@ -127,8 +141,8 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   void _initCounters() {
-    _points = widget.gameState.points;
-    _currentIndex = widget.gameState.currentIndex;
+    _points = 0;
+    _currentIndex = 0;
   }
 
   void _savePoints(int points) {
@@ -167,7 +181,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
   Widget _widgetBuilder() {
     final currentQuestion = widget.questionsData.getCurrentQuestion(
-        widget.gameState.currentIndex);
+        _currentIndex);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
@@ -288,7 +302,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: widget.questionsData.getCurrentAnswers(
-                        widget.gameState.currentIndex)
+                        _currentIndex)
                         .map((e) =>
                         Padding(
                           padding: const EdgeInsets.symmetric(

@@ -2,9 +2,9 @@ import 'package:cash_money/features/auth/domain/useCases/change_email_and_passwo
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/auth/presentation/states/auth_states.dart';
 import 'package:cash_money/core/data/data_sources/remote/firebase_auth.dart';
-import 'package:cash_money/core/data/network/connectivity_service.dart';
 import '../../data/repositories_impl/firebase_auth_repository.dart';
 import '../widgets/layouts/change_email_and_password_layout.dart';
+import '../../../../core/services/connectivity_service.dart';
 import '../cubits/change_email_and_password_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';

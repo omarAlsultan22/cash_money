@@ -1,10 +1,10 @@
 import '../states/auth_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
+import '../../../../core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
-import 'package:cash_money/core/data/network/connectivity_service.dart';
 import 'package:cash_money/features/auth/domain/useCases/change_email_and_password_useCase.dart';
 
 
