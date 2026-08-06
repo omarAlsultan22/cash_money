@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import '../../../constants/app_durations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class FirebaseAuthService {
@@ -27,8 +27,8 @@ class FirebaseAuthService {
 
   Future<User?> updateProfile({
     required String newEmail,
+    required String newPassword,
     required String currentPassword,
-    required String newPassword
   }) async {
     final user = _firebaseAuth.currentUser;
     return user;

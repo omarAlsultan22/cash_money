@@ -234,8 +234,8 @@ class _SignInLayoutState extends State<SignInLayout> {
   }
 
   Future<void> _checkLoginStatus() async {
-    final value = await widget.cacheHelper.getValue(key: AppKeys.uId);
-    if (value != null && widget.messageResult.error == null) {
+    final value = await widget.cacheHelper.getString(key: AppKeys.uId);
+    if (value != null) {
       _navigateToHome();
     }
   }

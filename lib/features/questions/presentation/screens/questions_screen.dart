@@ -15,12 +15,12 @@ class QuestionsScreen extends BaseScreen {
   @override
   Widget buildLoadedWidget({
     required DataCubit cubit,
-    required VoidCallback loadMore,
+    required VoidCallback loadMoreData,
     required SingleModelSuccessState data
   }) =>
       BuildQuestionsScreen(
           isLoading: false,
-          getData: loadMore,
+          loadMoreData: loadMoreData,
           questionsData: data.firstModel
       );
 

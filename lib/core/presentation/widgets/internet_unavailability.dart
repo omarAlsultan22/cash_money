@@ -7,10 +7,12 @@ import 'package:cash_money/core/services/connectivity_service.dart';
 class InternetUnavailability extends StatelessWidget {
   final String? message;
   final VoidCallback? onRetry;
+  final PreferredSizeWidget? appBar;
   final ConnectivityService? connectivityProvider;
 
   const InternetUnavailability({
     super.key,
+    this.appBar,
     this.onRetry,
     this.message,
     this.connectivityProvider
@@ -26,7 +28,7 @@ class InternetUnavailability extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(leading: const IconButtonWidget()),
+      appBar: appBar,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

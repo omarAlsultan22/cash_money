@@ -20,17 +20,16 @@ class StartScreen extends BaseScreen {
   @override
   Widget buildLoadedWidget({
     required DataCubit cubit,
-    required VoidCallback loadMore,
+    required VoidCallback loadMoreData,
     required SingleModelSuccessState data
   }) {
-
     return BuildStartScreen(
-        getData: loadMore,
         cacheHelper: cacheHelper,
+        loadMoreData: loadMoreData,
         questionsData: data.firstModel,
         connectivityService: connectivityService,
-        onSave: (points) =>
-            cubit.putPoints(points: points)
+        onSave: (points) async =>
+            await cubit.putPoints(points: points)
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../domain/repositories/settings_repository.dart';
@@ -17,19 +18,17 @@ class FirebaseSignUpRepository implements SettingsRepository {
         _cacheHelper = cacheHelper;
 
   @override
-  Future<UserModel> getUserInfo() async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
     try {
-      final docId = await _cacheHelper.getValue(key: AppKeys.uId);
-      print(docId);
+      final userId = await _cacheHelper.getString(key: AppKeys.uId);
       final jsonData = await _repository.getDocument(
-          docId: docId,
-          collectionPath: AppKeys.users);
-      print("info is ${jsonData.data()}");
-      return UserModel.fromDocumentSnapshot(jsonData);
+          docId: userId,
+          collectionPath: AppKeys.users
+      );
+      return jsonData;
     }
     catch (e) {
-
-    rethrow;
+      rethrow;
     }
   }
 
@@ -38,7 +37,7 @@ class FirebaseSignUpRepository implements SettingsRepository {
     required String userName,
   }) async {
     try {
-      final userId = await _cacheHelper.getValue(key: AppKeys.uId);
+      final userId = await _cacheHelper.getString(key: AppKeys.uId);
 
       final userModel = UserModel(
         userName: userName,

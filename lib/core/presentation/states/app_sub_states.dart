@@ -1,5 +1,5 @@
-import '../../errors/exceptions/base/app_exception.dart';
 import 'base/main_app_sub_state.dart';
+import '../../errors/exceptions/base/app_exception.dart';
 
 
 class InitialState extends MainAppSubState{

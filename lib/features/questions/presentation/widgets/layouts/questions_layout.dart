@@ -10,11 +10,11 @@ import 'package:cash_money/features/questions/data/models/questions_result.dart'
 
 class BuildQuestionsScreen extends StatefulWidget {
   bool isLoading;
-  final VoidCallback getData;
+  final VoidCallback loadMoreData;
   final QuestionsData questionsData;
   BuildQuestionsScreen({
     super.key,
-    required this.getData,
+    required this.loadMoreData,
     required this.isLoading,
     required this.questionsData
   });
@@ -41,7 +41,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
         _scrollController.position.maxScrollExtent - _specificPosition &&
         widget.questionsData.hasMore && !widget.isLoading) {
       widget.isLoading = true;
-      widget.getData();
+      widget.loadMoreData();
     }
   }
 
@@ -111,7 +111,6 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
                           builder: (context) =>
                               AnswerScreen(
                                 answer: correctAnswer.answer,
-                                isCorrect: true,
                               ),
                         ),
                       );

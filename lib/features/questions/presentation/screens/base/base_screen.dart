@@ -1,3 +1,5 @@
+import 'package:cash_money/core/presentation/widgets/app_bar_widget.dart';
+
 import '../../cubits/data_cubit.dart';
 import '../../states/data_state.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ abstract class BaseScreen extends StatefulWidget {
 
   Widget buildLoadedWidget({
     required DataCubit cubit,
-    required VoidCallback loadMore,
+    required VoidCallback loadMoreData,
     required SingleModelSuccessState data
   });
 }
@@ -30,15 +32,15 @@ abstract class BaseScreenState<T extends BaseScreen>
 
   @override
   @mustCallSuper
-  void initState() {
+  Future<void> initState() async {
     super.initState();
     initializeListener(widget.screenKey);
-    _cubitInitialization();
+    await _cubitInitialization();
   }
 
-  void _cubitInitialization() {
+  Future<void> _cubitInitialization() async {
     cubit = DataCubit.get(context);
-    cubit.getData(widget.screenKey);
+    await cubit.getData(widget.screenKey);
   }
 
   @override
@@ -54,12 +56,13 @@ abstract class BaseScreenState<T extends BaseScreen>
               return widget.buildLoadedWidget(
                   data: data,
                   cubit: cubit,
-                  loadMore: cubit.loadMoreData
+                  loadMoreData: () async => await cubit.loadMoreData()
               );
             },
             onError: (error) =>
                 error.buildErrorWidget(
-                    onRetry: () => cubit.loadMoreData()
+                    appBar: AppBarWidget.build(),
+                    onRetry: () async => await cubit.loadMoreData()
                 ),
           );
         }

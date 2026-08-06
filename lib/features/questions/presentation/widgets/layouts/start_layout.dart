@@ -15,7 +15,7 @@ import 'dart:async';
 
 
 class BuildStartScreen extends StatefulWidget {
-  final VoidCallback getData;
+  final VoidCallback loadMoreData;
   final CacheHelper cacheHelper;
   final void Function(int) onSave;
   final QuestionsData questionsData;
@@ -24,7 +24,7 @@ class BuildStartScreen extends StatefulWidget {
   const BuildStartScreen({
     super.key,
     required this.onSave,
-    required this.getData,
+    required this.loadMoreData,
     required this.cacheHelper,
     required this.questionsData,
     required this.connectivityService
@@ -75,7 +75,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     required bool isCorrect,
   }) {
     if (isCorrect) {
-      widget.getData();
+      widget.loadMoreData();
     }
   }
 
@@ -154,7 +154,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     super.initState();
     _initCounters();
     _colors = false;
-    _userName = await widget.cacheHelper.getValue(key: 'userName') ?? 'Sir';
+    _userName = await widget.cacheHelper.getString(key: 'userName') ?? 'Sir';
   }
 
   @override

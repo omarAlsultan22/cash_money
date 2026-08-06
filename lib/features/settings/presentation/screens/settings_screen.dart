@@ -1,3 +1,4 @@
+import 'package:cash_money/core/presentation/widgets/app_bar_widget.dart';
 import 'package:cash_money/features/settings/domain/useCases/settings_useCase.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
@@ -44,15 +45,16 @@ class SettingsScreen extends StatelessWidget {
                   return SettingsLayout(
                     userModel: data.firstModel,
                     messageResult: data.secondModel,
-                    onUpdate: (userModel) =>
-                        cubit.updateInfo(
-                          userName: userModel.userName,
-                        ),
+                    onUpdate: (userModel) async =>
+                    await cubit.updateInfo(
+                      userName: userModel.userName,
+                    ),
                   );
                 },
                 onError: (error) =>
                     error.buildErrorWidget(
-                        onRetry: () => cubit.getInfo()
+                      appBar: AppBarWidget.build(),
+                      onRetry: () => cubit.getInfo(),
                     ),
               );
             }

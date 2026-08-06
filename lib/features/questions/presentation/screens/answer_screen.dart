@@ -6,12 +6,10 @@ import '../../../../core/presentation/widgets/icon_button_widget.dart';
 
 class AnswerScreen extends StatelessWidget {
   final String answer;
-  final bool isCorrect;
 
   const AnswerScreen({
     Key? key,
     required this.answer,
-    required this.isCorrect,
   }) : super(key: key);
 
   static const _paddingForAll = EdgeInsets.all(12.0);
@@ -29,7 +27,7 @@ class AnswerScreen extends StatelessWidget {
           padding: _paddingForAll,
           child: Card(
             elevation: 8,
-            color: isCorrect ? AppColors.successGreen : AppColors.errorRed,
+            color: AppColors.amber_500,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),

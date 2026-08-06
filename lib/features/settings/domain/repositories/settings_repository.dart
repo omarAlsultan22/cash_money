@@ -1,10 +1,8 @@
-import '../../../../core/data/models/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 abstract class SettingsRepository {
-  Future<UserModel> getUserInfo();
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo();
 
-  Future<void> updateUserInfo({
-    required String userName,
-  });
+  Future<void> updateUserInfo({required String userName});
 }

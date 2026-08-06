@@ -15,10 +15,11 @@ abstract class AppException implements Exception {
     this.code,
   });
 
-  Widget buildErrorWidget({VoidCallback? onRetry}) {
+  Widget buildErrorWidget({PreferredSizeWidget? appBar, VoidCallback? onRetry}) {
     return ErrorStateWidget(
-        message: error,
-        onRetry: onRetry
+      message: error,
+      onRetry: onRetry,
+      appBar: appBar,
     );
   }
 }

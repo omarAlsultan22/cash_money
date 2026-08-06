@@ -9,13 +9,14 @@ import 'core/data/data_sources/local/shared_preferences.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
   final cacheHelper = CacheHelper();
   try {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
     await cacheHelper.init();
-    Bloc.observer = MyBlocObserver();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform
+    );
     runApp(const MyApp());
   }
   catch (e, stackTrace) {

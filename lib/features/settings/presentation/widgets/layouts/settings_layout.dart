@@ -169,7 +169,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     required String label,
     required String hint,
     required IconData icon,
-    TextInputType? keyboardType,
     required String? Function(dynamic) validator,
   }) {
     return Column(

@@ -45,7 +45,7 @@ class _AnswerButtonState extends State<AnswerButton> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: AppDurations.millSeconds),
+      duration: const Duration(milliseconds: 3),
       decoration: BoxDecoration(
         borderRadius: _borderRadius,
         boxShadow: [

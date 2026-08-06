@@ -35,10 +35,10 @@ class SignInScreen extends StatelessWidget {
                 onUpdate: ({
                   required String userEmail,
                   required String userPassword
-                }) =>
-                    cubit.signIn(
-                        userEmail: userEmail, userPassword: userPassword
-                    )
+                }) async =>
+                await cubit.signIn(
+                    userEmail: userEmail, userPassword: userPassword
+                )
             );
           }
       ),

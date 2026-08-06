@@ -3,8 +3,9 @@ class ValidateEmail {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';
     }
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Please enter the correct email';
+    const pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+    if (!RegExp(pattern).hasMatch(value)) {
+      return 'Please enter a valid email address';
     }
     return null;
   }

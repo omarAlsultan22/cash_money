@@ -12,7 +12,9 @@ class SettingsUseCase {
 
   Future<UserModel> getInfoExecute() async {
     try {
-      return await _repository.getUserInfo();
+      final jsonData = await _repository.getUserInfo();
+      final docData = jsonData.data() as Map<String, dynamic>;
+      return UserModel.fromDocumentSnapshot(docData);
     }
     catch (e) {
       rethrow;
