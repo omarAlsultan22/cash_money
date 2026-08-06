@@ -42,13 +42,6 @@ abstract class BaseScreenState<T extends BaseScreen>
   }
 
   @override
-  @mustCallSuper
-  void dispose() {
-    cubit.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<DataCubit, DataState>(
         buildWhen: (previous, current) => handleListener(current.key),
