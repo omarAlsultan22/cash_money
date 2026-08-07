@@ -1,22 +1,20 @@
 import 'app/my_app.dart';
 import 'package:flutter/material.dart';
-import 'core/config/firebase_options.dart';
-import 'core/errors/mappers/error_handler.dart';
+import 'core/config/bloc_observer.dart';
+import 'core/constants/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cash_money/core/config/bloc_observer.dart';
-import 'core/data/data_sources/local/shared_preferences.dart';
+import 'core/errors/mappers/error_handler.dart';
+import 'core/config/initialization_controller.dart';
+import 'core/presentation/widgets/build_snack_bar.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-  final cacheHelper = CacheHelper();
+  final initializationController = InitializationController();
+
   try {
-    await cacheHelper.init();
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform
-    );
+    await initializationController.init();
     runApp(const MyApp());
   }
   catch (e, stackTrace) {
@@ -27,10 +25,26 @@ void main() async {
     final exception = errorHandler.handleException();
     runApp(
         MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: exception.buildErrorWidget(
-              onRetry: () => runApp(const MyApp())
-          ),
+            debugShowCheckedModeBanner: false,
+            home: Builder(
+              builder: (context) =>
+                  Scaffold(
+                    body: exception.buildErrorWidget(
+                      onRetry: () async {
+                        try {
+                          await initializationController.retryInit();
+                          runApp(const MyApp());
+                        } catch (e) {
+                          BuildSnackBar.show(
+                              message: 'Initialization failed',
+                              context: context,
+                              backgroundColor: AppColors.errorRed
+                          );
+                        }
+                      },
+                    ),
+                  ),
+            )
         )
     );
   }
