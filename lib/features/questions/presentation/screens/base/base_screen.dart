@@ -1,5 +1,3 @@
-import 'package:cash_money/core/presentation/widgets/app_bar_widget.dart';
-
 import '../../cubits/data_cubit.dart';
 import '../../states/data_state.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +5,7 @@ import '../../enums/questions_keys.dart';
 import '../../mixins/listener_mixin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/presentation/states/loaded_states.dart';
+import 'package:cash_money/core/presentation/widgets/app_bar_widget.dart';
 import '../../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../../core/presentation/widgets/states/loading_state.dart';
 

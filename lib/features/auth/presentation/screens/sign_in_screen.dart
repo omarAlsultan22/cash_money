@@ -1,9 +1,6 @@
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/features/auth/presentation/cubits/sign_in_cubit.dart';
-import 'package:cash_money/features/auth/domain/useCases/sign_in_useCase.dart';
-import '../../../../core/data/data_sources/remote/firebase_auth.dart';
-import '../../data/repositories_impl/firebase_auth_repository.dart';
-import '../../../../core/services/connectivity_service.dart';
+import '../../../../core/di/service _locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/layouts/sign_in_layout.dart';
 import 'package:flutter/material.dart';
@@ -15,22 +12,14 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuthService();
-    final cacheHelper = CacheHelper();
-    final authRepository = FirebaseAuthRepository(auth: auth);
-    final useCase = SignInUseCase(
-        cacheHelper: cacheHelper,
-        authRepository: authRepository);
-    final connectivityService = ConnectivityService();
     return BlocProvider<SignInCubit>(
       create: (context) =>
-          SignInCubit(
-              useCase: useCase, connectivityService: connectivityService),
+          sl<SignInCubit>(),
       child: BlocBuilder<SignInCubit, AuthState>(
           builder: (context, state) {
             final cubit = SignInCubit.get(context);
             return SignInLayout(
-                cacheHelper: cacheHelper,
+                cacheHelper: sl<CacheHelper>(),
                 messageResult: state.messageResult!,
                 onUpdate: ({
                   required String userEmail,

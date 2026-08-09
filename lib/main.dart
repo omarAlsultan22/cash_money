@@ -36,8 +36,8 @@ void main() async {
                           runApp(const MyApp());
                         } catch (e) {
                           BuildSnackBar.show(
-                              message: 'Initialization failed',
                               context: context,
+                              message: 'Initialization failed',
                               backgroundColor: AppColors.errorRed
                           );
                         }

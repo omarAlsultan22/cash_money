@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../core/di/service _locator.dart';
 import '../core/services/connectivity_service.dart';
 import '../core/data/data_sources/local/shared_preferences.dart';
 import '../features/auth/presentation/screens/sign_in_screen.dart';
@@ -15,23 +16,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cacheHelper = CacheHelper();
-    final firestoreService = FirestoreService();
-    final firestoreDataRepository = FirestoreDataRepository(
-        repository: firestoreService);
-    final pointsUseCase = PointsUseCase(repository: firestoreDataRepository);
-    final questionsDataUseCase = QuestionsDataUseCase(
-        repository: firestoreDataRepository
-    );
-    final connectivityService = ConnectivityService();
-
     return BlocProvider<DataCubit>(create: (context) =>
-        DataCubit(
-          cacheHelper: cacheHelper,
-          pointsUseCase: pointsUseCase,
-          connectivityService: connectivityService,
-          questionsDataUseCase: questionsDataUseCase,
-        ),
+        sl<DataCubit>(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SignInScreen(),

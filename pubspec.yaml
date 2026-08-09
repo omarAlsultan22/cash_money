@@ -55,6 +55,7 @@ dependencies:
   hive: ^2.2.3
   cached_network_image: ^3.4.1
   app_links: ^7.2.0
+  get_it: ^9.2.1
 
 dev_dependencies:
   hive_generator: ^2.0.1

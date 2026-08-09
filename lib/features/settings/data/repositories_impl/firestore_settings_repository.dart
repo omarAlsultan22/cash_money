@@ -6,11 +6,11 @@ import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 import '../../../../core/data/data_sources/local/shared_preferences.dart';
 
 
-class FirebaseSignUpRepository implements SettingsRepository {
+class FirebaseSettingsRepository implements SettingsRepository {
   final CacheHelper _cacheHelper;
   final FirestoreService _repository;
 
-  FirebaseSignUpRepository({
+  FirebaseSettingsRepository({
     required CacheHelper cacheHelper,
     required FirestoreService repository
   })
