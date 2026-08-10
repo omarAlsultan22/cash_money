@@ -9,6 +9,7 @@ import '../../../../core/data/data_sources/local/shared_preferences.dart';
 class FirebaseSettingsRepository implements SettingsRepository {
   final CacheHelper _cacheHelper;
   final FirestoreService _repository;
+  String? _cachedUserId;
 
   FirebaseSettingsRepository({
     required CacheHelper cacheHelper,
@@ -17,10 +18,16 @@ class FirebaseSettingsRepository implements SettingsRepository {
       : _repository = repository,
         _cacheHelper = cacheHelper;
 
+  Future<String> _getUserId() async {
+    if (_cachedUserId != null) return _cachedUserId!;
+    _cachedUserId = await _cacheHelper.getString(key: AppKeys.uId);
+    return _cachedUserId!;
+  }
+
   @override
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
     try {
-      final userId = await _cacheHelper.getString(key: AppKeys.uId);
+      final userId = await _getUserId();
       final jsonData = await _repository.getDocument(
           docId: userId,
           collectionPath: AppKeys.users
@@ -37,7 +44,7 @@ class FirebaseSettingsRepository implements SettingsRepository {
     required String userName,
   }) async {
     try {
-      final userId = await _cacheHelper.getString(key: AppKeys.uId);
+      final userId = await _getUserId();
 
       final userModel = UserModel(
         userName: userName,

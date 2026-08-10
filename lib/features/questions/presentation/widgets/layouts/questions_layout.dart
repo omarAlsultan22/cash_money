@@ -146,10 +146,7 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Expanded(
-          child: _widgetBuilder()
-      );
+    return _widgetBuilder();
   }
 }
 

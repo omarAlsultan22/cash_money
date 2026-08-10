@@ -145,16 +145,20 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     _currentIndex = 0;
   }
 
+  Future<void> _getUserName() async {
+    _userName = await widget.cacheHelper.getString(key: 'userName') ?? 'Sir';
+  }
+
   void _savePoints(int points) {
     widget.onSave(points);
   }
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
     _initCounters();
     _colors = false;
-    _userName = await widget.cacheHelper.getString(key: 'userName') ?? 'Sir';
+    _getUserName();
   }
 
   @override
@@ -282,17 +286,14 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
                   color: AppColors.brown_600,
                   child: Padding(
                     padding: AppPaddings.medium,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Text(currentQuestion,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24.0,
-                          color: Colors.amberAccent,
-                          height: 1.3,
-                        ),
-                        textAlign: TextAlign.center,
+                    child: Text(currentQuestion,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                        color: Colors.amberAccent,
+                        height: 1.3,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -334,8 +335,6 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: _widgetBuilder()
-    );
+    return _widgetBuilder();
   }
 }

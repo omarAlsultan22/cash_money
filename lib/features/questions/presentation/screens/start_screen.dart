@@ -1,6 +1,7 @@
 import '../cubits/data_cubit.dart';
 import 'package:flutter/material.dart';
 import '../widgets/layouts/start_layout.dart';
+import '../../../../core/di/service _locator.dart';
 import '../../../../core/presentation/states/loaded_states.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
@@ -11,8 +12,8 @@ import 'package:cash_money/features/questions/presentation/screens/base/base_scr
 class StartScreen extends BaseScreen {
   const StartScreen({super.key});
 
-  static final cacheHelper = CacheHelper();
-  static final connectivityService = ConnectivityService();
+  static final cacheHelper = sl<CacheHelper>();
+  static final connectivityService = sl<ConnectivityService>();
 
   @override
   QuestionsKeys get screenKey => QuestionsKeys.startScreen;

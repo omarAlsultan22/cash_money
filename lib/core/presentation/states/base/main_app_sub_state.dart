@@ -1,7 +1,9 @@
 import '../../../errors/exceptions/base/app_exception.dart';
 
 
-abstract class MainAppSubState{
+abstract class MainAppSubState {
+  const MainAppSubState();
+
   R when<R>({
     required R Function() onInitial,
     required R Function() onLoading,

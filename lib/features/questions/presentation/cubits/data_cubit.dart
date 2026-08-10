@@ -51,19 +51,21 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
 
   Future<void> _fetchData() async {
     try {
-      final result = await _questionsDataUseCase.execute(params:
-      GetQuestionsParams(
-        lastDocument: state.lastDocument,
-      ));
+      final newData = await _questionsDataUseCase.execute(
+          questions: state.questions,
+          params: GetQuestionsParams(
+            lastDocument: state.lastDocument,
+          )
+      );
 
-      if (result!.listIsEmpty) {
-        emit(state.copyWith(subState: InitialState()));
+      if (newData!.listIsEmpty && state.listIsEmpty) {
+        emit(state.copyWith(subState: const InitialState()));
         return;
       }
 
       emit(state.copyWith(
-          firstModel: result,
-          subState: SuccessState())
+          firstModel: newData,
+          subState: const SuccessState())
       );
     }
     catch (e) {
@@ -89,7 +91,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
     emit(
         state.copyWith(
             key: key,
-            subState: LoadingState())
+            subState: const LoadingState())
     );
     try {
       _fetchData();

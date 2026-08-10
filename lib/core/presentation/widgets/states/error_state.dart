@@ -31,12 +31,14 @@ class ErrorStateWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: _paddingHorizontal),
-              child: Text('Error: $message'),
+              child: Text('Error: $message',
+                  style: const TextStyle(color: AppColors.white)),
             ),
             AppSpaces.vertical_30,
             ElevatedButton(
               onPressed: onRetry,
-              child: Text(buttonText),
+              child: Text(
+                  buttonText, style: const TextStyle(color: AppColors.black)),
             ),
           ],
         ),

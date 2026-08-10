@@ -30,11 +30,10 @@ abstract class BaseScreenState<T extends BaseScreen>
   late DataCubit cubit;
 
   @override
-  @mustCallSuper
-  Future<void> initState() async {
+  void initState() {
     super.initState();
     initializeListener(widget.screenKey);
-    await _cubitInitialization();
+    _cubitInitialization();
   }
 
   Future<void> _cubitInitialization() async {
@@ -55,13 +54,13 @@ abstract class BaseScreenState<T extends BaseScreen>
               return widget.buildLoadedWidget(
                   data: data,
                   cubit: cubit,
-                  loadMoreData: () async => await cubit.loadMoreData()
+                  loadMoreData: () => cubit.loadMoreData()
               );
             },
             onError: (error) =>
                 error.buildErrorWidget(
                     appBar: AppBarWidget.build(),
-                    onRetry: () async => await cubit.loadMoreData()
+                    onRetry: () => cubit.loadMoreData()
                 ),
           );
         }

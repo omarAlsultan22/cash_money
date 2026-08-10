@@ -33,7 +33,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
       return state.copyWith(
           firstModel: state.userModel,
           secondModel: messageResult,
-          subState: SuccessState()
+          subState: const SuccessState()
       );
     }
 
@@ -85,14 +85,14 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
     }
     emit(
         state.copyWith(
-            subState: LoadingState()));
+            subState: const LoadingState()));
 
     try {
       final userModel = await _settingsUseCase.getInfoExecute();
       emit(
           state.copyWith(
               firstModel: userModel,
-              subState: SuccessState()));
+              subState: const SuccessState()));
     }
     catch (e, stackTrace) {
       handleError(e, stackTrace,

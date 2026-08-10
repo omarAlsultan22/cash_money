@@ -21,7 +21,7 @@ class DataState extends SingleModelAppState<QuestionsData> {
   factory DataState.initial(){
     return DataState(
       key: null,
-      subState: InitialState(),
+      subState: const InitialState(),
       firstModel: const QuestionsData(),
     );
   }
@@ -29,6 +29,8 @@ class DataState extends SingleModelAppState<QuestionsData> {
   bool get hasMore => firstModel!.hasMore;
 
   bool get listIsEmpty => firstModel!.listIsEmpty;
+
+  List<QuestionModel> get questions => firstModel!.questions;
 
   DocumentSnapshot? get lastDocument => firstModel!.lastDocument;
 

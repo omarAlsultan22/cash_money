@@ -20,7 +20,7 @@ class SettingsState extends DoubleModelAppState<UserModel, MessageResult> {
     return SettingsState(
         firstModel: null,
         secondModel: MessageResult.initial(),
-        subState: InitialState()
+        subState: const InitialState()
     );
   }
 

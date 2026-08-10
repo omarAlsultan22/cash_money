@@ -18,6 +18,7 @@ class AuthDependencies {
     // Repositories
     sl.registerLazySingleton(() =>
         FirebaseAuthRepository(auth: sl<FirebaseAuthService>()));
+
     sl.registerLazySingleton(() =>
         FirebaseSignUpRepository(repository: sl<FirestoreService>()));
 
@@ -41,9 +42,11 @@ class AuthDependencies {
     sl.registerFactory(() =>
         SignInCubit(useCase: sl<SignInUseCase>(),
             connectivityService: sl<ConnectivityService>()));
+
     sl.registerFactory(() =>
         SignUpCubit(useCase: sl<SignUpUseCase>(),
             connectivityService: sl<ConnectivityService>()));
+
     sl.registerFactory(() =>
         ChangeEmailAndPasswordCubit(
             useCase: sl<ChangeEmailAndPasswordUseCase>(),

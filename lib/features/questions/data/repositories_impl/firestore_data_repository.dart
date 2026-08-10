@@ -44,7 +44,6 @@ class FirestoreDataRepository implements AppDataRepository {
       }
 
       final docs = snapshot.docs;
-      final hasMore = snapshot.docs.length > limit;
       final newLastDocument = docs.isNotEmpty ? docs.last : null;
 
       final questions = DataConverter
@@ -54,7 +53,7 @@ class FirestoreDataRepository implements AppDataRepository {
       return QuestionsData(
         questions: questions,
         lastDocument: newLastDocument,
-        hasMore: hasMore,
+        hasMore: true,
       );
     } catch (e) {
       rethrow;

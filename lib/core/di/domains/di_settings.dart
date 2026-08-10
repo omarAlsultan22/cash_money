@@ -12,8 +12,10 @@ class SettingsDependencies {
     // Repository
     sl.registerLazySingleton(() =>
         FirebaseSettingsRepository(
-            repository: sl<FirestoreService>(),
-            cacheHelper: sl<CacheHelper>()));
+            cacheHelper: sl<CacheHelper>(),
+            repository: sl<FirestoreService>()
+        )
+    );
 
     // UseCase
     sl.registerLazySingleton(() =>
