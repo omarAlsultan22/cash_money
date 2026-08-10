@@ -63,7 +63,8 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
     catch (e, stackTrace) {
       handleError(e, stackTrace,
           onError: (failure) =>
-              buildState(MessageResult.error(error: failure)
+              buildState(
+                  MessageResult.error(title: 'Update failed:', error: failure)
               )
       );
     }

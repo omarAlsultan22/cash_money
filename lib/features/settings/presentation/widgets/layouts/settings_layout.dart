@@ -12,6 +12,7 @@ import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_spaces.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 
 
@@ -50,7 +51,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   void didUpdateWidget(covariant SettingsLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.messageResult.message != null) {
-      _showMessageResult(widget.messageResult);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showMessageResult(widget.messageResult);
+      });
     }
     setState((){});
   }

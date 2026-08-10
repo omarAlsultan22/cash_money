@@ -1,6 +1,6 @@
+import 'dart:io';
 import '../states/auth_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
@@ -30,14 +30,16 @@ class SignUpCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
   }) async {
     final isConnected = await _connectivityService.checkInternetConnection();
     if (!isConnected) {
-      emit(
-        AuthState(
-          messageResult: MessageResult.error(
-              error: NetworkAppException(error: AppStrings.noInternetMessage)),
-        ),
+      handleError(SocketException, StackTrace.current,
+        onError: (failure) =>
+            AuthState(
+              messageResult: MessageResult.error(
+                  error: NetworkAppException(error: failure)),
+            ),
       );
       return;
     }
+
     emit(AuthState(messageResult: MessageResult.loading()));
     try {
       await _useCase.execute(
@@ -50,7 +52,7 @@ class SignUpCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
     } catch (e, stackTrace) {
       handleError(e, stackTrace,
           onError: (failure) =>
-              AuthState(messageResult: MessageResult.error(error: failure)
+              AuthState(messageResult: MessageResult.error(title: 'Registration failed:', error: failure)
               )
       );
     }

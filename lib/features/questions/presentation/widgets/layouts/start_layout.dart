@@ -147,6 +147,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
 
   Future<void> _getUserName() async {
     _userName = await widget.cacheHelper.getString(key: 'userName') ?? 'Sir';
+    setState(() => _userName);
   }
 
   void _savePoints(int points) {

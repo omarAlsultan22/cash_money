@@ -34,12 +34,13 @@ class MessageResult {
   }
 
   factory MessageResult.error({
+    String? title,
     AppException? error,
   }){
     return MessageResult(
         error: error,
         color: AppColors.errorRed,
-        message: 'Update failed: ${error!.error}'
+        message: '$title ${error!.message}'
     );
   }
 }

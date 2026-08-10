@@ -25,12 +25,12 @@ class SignInLayout extends StatefulWidget {
   final Future<void> Function({
   required String userEmail,
   required String userPassword
-  }) onUpdate;
+  }) signIn;
   final CacheHelper cacheHelper;
   final MessageResult messageResult;
   const SignInLayout({
     super.key,
-    required this.onUpdate,
+    required this.signIn,
     required this.cacheHelper,
     required this.messageResult
   });
@@ -260,7 +260,7 @@ class _SignInLayoutState extends State<SignInLayout> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _hideKeyboard();
-      widget.onUpdate(
+      widget.signIn(
           userEmail: _emailController.text.trim(),
           userPassword: _passwordController.text
       );

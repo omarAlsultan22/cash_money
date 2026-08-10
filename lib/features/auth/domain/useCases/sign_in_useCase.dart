@@ -24,6 +24,7 @@ class SignInUseCase {
           userEmail: userEmail,
           userPassword: userPassword
       );
+
       await _cacheHelper.setString(key: AppKeys.uId, value: userCredential.user!.uid);
     } catch (e) {
       rethrow;

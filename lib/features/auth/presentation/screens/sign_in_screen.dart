@@ -21,7 +21,7 @@ class SignInScreen extends StatelessWidget {
             return SignInLayout(
                 cacheHelper: sl<CacheHelper>(),
                 messageResult: state.messageResult!,
-                onUpdate: ({
+                signIn: ({
                   required String userEmail,
                   required String userPassword
                 }) async =>

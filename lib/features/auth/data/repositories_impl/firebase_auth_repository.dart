@@ -14,12 +14,14 @@ class FirebaseAuthRepository implements AuthRepository {
     required String userPassword
   }) async {
     try {
-      return await _auth.signIn(
+      final userCredential = await _auth.signIn(
         email: userEmail,
         password: userPassword,
-      ).then((value) {
-        return value;
-      });
+      );
+      if (userCredential.user == null) {
+        throw();
+      }
+      return userCredential;
     }
     catch (e) {
       rethrow;
