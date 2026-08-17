@@ -1,9 +1,11 @@
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
+import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
-import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
+import '../../../../../core/presentation/utils/form_validation.dart';
+import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import 'package:cash_money/core/constants/app_text_styles.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
@@ -15,10 +17,8 @@ import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
 import '../../../../home/screens/home_screen.dart';
 import '../../screens/sign_up_screen.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../navigation/navigator.dart';
 
 
 class SignInLayout extends StatefulWidget {
@@ -39,9 +39,9 @@ class SignInLayout extends StatefulWidget {
   State<SignInLayout> createState() => _SignInLayoutState();
 }
 
-class _SignInLayoutState extends State<SignInLayout> {
+class _SignInLayoutState extends State<SignInLayout> with AuthMixin<SignInLayout> {
+  bool _isPressed = true;
   bool _isObscure = true;
-
   final _formKey = GlobalKey<FormState>();
 
   //controllers
@@ -64,22 +64,10 @@ class _SignInLayoutState extends State<SignInLayout> {
   @override
   void didUpdateWidget(covariant SignInLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.messageResult.message != null) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        _showMessageResult(widget.messageResult);
-      });
-      if (widget.messageResult.error == null) {
-        _navigateToHome();
-      }
-    }
-    setState(() {});
-  }
-
-  void _showMessageResult(MessageResult messageResult) {
-    BuildSnackBar.show(
-        context: context,
-        message: messageResult.message!,
-        backgroundColor: messageResult.color!
+    handleMessageResult(
+        messageResult: widget.messageResult,
+        onNavigate: () =>
+            _navigateToHome()
     );
   }
 
@@ -171,19 +159,15 @@ class _SignInLayoutState extends State<SignInLayout> {
       hintText: AuthHintsTexts.passwordHintText,
       prefixIcon: Icons.lock,
       obscureText: _isObscure,
-      suffixIcon: _buildPasswordVisibilityToggle(),
+      suffixIcon: buildPasswordVisibilityToggle(
+          isObscure: _isObscure,
+          onToggle: () =>
+              setState(() {
+                _isObscure = !_isObscure;
+              })
+      ),
       autofillHints: const [AutofillHints.password],
       validator: (value) => ValidatePassword.validator(value),
-    );
-  }
-
-  Widget _buildPasswordVisibilityToggle() {
-    return IconButton(
-      icon: Icon(
-        _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: AppColors.amber_500,
-      ),
-      onPressed: _togglePasswordVisibility,
     );
   }
 
@@ -191,19 +175,14 @@ class _SignInLayoutState extends State<SignInLayout> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        style: _loginButtonStyle(),
-        onPressed: _submitForm,
-        child: _buildLoginButtonContent(),
+        style: UiUtils.buttonStyle(),
+        onPressed: _isPressed
+            ? () => _submitForm()
+            : null,
+        child: UiUtils.buildButtonContent(
+            text: 'LOGIN',
+            isLoading: widget.messageResult.isLoading),
       ),
-    );
-  }
-
-  Widget _buildLoginButtonContent() {
-    return widget.messageResult.isLoading
-        ? LoadingWidget.sizedBox
-        : const Text(
-        "LOGIN",
-        style: AppTextStyles.textStyle
     );
   }
 
@@ -241,13 +220,7 @@ class _SignInLayoutState extends State<SignInLayout> {
   }
 
   void _navigateToHome() {
-    BuildNavigator.build(context: context, link: const HomeScreen());
-  }
-
-  void _togglePasswordVisibility() {
-    setState(() {
-      _isObscure = !_isObscure;
-    });
+    navigateToScreen(const HomeScreen());
   }
 
   void _navigateToRegister() {
@@ -257,29 +230,18 @@ class _SignInLayoutState extends State<SignInLayout> {
     );
   }
 
+  void _updateLockButton(bool value) {
+    setState(() => _isPressed = value);
+  }
+
   Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      _hideKeyboard();
+    if (FormValidation.validator(_formKey)) {
+      _updateLockButton(false);
+      UiUtils.hideKeyboard(context);
       widget.signIn(
           userEmail: _emailController.text.trim(),
           userPassword: _passwordController.text
-      );
+      ).whenComplete(() => _updateLockButton(true));
     }
-  }
-
-  void _hideKeyboard() {
-    FocusScope.of(context).unfocus();
-  }
-
-  ButtonStyle _loginButtonStyle() {
-    return ElevatedButton.styleFrom(
-      backgroundColor: AppColors.amber_500,
-      foregroundColor: AppColors.black,
-      padding: AppPaddings.verticalSymmetric,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      elevation: 2.0,
-    );
   }
 }

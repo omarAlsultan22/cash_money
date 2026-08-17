@@ -1,11 +1,10 @@
 import '../../../../../core/presentation/utils/helpers/validate/validator_input.dart';
 import '../../../../auth/presentation/screens/change_email_and_password_screen.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
+import 'package:cash_money/core/presentation/utils/form_validation.dart';
 import '../../../../../core/presentation/widgets/build_input_field.dart';
-import '../../../../../core/presentation/widgets/loading_widget.dart';
+import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
-import 'package:cash_money/core/constants/app_text_styles.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
@@ -32,18 +31,19 @@ class SettingsLayout extends StatefulWidget {
 }
 
 class _SettingsLayoutState extends State<SettingsLayout> {
+  bool _isPressed = true;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
 
   static const _paddingVertical = AppPaddings.verticalSymmetric;
   static const _roundedRectangleBorder = RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(12.0)));
+      borderRadius: BorderRadius.all(Radius.circular(12.0)));
 
   @override
   void initState() {
     super.initState();
     _initializeControllers(
-        userName: widget.userModel.userName,
+      userName: widget.userModel.userName,
     );
   }
 
@@ -52,10 +52,11 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     super.didUpdateWidget(oldWidget);
     if (widget.messageResult.message != null) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        _showMessageResult(widget.messageResult);
+        UiUtils.showMessageResult(
+            context: context, messageResult: widget.messageResult);
       });
     }
-    setState((){});
+    setState(() {});
   }
 
   @override
@@ -79,14 +80,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         appBar: _buildAppBar(),
         body: _buildBody(),
       ),
-    );
-  }
-
-  void _showMessageResult(MessageResult messageResult) {
-    BuildSnackBar.show(
-        message: messageResult.message!,
-        backgroundColor: messageResult.color!,
-        context: context
     );
   }
 
@@ -163,7 +156,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       label: AppStrings.nameLabel,
       hint: AppStrings.nameHint,
       icon: Icons.person,
-      validator: (value) => ValidateInput.validator(value, AppStrings.nameLabel),
+      validator: (value) =>
+          ValidateInput.validator(value, AppStrings.nameLabel),
     );
   }
 
@@ -204,8 +198,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         child: const Text(
           'Change email and password',
           style: TextStyle(
-            fontSize: AppSizes.fontSize_18,
-            color: AppColors.amber_600,
+            fontSize: AppSizes.fontSize_16,
+            color: AppColors.amber_500,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -213,31 +207,36 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
   }
 
+  void _updateLockButton(bool value) {
+    setState(() => _isPressed = value);
+  }
+
   Widget _buildUpdateButton() {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-          style: _updateButtonStyle(),
-          onPressed: () {
-            widget.onUpdate(
-                UserModel(
-                    userName: _nameController.text,
-                )
-            );
-            setState(() {});
-          },
-          child: _buildUpdateButtonContent()
+          style: UiUtils.buttonStyle(),
+          onPressed: _isPressed
+              ? () => _submitForm()
+              : null,
+          child: UiUtils.buildButtonContent(
+              text: 'Update',
+              isLoading: widget.messageResult.isLoading)
       ),
     );
   }
 
-  Widget _buildUpdateButtonContent() {
-    return widget.messageResult.isLoading
-        ? LoadingWidget.sizedBox
-        : const Text(
-      "Update",
-      style: AppTextStyles.textStyle,
-    );
+  Future<void> _submitForm() async {
+    if (FormValidation.validator(_formKey)) {
+      _updateLockButton(false);
+      UiUtils.hideKeyboard(context);
+      widget.onUpdate(
+          UserModel(
+            userName: _nameController.text,
+          )
+      );
+      _updateLockButton(true);
+    }
   }
 
   void _navigateToChangePassword() {
@@ -255,7 +254,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-        AppColors.brown_900,
+          AppColors.brown_900,
           AppColors.brown_800,
         ],
       ),
@@ -265,17 +264,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   ButtonStyle _changePasswordButtonStyle() {
     return OutlinedButton.styleFrom(
       padding: _paddingVertical,
-      side: const BorderSide(color: AppColors.amber_600),
+      side: const BorderSide(color: AppColors.amber_500),
       shape: _roundedRectangleBorder,
-    );
-  }
-
-  ButtonStyle _updateButtonStyle() {
-    return ElevatedButton.styleFrom(
-      backgroundColor: AppColors.amber_600,
-      padding: _paddingVertical,
-      shape: _roundedRectangleBorder,
-      elevation: 4.0,
     );
   }
 }

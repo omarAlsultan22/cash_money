@@ -1,11 +1,11 @@
 import 'package:cash_money/core/presentation/utils/helpers/validate/validator_input.dart';
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
+import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
-import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
-import 'package:cash_money/core/presentation/widgets/loading_widget.dart';
-import 'package:cash_money/core/constants/app_text_styles.dart';
+import 'package:cash_money/core/presentation/utils/form_validation.dart';
+import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
@@ -14,7 +14,6 @@ import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 
 
@@ -36,7 +35,8 @@ class SignUpLayout extends StatefulWidget {
   State<SignUpLayout> createState() => _SignUpLayoutState();
 }
 
-class _SignUpLayoutState extends State<SignUpLayout> {
+class _SignUpLayoutState extends State<SignUpLayout> with AuthMixin<SignUpLayout> {
+  bool _isPressed = true;
   bool _isObscure = true;
   final _formKey = GlobalKey<FormState>();
 
@@ -44,6 +44,8 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  static const spaceBetweenFields = AppSpaces.vertical_16;
 
   @override
   void dispose() {
@@ -56,23 +58,14 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   @override
   void didUpdateWidget(covariant SignUpLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.messageResult.message != null) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        _showMessageResult(widget.messageResult);
-      });
-      if (widget.messageResult.error == null) {
-        Navigator.pop(context);
-      }
-      setState(() {});
-    }
+    handleMessageResult(
+      messageResult: widget.messageResult,
+      onNavigate: _navigateToBack,
+    );
   }
 
-  void _showMessageResult(MessageResult messageResult) {
-    BuildSnackBar.show(
-        context: context,
-        message: messageResult.message!,
-        backgroundColor: messageResult.color!
-    );
+  void _navigateToBack() {
+    Navigator.pop(context);
   }
 
   @override
@@ -112,8 +105,6 @@ class _SignUpLayoutState extends State<SignUpLayout> {
   }
 
   Widget _buildInputFields() {
-    const spaceBetweenFields = AppSpaces.vertical_16;
-
     return Column(
       children: [
         _buildNameField(),
@@ -195,19 +186,15 @@ class _SignUpLayoutState extends State<SignUpLayout> {
         controller: _passwordController,
         labelText: AuthLabelsTexts.passwordLabelText,
         hintText: AuthHintsTexts.passwordHintText,
-        suffixIcon: _buildPasswordVisibilityToggle(),
+        suffixIcon: buildPasswordVisibilityToggle(
+            isObscure: _isObscure,
+            onToggle: () =>
+                setState(() {
+                  _isObscure = !_isObscure;
+                })
+        ),
         autofillHints: const [AutofillHints.newPassword],
         validator: (value) => ValidatePassword.validator(value!)
-    );
-  }
-
-  Widget _buildPasswordVisibilityToggle() {
-    return IconButton(
-      icon: Icon(
-        _isObscure ? Icons.visibility_off : Icons.visibility,
-        color: AppColors.amber_500,
-      ),
-      onPressed: _togglePasswordVisibility,
     );
   }
 
@@ -215,32 +202,26 @@ class _SignUpLayoutState extends State<SignUpLayout> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        style: _registerButtonStyle(),
-        onPressed: _submitForm,
-        child: _buildRegisterButtonContent(),
+        style: UiUtils.buttonStyle(),
+        onPressed: _isPressed
+            ? () => _submitForm()
+            : null,
+        child: UiUtils.buildButtonContent(
+          text: 'REGISTER',
+            isLoading: widget.messageResult.isLoading
+        ),
       ),
     );
   }
 
-  Widget _buildRegisterButtonContent() {
-    return widget.messageResult.isLoading
-        ? LoadingWidget.sizedBox
-        : const Text(
-      "REGISTER",
-      style: AppTextStyles.textStyle,
-    );
-  }
-
-
-  void _togglePasswordVisibility() {
-    setState(() {
-      _isObscure = !_isObscure;
-    });
+  void _updateLockButton(bool value) {
+    setState(() => _isPressed = value);
   }
 
   Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      _hideKeyboard();
+    if (FormValidation.validator(_formKey)) {
+      _updateLockButton(false);
+      UiUtils.hideKeyboard(context);
       await _performRegistration();
     }
   }
@@ -250,22 +231,6 @@ class _SignUpLayoutState extends State<SignUpLayout> {
       userName: _nameController.text,
       userEmail: _emailController.text.trim(),
       userPassword: _passwordController.text,
-    );
-  }
-
-  void _hideKeyboard() {
-    FocusScope.of(context).unfocus();
-  }
-
-  ButtonStyle _registerButtonStyle() {
-    return ElevatedButton.styleFrom(
-      backgroundColor: AppColors.amber_500,
-      foregroundColor: AppColors.black,
-      padding: AppPaddings.verticalSymmetric,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSizes.medium),
-      ),
-      elevation: 2.0,
-    );
+    ).whenComplete(() => _updateLockButton(true));
   }
 }

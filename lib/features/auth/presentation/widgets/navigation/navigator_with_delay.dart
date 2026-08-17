@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cash_money/core/constants/app_durations.dart';
 
 
-class BuildNavigator {
+class NavigatorWithDelay {
   static void build({
     required Widget link,
     required BuildContext context,
