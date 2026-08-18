@@ -1,5 +1,5 @@
-import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:cash_money/core/constants/app_colors.dart';
 
 
 class LoadingWidget {

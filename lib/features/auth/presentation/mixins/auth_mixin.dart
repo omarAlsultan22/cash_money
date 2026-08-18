@@ -7,7 +7,6 @@ import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 
 
 mixin AuthMixin<T extends StatefulWidget> on State<T> {
-
   void handleMessageResult({
     required MessageResult messageResult,
     required VoidCallback onNavigate,
