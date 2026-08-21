@@ -2,9 +2,7 @@ import '../../../../../core/presentation/utils/helpers/validate/validator_input.
 import '../../../../auth/presentation/screens/change_email_and_password_screen.dart';
 import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import 'package:cash_money/core/presentation/utils/form_validation.dart';
 import '../../../../../core/presentation/widgets/build_input_field.dart';
-import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/data/models/user_model.dart';
@@ -209,11 +207,11 @@ class _SettingsLayoutState extends State<SettingsLayout> with AuthMixin {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-          style: UiUtils.buttonStyle(),
+          style: buttonStyle(),
           onPressed: _isPressed
               ? () => _submitForm()
               : null,
-          child: UiUtils.buildButtonContent(
+          child: buildButtonContent(
               text: 'Update',
               isLoading: widget.messageResult.isLoading)
       ),
@@ -221,9 +219,9 @@ class _SettingsLayoutState extends State<SettingsLayout> with AuthMixin {
   }
 
   Future<void> _submitForm() async {
-    if (FormValidation.validator(_formKey)) {
+    if (validator(_formKey)) {
       _updateLockButton(false);
-      UiUtils.hideKeyboard(context);
+      hideKeyboard(context);
       widget.onUpdate(
           UserModel(
             userName: _nameController.text,

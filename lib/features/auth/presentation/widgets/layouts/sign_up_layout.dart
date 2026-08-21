@@ -4,8 +4,6 @@ import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
-import 'package:cash_money/core/presentation/utils/form_validation.dart';
-import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
@@ -202,11 +200,11 @@ class _SignUpLayoutState extends State<SignUpLayout> with AuthMixin<SignUpLayout
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        style: UiUtils.buttonStyle(),
+        style: buttonStyle(),
         onPressed: _isPressed
             ? () => _submitForm()
             : null,
-        child: UiUtils.buildButtonContent(
+        child: buildButtonContent(
           text: 'REGISTER',
             isLoading: widget.messageResult.isLoading
         ),
@@ -219,9 +217,9 @@ class _SignUpLayoutState extends State<SignUpLayout> with AuthMixin<SignUpLayout
   }
 
   Future<void> _submitForm() async {
-    if (FormValidation.validator(_formKey)) {
+    if (validator(_formKey)) {
       _updateLockButton(false);
-      UiUtils.hideKeyboard(context);
+      hideKeyboard(context);
       await _performRegistration();
     }
   }

@@ -3,8 +3,6 @@ import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
-import '../../../../../core/presentation/utils/form_validation.dart';
-import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
@@ -173,11 +171,11 @@ class _SignInLayoutState extends State<SignInLayout> with AuthMixin<SignInLayout
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        style: UiUtils.buttonStyle(),
+        style: buttonStyle(),
         onPressed: _isPressed
             ? () => _submitForm()
             : null,
-        child: UiUtils.buildButtonContent(
+        child: buildButtonContent(
             text: 'LOGIN',
             isLoading: widget.messageResult.isLoading),
       ),
@@ -233,9 +231,9 @@ class _SignInLayoutState extends State<SignInLayout> with AuthMixin<SignInLayout
   }
 
   Future<void> _submitForm() async {
-    if (FormValidation.validator(_formKey)) {
+    if (validator(_formKey)) {
       _updateLockButton(false);
-      UiUtils.hideKeyboard(context);
+      hideKeyboard(context);
       widget.signIn(
           userEmail: _emailController.text.trim(),
           userPassword: _passwordController.text

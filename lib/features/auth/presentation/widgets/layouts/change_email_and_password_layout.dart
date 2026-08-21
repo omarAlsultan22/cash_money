@@ -3,8 +3,6 @@ import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
-import 'package:cash_money/core/presentation/utils/form_validation.dart';
-import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
@@ -105,11 +103,11 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     return Padding(
       padding: _paddingHorizontal,
       child: ElevatedButton(
-        style: UiUtils.buttonStyle(padding: _paddingHorizontal),
+        style: buttonStyle(padding: _paddingHorizontal),
         onPressed: _isPressed
             ? () => _onSavePressed()
             : null,
-        child: UiUtils.buildButtonContent(
+        child: buildButtonContent(
           text: 'Save',
           isSaveButton: true,
           isLoading: widget.messageResult.isLoading,
@@ -218,7 +216,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   Future<void> _onSavePressed() async {
     if (!_validateForm()) return;
     _updateLockButton(false);
-    UiUtils.hideKeyboard(context);
+    hideKeyboard(context);
     widget.onUpdate(
         newEmail: _newEmailController.text.trim(),
         currentPassword: _currentPasswordController.text,
@@ -227,10 +225,10 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   bool _validateForm() {
-    if (!FormValidation.validator(_formKey)) return false;
+    if (!validator(_formKey)) return false;
 
     if (_newPasswordController.text != _repeatNewPasswordController.text) {
-      UiUtils.showMessageResult(
+      showMessageResult(
           context: context,
           color: AppColors.errorRed,
           message: 'The new password does not match'
