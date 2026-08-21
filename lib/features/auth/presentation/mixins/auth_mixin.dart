@@ -7,20 +7,30 @@ import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 
 
 mixin AuthMixin<T extends StatefulWidget> on State<T> {
-  void handleMessageResult({
+
+  void handleMessageResultAndNavigate({
     required MessageResult messageResult,
     required VoidCallback onNavigate,
     VoidCallback? onClear,
   }) {
+    handleMessageResult(messageResult: messageResult);
+    if (messageResult.error == null) {
+      onClear?.call();
+      onNavigate();
+    }
+  }
+
+  void handleMessageResult({
+    required MessageResult messageResult,
+  }) {
     if (messageResult.message != null) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         UiUtils.showMessageResult(
-            context: context, messageResult: messageResult);
+            context: context,
+            color: messageResult.color!,
+            message: messageResult.message!
+        );
       });
-      if (messageResult.error == null) {
-        onClear?.call();
-        onNavigate();
-      }
       setState(() {});
     }
   }

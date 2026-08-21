@@ -3,7 +3,6 @@ import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
-import 'package:cash_money/core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/utils/form_validation.dart';
 import 'package:cash_money/core/presentation/utils/ui_utils.dart';
 import '../../../../../core/data/models/message_result.dart';
@@ -66,7 +65,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   @override
   void didUpdateWidget(covariant ChangeEmailAndPasswordLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    handleMessageResult(
+    handleMessageResultAndNavigate(
         messageResult: widget.messageResult,
         onNavigate: () => navigateToScreen(const SignInScreen()),
         onClear: _clearUserData
@@ -231,10 +230,10 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
     if (!FormValidation.validator(_formKey)) return false;
 
     if (_newPasswordController.text != _repeatNewPasswordController.text) {
-      BuildSnackBar.show(
-          message: 'The new password does not match',
-          backgroundColor: AppColors.errorRed,
-          context: context
+      UiUtils.showMessageResult(
+          context: context,
+          color: AppColors.errorRed,
+          message: 'The new password does not match'
       );
       return false;
     }

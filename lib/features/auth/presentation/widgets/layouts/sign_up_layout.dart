@@ -58,7 +58,7 @@ class _SignUpLayoutState extends State<SignUpLayout> with AuthMixin<SignUpLayout
   @override
   void didUpdateWidget(covariant SignUpLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    handleMessageResult(
+    handleMessageResultAndNavigate(
       messageResult: widget.messageResult,
       onNavigate: _navigateToBack,
     );

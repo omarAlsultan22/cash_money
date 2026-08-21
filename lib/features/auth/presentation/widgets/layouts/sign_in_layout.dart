@@ -62,7 +62,7 @@ class _SignInLayoutState extends State<SignInLayout> with AuthMixin<SignInLayout
   @override
   void didUpdateWidget(covariant SignInLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    handleMessageResult(
+    handleMessageResultAndNavigate(
         messageResult: widget.messageResult,
         onNavigate: () =>
             _navigateToHome()

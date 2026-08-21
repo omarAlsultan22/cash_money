@@ -1,5 +1,6 @@
 import '../../../../../core/presentation/utils/helpers/validate/validator_input.dart';
 import '../../../../auth/presentation/screens/change_email_and_password_screen.dart';
+import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/presentation/utils/form_validation.dart';
 import '../../../../../core/presentation/widgets/build_input_field.dart';
@@ -11,7 +12,6 @@ import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_spaces.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 
 
@@ -30,7 +30,7 @@ class SettingsLayout extends StatefulWidget {
   State<SettingsLayout> createState() => _SettingsLayoutState();
 }
 
-class _SettingsLayoutState extends State<SettingsLayout> {
+class _SettingsLayoutState extends State<SettingsLayout> with AuthMixin {
   bool _isPressed = true;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -50,13 +50,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   @override
   void didUpdateWidget(covariant SettingsLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.messageResult.message != null) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        UiUtils.showMessageResult(
-            context: context, messageResult: widget.messageResult);
-      });
-    }
-    setState(() {});
+    handleMessageResult(messageResult: widget.messageResult);
   }
 
   @override

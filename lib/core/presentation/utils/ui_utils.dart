@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../constants/app_text_styles.dart';
+import '../widgets/loading_widget.dart';
 import '../widgets/build_snack_bar.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_paddings.dart';
-import '../../data/models/message_result.dart';
-import '../widgets/loading_widget.dart';
+import '../../constants/app_text_styles.dart';
 
 
 class UiUtils {
@@ -14,12 +13,13 @@ class UiUtils {
 
   static void showMessageResult({
     required BuildContext context,
-    required MessageResult messageResult,
+    required String message,
+    required Color color,
   }) {
     BuildSnackBar.show(
         context: context,
-        message: messageResult.message!,
-        backgroundColor: messageResult.color!
+        message: message,
+        backgroundColor: color
     );
   }
 
