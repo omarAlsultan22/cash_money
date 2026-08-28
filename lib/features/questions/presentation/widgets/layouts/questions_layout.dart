@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import '../../screens/answer_screen.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
+import '../../../../../core/data/models/message_result.dart';
+import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/features/questions/data/models/questions_result.dart';
 
@@ -12,10 +15,12 @@ class BuildQuestionsScreen extends StatefulWidget {
   bool isLoading;
   final VoidCallback loadMoreData;
   final QuestionsData questionsData;
+  final MessageResult? messageResult;
   BuildQuestionsScreen({
     super.key,
-    required this.loadMoreData,
+    this.messageResult,
     required this.isLoading,
+    required this.loadMoreData,
     required this.questionsData
   });
 
@@ -34,6 +39,25 @@ class _BuildQuestionsScreenState extends State<BuildQuestionsScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScrollData);
+  }
+
+  @override
+  void didUpdateWidget(covariant BuildQuestionsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.messageResult != null) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showMessageResult(widget.messageResult);
+      });
+      setState(() {});
+    }
+  }
+
+  void _showMessageResult(MessageResult? messageResult) {
+    BuildSnackBar.show(
+        context: context,
+        message: messageResult!.message!,
+        backgroundColor: messageResult.color!
+    );
   }
 
   void _onScrollData() {

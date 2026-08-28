@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:hive/hive.dart';
 import '../exceptions/base/app_exception.dart';
 import '../exceptions/client_app_exception.dart';
 import '../../services/connectivity_service.dart';
 import '../exceptions/network_app_exception.dart';
 import '../exceptions/firebase_app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../exceptions/cache_exceptions/hive_app_exceptions.dart';
-import '../exceptions/cache_exceptions/shared_prefs_app_exceptions.dart';
 
 
 class ExceptionMapper {
@@ -17,54 +14,8 @@ class ExceptionMapper {
   ExceptionMapper({required this.error});
 
   static final _connectivityService = ConnectivityService();
-  static const String _msgCastError = 'Error in stored data type';
-  static const String _msgWriteError = 'Failed to save data to local storage';
-  static const String _msgReadError = 'Failed to read data from local storage';
-  static const String _msgInitError = 'Local storage has not been initialized correctly';
-
-  static final Map<String, AppException> _stringPatterns = {
-    '_casterror': SharedPrefsCastException(
-      message: _msgCastError,
-    ),
-    'null check operator': SharedPrefsCastException(
-      message: _msgCastError,
-    ),
-    'getinstance': SharedPrefsInitException(
-      message: _msgInitError,
-    ),
-    'not initialized': SharedPrefsInitException(
-      message: _msgInitError,
-    ),
-    'binding has not been initialized': SharedPrefsInitException(
-      message: _msgInitError,
-    ),
-    'read': SharedPrefsOperationException(
-      message: _msgReadError,
-      operation: 'read',
-    ),
-    'get': SharedPrefsOperationException(
-      message: _msgReadError,
-      operation: 'read',
-    ),
-    'write': SharedPrefsOperationException(
-      message: _msgWriteError,
-      operation: 'write',
-    ),
-    'set': SharedPrefsOperationException(
-      message: _msgWriteError,
-      operation: 'write',
-    ),
-    'save': SharedPrefsOperationException(
-      message: _msgWriteError,
-      operation: 'write',
-    ),
-  };
 
   static final Map<Object, AppException? Function(dynamic)> _typePatterns = {
-    HiveError: (error) {
-      final hiveException = HiveAppExceptions(error: error);
-      return hiveException.handle();
-    },
     FirebaseException: (error) {
       final firebaseException = FirebaseAppException(
         message: (error as FirebaseException).message ?? 'خطأ في Firebase',
@@ -84,19 +35,13 @@ class ExceptionMapper {
         ),
     FormatException: (error) =>
         ClientAppException(
-          message: 'Invalid data format',
+          message: error.message ?? 'Invalid data format',
         ),
   };
-
-  Iterable<String> get keys => _stringPatterns.keys;
 
   bool get isKey => _typePatterns.containsKey(error);
 
   AppException? mapByTypePattern() {
     return _typePatterns[error]!(error);
-  }
-
-  AppException? mapByStringPattern() {
-    return _stringPatterns[error.toString().toLowerCase()];
   }
 }

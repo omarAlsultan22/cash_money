@@ -1,6 +1,6 @@
 import 'dart:ui';
 import '../../constants/app_colors.dart';
-import '../../errors/exceptions/base/app_exception.dart';
+import 'package:cash_money/core/errors/exceptions/base/app_exception.dart';
 
 
 class MessageResult {
@@ -9,7 +9,7 @@ class MessageResult {
   final String? message;
   final AppException? error;
 
-  MessageResult({
+  const MessageResult({
     this.isLoading = false,
     this.message,
     this.error,
@@ -17,11 +17,11 @@ class MessageResult {
   });
 
   factory MessageResult.initial(){
-    return MessageResult();
+    return const MessageResult();
   }
 
   factory MessageResult.loading(){
-    return MessageResult(
+    return const MessageResult(
         isLoading: true
     );
   }
@@ -34,13 +34,12 @@ class MessageResult {
   }
 
   factory MessageResult.error({
-    String? title,
-    AppException? error,
+    required String message,
+    required AppException error
   }){
     return MessageResult(
-        error: error,
         color: AppColors.errorRed,
-        message: '$title ${error!.message}'
+        message: message
     );
   }
 }

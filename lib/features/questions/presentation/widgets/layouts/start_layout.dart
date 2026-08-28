@@ -2,13 +2,16 @@ import 'package:cash_money/features/questions/constants/questions_text_styles.da
 import 'package:cash_money/features/questions/data/models/questions_result.dart';
 import '../../../../../core/data/data_sources/local/shared_preferences.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
+import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
+import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_paddings.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 import '../answer_button.dart';
 import 'dart:async';
@@ -19,10 +22,12 @@ class BuildStartScreen extends StatefulWidget {
   final CacheHelper cacheHelper;
   final void Function(int) onSave;
   final QuestionsData questionsData;
+  final MessageResult? messageResult;
   final ConnectivityService connectivityService;
 
   const BuildStartScreen({
     super.key,
+    this.messageResult,
     required this.onSave,
     required this.loadMoreData,
     required this.cacheHelper,
@@ -160,6 +165,25 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
     _initCounters();
     _colors = false;
     _getUserName();
+  }
+
+  @override
+  void didUpdateWidget(covariant BuildStartScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.messageResult != null) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showMessageResult(widget.messageResult);
+      });
+      setState(() {});
+    }
+  }
+
+  void _showMessageResult(MessageResult? messageResult) {
+    BuildSnackBar.show(
+        context: context,
+        message: messageResult!.message!,
+        backgroundColor: messageResult.color!
+    );
   }
 
   @override

@@ -3,6 +3,7 @@ import '../states/data_state.dart';
 import '../enums/questions_keys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
+import '../../../../core/data/models/message_result.dart';
 import '../../domain/useCases/questions_data_useCase.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import '../../../../core/services/connectivity_service.dart';
@@ -44,7 +45,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
 
   Future<void> getPoints() async {
     final points = await _pointsUseCase.getPointsExecute();
-    if(points != null) {
+    if (points != null) {
       _cacheHelper.setInt(key: 'points', value: points);
     }
   }
@@ -94,7 +95,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
             subState: const LoadingState())
     );
     try {
-      _fetchData();
+      await _fetchData();
     }
     catch (e, stackTrace) {
       handleError(e, stackTrace,
@@ -111,12 +112,18 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
   Future<void> loadMoreData() async {
     if (!state.hasMore) return;
     try {
-      _fetchData();
+      await _fetchData();
     }
-    catch (e) {
-      Future.delayed(const Duration(seconds: 3), () {
-        loadMoreData();
-      });
+    catch (e, stackTrace) {
+      handleError(e, stackTrace,
+          onError: (failure) =>
+              state.copyWith(
+                  secondModel: MessageResult.error(
+                      error: failure,
+                      message: failure.message!
+                  )
+              )
+      );
     }
   }
 }

@@ -1,8 +1,8 @@
-import '../exceptions/cache_exceptions/shared_prefs_app_exceptions.dart';
 import 'package:cash_money/core/errors/mappers/exception_mapper.dart';
+import '../exceptions/shared_prefs_app_exceptions.dart';
 import '../exceptions/unknown_app_exception.dart';
+import '../exceptions/validation_exception.dart';
 import '../exceptions/base/app_exception.dart';
-import 'package:flutter/services.dart';
 
 
 class ErrorHandler {
@@ -24,23 +24,12 @@ class ErrorHandler {
     _logError(error, stackTrace);
 
     return _mapByTypePattern() ??
-        _mapByStringPattern() ??
-        _mapBySharedPrefError() ??
+        _sharedPrefsException() ??
+        _validationException() ??
         UnknownAppException(message: error.toString());
   }
 
   // ==================== Helper Functions for Checking ====================
-
-  bool _isSharedPrefsError() {
-    final errorStr = error.toString().toLowerCase();
-    return error is PlatformException &&
-        (errorStr.contains('shared_preferences') ||
-            errorStr.contains('sharedpreferences')) ||
-        error is MissingPluginException &&
-            errorStr.contains('shared_preferences') ||
-        errorStr.contains('sharedpreferences') ||
-        errorStr.contains('preferences') && errorStr.contains('instance');
-  }
 
   AppException? _mapByTypePattern() {
     if (_exceptionMapper.isKey) {
@@ -49,22 +38,16 @@ class ErrorHandler {
     return null;
   }
 
-  AppException? _mapByStringPattern() {
-    for (var key in _exceptionMapper.keys) {
-      if (error.toString().contains(key)) {
-        return _exceptionMapper.mapByStringPattern();
-      }
+  AppException? _sharedPrefsException() {
+    if (error is SharedPrefsAppException) {
+      return error;
     }
     return null;
   }
 
-  AppException? _mapBySharedPrefError() {
-    if (_isSharedPrefsError()) {
-      final prefsException = SharedPrefsAppException(
-        error: error,
-        code: (error as PlatformException).code,
-      );
-      return prefsException.handle();
+  AppException? _validationException() {
+    if (error is ValidationException) {
+      return error;
     }
     return null;
   }

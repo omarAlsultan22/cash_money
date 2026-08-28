@@ -16,7 +16,7 @@ class QuestionsScreen extends BaseScreen {
   Widget buildLoadedWidget({
     required DataCubit cubit,
     required VoidCallback loadMoreData,
-    required SingleModelSuccessState data
+    required DoubleModelSuccessState data
   }) =>
       BuildQuestionsScreen(
           isLoading: false,
