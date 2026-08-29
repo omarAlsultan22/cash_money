@@ -1,6 +1,7 @@
 import 'package:cash_money/core/errors/mappers/exception_mapper.dart';
 import '../exceptions/shared_prefs_app_exceptions.dart';
 import '../exceptions/unknown_app_exception.dart';
+import '../exceptions/components_exception.dart';
 import '../exceptions/validation_exception.dart';
 import '../exceptions/base/app_exception.dart';
 
@@ -24,6 +25,7 @@ class ErrorHandler {
     _logError(error, stackTrace);
 
     return _mapByTypePattern() ??
+        _componentsException() ??
         _sharedPrefsException() ??
         _validationException() ??
         UnknownAppException(message: error.toString());
@@ -36,6 +38,10 @@ class ErrorHandler {
       return _exceptionMapper.mapByTypePattern();
     }
     return null;
+  }
+
+  AppException? _componentsException() {
+    return error is ComponentsException ? error : null;
   }
 
   AppException? _sharedPrefsException() {
