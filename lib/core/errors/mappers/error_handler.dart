@@ -56,7 +56,7 @@ class ErrorHandler {
     // For tracking and analytics
     print('════════════════════════════════════════');
     print('❌ Error caught: ${error.runtimeType}');
-    print('Message: $error');
+    print('Message: ${error.toString()}');
     if (stackTrace != null) {
       print('StackTrace: $stackTrace');
     }
