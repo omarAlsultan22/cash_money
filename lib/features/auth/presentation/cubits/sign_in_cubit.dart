@@ -1,7 +1,6 @@
 import 'dart:io';
 import '../states/auth_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
@@ -33,8 +32,7 @@ class SignInCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
         onError: (failure) =>
             AuthState(
               messageResult: MessageResult.error(
-                  error: failure,
-                  message: AppStrings.noInternetMessage
+                error: failure,
               ),
             ),
       );
@@ -58,8 +56,7 @@ class SignInCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
           onError: (failure) =>
               AuthState(
                   messageResult: MessageResult.error(
-                      error: failure,
-                      message: failure.message!
+                    error: failure,
                   )
               )
       );

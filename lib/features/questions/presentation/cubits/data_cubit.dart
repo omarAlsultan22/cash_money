@@ -120,7 +120,6 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
               state.copyWith(
                   secondModel: MessageResult.error(
                       error: failure,
-                      message: failure.message!
                   )
               )
       );

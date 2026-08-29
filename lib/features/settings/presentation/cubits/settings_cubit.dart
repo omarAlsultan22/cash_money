@@ -44,8 +44,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
           onError: (failure) =>
               buildState(
                 MessageResult.error(
-                    error: failure,
-                    message: AppStrings.noInternetMessage
+                  error: failure,
                 ),
               )
       );
@@ -66,8 +65,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
           onError: (failure) =>
               buildState(
                   MessageResult.error(
-                      error: failure,
-                      message: failure.message!
+                    error: failure,
                   )
               )
       );
