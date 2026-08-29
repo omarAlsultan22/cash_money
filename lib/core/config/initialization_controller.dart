@@ -1,7 +1,7 @@
 import 'firebase_options.dart';
 import '../di/service _locator.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../data/data_sources/local/shared_preferences.dart';
+import '../data/data_sources/local/cache_helper.dart';
 import 'package:cash_money/core/errors/exceptions/components_exception.dart';
 
 

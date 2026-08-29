@@ -1,6 +1,6 @@
 import '../../../features/questions/presentation/utils/helpers/pagination_state_manager.dart';
 import '../../../features/questions/data/repositories_impl/firestore_data_repository.dart';
-import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
+import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import '../../../features/questions/domain/useCases/questions_data_useCase.dart';
 import '../../../features/questions/domain/useCases/points_useCase.dart';
 import '../../../features/questions/presentation/cubits/data_cubit.dart';

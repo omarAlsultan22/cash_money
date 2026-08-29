@@ -3,7 +3,7 @@ import '../../../../core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../domain/repositories/settings_repository.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
-import '../../../../core/data/data_sources/local/shared_preferences.dart';
+import '../../../../core/data/data_sources/local/cache_helper.dart';
 
 
 class FirebaseSettingsRepository implements SettingsRepository {

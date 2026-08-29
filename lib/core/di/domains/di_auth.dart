@@ -2,7 +2,7 @@ import '../../../features/auth/presentation/cubits/change_email_and_password_cub
 import '../../../features/auth/data/repositories_impl/firebase_sign_up_repository.dart';
 import '../../../features/auth/domain/useCases/change_email_and_password_useCase.dart';
 import '../../../features/auth/data/repositories_impl/firebase_auth_repository.dart';
-import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
+import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import '../../../features/auth/presentation/cubits/sign_in_cubit.dart';
 import '../../../features/auth/presentation/cubits/sign_up_cubit.dart';
 import '../../../features/auth/domain/useCases/sign_in_useCase.dart';

@@ -4,7 +4,7 @@ import '../widgets/layouts/start_layout.dart';
 import '../../../../core/di/service _locator.dart';
 import '../../../../core/presentation/states/loaded_states.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
-import 'package:cash_money/core/data/data_sources/local/shared_preferences.dart';
+import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
 import 'package:cash_money/features/questions/presentation/screens/base/base_screen.dart';
 
