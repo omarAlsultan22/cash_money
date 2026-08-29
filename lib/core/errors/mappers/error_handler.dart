@@ -45,17 +45,11 @@ class ErrorHandler {
   }
 
   AppException? _sharedPrefsException() {
-    if (error is SharedPrefsAppException) {
-      return error;
-    }
-    return null;
+    return error is SharedPrefsAppException ? error : null;
   }
 
   AppException? _validationException() {
-    if (error is ValidationException) {
-      return error;
-    }
-    return null;
+    return error is ValidationException ? error : null;
   }
 
   void _logError(dynamic error, StackTrace? stackTrace) {
