@@ -2,10 +2,13 @@ import 'dart:io';
 import 'dart:async';
 import '../exceptions/base/app_exception.dart';
 import '../exceptions/client_app_exception.dart';
+import '../exceptions/components_exception.dart';
+import '../exceptions/validation_exception.dart';
 import '../../services/connectivity_service.dart';
 import '../exceptions/network_app_exception.dart';
 import '../exceptions/firebase_app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../exceptions/shared_prefs_app_exceptions.dart';
 
 
 class ExceptionMapper {
@@ -16,6 +19,14 @@ class ExceptionMapper {
   static final _connectivityService = ConnectivityService();
 
   static final Map<Object, AppException? Function(dynamic)> _typePatterns = {
+    ValidationException: (error) => error,
+
+    ComponentsException: (error) => error,
+
+    SharedPrefsAppException: (error) => error,
+
+    NetworkAppException: (error) => error,
+
     FirebaseException: (error) {
       final firebaseException = FirebaseAppException(
         message: (error as FirebaseException).message ?? 'خطأ في Firebase',
@@ -23,19 +34,19 @@ class ExceptionMapper {
       );
       return firebaseException.handle();
     },
-    SocketException: (error) =>
+    SocketException: (_) =>
         NetworkAppException(
           message: 'No Internet Connection',
           connectivityService: _connectivityService,
         ),
-    TimeoutException: (error) =>
+    TimeoutException: (_) =>
         NetworkAppException(
           message: 'Timeout expired, please try again later',
           connectivityService: _connectivityService,
         ),
-    FormatException: (error) =>
+    FormatException: (_) =>
         ClientAppException(
-          message: error.message ?? 'Invalid data format',
+          message: 'Invalid data format',
         ),
   };
 

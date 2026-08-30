@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import '../../../../core/data/models/message_result.dart';
 import '../../domain/useCases/questions_data_useCase.dart';
-import 'package:cash_money/core/constants/app_strings.dart';
 import '../../../../core/services/connectivity_service.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
@@ -80,14 +79,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
     final isConnected = await _connectivityService.checkInternetConnection();
 
     if (!isConnected) {
-      emit(
-          state.copyWith(
-              subState: ErrorState(
-                  failure: NetworkAppException(
-                      error: AppStrings.noInternetMessage))
-          )
-      );
-      return;
+      throw NetworkAppException();
     }
     emit(
         state.copyWith(
@@ -119,7 +111,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
           onError: (failure) =>
               state.copyWith(
                   secondModel: MessageResult.error(
-                      error: failure,
+                    error: failure,
                   )
               )
       );

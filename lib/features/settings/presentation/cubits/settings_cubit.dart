@@ -1,12 +1,11 @@
-import 'dart:io';
 import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/useCases/settings_useCase.dart';
-import 'package:cash_money/core/constants/app_strings.dart';
 import '../../../../core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
+import 'package:cash_money/core/errors/exceptions/network_app_exception.dart';
 
 
 class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<SettingsState> {
@@ -24,8 +23,6 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
 
   static SettingsCubit get(context) => BlocProvider.of(context);
 
-  static const internetUnavailable = AppStrings.noInternetMessage;
-
   Future<void> updateInfo({
     required String userName,
   }) async {
@@ -40,15 +37,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
     final isConnected = await _connectivityService.checkInternetConnection();
 
     if (!isConnected) {
-      handleError(SocketException, StackTrace.current,
-          onError: (failure) =>
-              buildState(
-                MessageResult.error(
-                  error: failure,
-                ),
-              )
-      );
-      return;
+      throw NetworkAppException();
     }
 
     emit(buildState(MessageResult.loading()));
@@ -76,15 +65,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
     final isConnected = await _connectivityService.checkInternetConnection();
 
     if (!isConnected && state.firstModel == null) {
-      handleError(SocketException, StackTrace.current,
-          onError: (failure) =>
-              state.copyWith(
-                subState: ErrorState(
-                    failure: failure
-                ),
-              )
-      );
-      return;
+      throw NetworkAppException();
     }
     emit(
         state.copyWith(
