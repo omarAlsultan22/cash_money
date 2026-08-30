@@ -4,7 +4,4 @@ mixin AppStrings {
 
   // Labels
   static const String nameLabel = 'Enter your name';
-
-  //networks
-  static const String noInternetMessage = 'No Internet Connection';
 }

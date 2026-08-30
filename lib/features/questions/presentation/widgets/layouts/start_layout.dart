@@ -101,7 +101,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
         : QuickAlertType.error : QuickAlertType.error;
     final title = isConnected
         ? isFinished ? 'Congratulations' : 'Try again'
-        : AppStrings.noInternetMessage;
+        : 'No Internet Connection';
 
     if (isCorrect) {
       QuickAlert.show(
