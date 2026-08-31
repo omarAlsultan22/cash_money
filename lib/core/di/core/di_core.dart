@@ -1,4 +1,5 @@
 import '../service _locator.dart';
+import '../../services/session_service.dart';
 import '../../services/connectivity_service.dart';
 import '../../data/data_sources/remote/firestore.dart';
 import '../../data/data_sources/remote/firebase_auth.dart';
@@ -9,6 +10,7 @@ import '../../../features/questions/presentation/utils/helpers/pagination_state_
 class CoreDependencies {
   static void register() {
     sl.registerLazySingleton(() => CacheHelper());
+    sl.registerLazySingleton(() => SessionService());
     sl.registerLazySingleton(() => FirestoreService());
     sl.registerLazySingleton(() => PaginationHandler());
     sl.registerLazySingleton(() => FirebaseAuthService());

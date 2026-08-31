@@ -1,13 +1,12 @@
 import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
-import '../../../../../core/data/data_sources/local/cache_helper.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
+import 'package:cash_money/core/services/session_service.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
-import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../../constants/auth_lables_texts.dart';
@@ -22,12 +21,12 @@ class SignInLayout extends StatefulWidget {
   required String userEmail,
   required String userPassword
   }) signIn;
-  final CacheHelper cacheHelper;
+  final SessionService sessionService;
   final MessageResult messageResult;
   const SignInLayout({
     super.key,
     required this.signIn,
-    required this.cacheHelper,
+    required this.sessionService,
     required this.messageResult
   });
 
@@ -209,8 +208,7 @@ class _SignInLayoutState extends State<SignInLayout> with AuthMixin<SignInLayout
   }
 
   Future<void> _checkLoginStatus() async {
-    final value = await widget.cacheHelper.getString(key: AppKeys.uId);
-    if (value != null) {
+    if (widget.sessionService.isLoggedIn) {
       _navigateToHome();
     }
   }

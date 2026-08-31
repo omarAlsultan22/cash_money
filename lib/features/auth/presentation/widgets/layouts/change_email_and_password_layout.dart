@@ -1,13 +1,12 @@
 import 'package:cash_money/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import '../../../../../core/data/data_sources/local/cache_helper.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
+import 'package:cash_money/core/services/session_service.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
-import 'package:cash_money/core/constants/app_keys.dart';
 import '../../../../../core/constants/app_spaces.dart';
 import '../../utils/validate/validate_password.dart';
 import '../../utils/validate/validate_email.dart';
@@ -20,13 +19,13 @@ class ChangeEmailAndPasswordLayout extends StatefulWidget {
   required String currentPassword,
   required String newPassword
   }) onUpdate;
-  final CacheHelper cacheHelper;
   final MessageResult messageResult;
+  final SessionService sessionService;
   const ChangeEmailAndPasswordLayout({
     super.key,
     required this.onUpdate,
-    required this.cacheHelper,
     required this.messageResult,
+    required this.sessionService,
     });
 
   @override
@@ -240,7 +239,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
   }
 
   void _clearUserData() {
-    widget.cacheHelper.removeData(key: AppKeys.uId);
+    widget.sessionService.logout();
   }
 
   String? _validatePasswordConfirmation(dynamic value) {

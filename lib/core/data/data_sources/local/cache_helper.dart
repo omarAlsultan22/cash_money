@@ -33,11 +33,11 @@ class CacheHelper {
     }
   }
 
-  Future<String?> getString({
+  Future<String> getString({
     required String key,
   }) async {
     try {
-      return sharedPreferences.getString(key);
+      return sharedPreferences.getString(key) ?? '';
     }
     catch (e) {
       throw SharedPrefsReadException(error: e);
@@ -67,7 +67,7 @@ class CacheHelper {
     }
   }
 
-  Future<bool> removeData({
+  Future<bool> removeValue({
     required String key,
   }) async
   {

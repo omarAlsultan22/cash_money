@@ -1,20 +1,23 @@
 import '../models/questions_result.dart';
 import '../converters/data_converter.dart';
-import '../../../../core/constants/app_keys.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/repositories/app_data_repository.dart';
 import 'package:cash_money/core/constants/app_durations.dart';
+import 'package:cash_money/core/services/session_service.dart';
 import '../../../../core/data/data_sources/remote/firestore.dart';
 import 'package:cash_money/features/questions/data/converters/points_converter.dart';
 
 
 class FirestoreDataRepository implements AppDataRepository {
   final FirestoreService _repository;
+  final SessionService _sessionService;
 
   FirestoreDataRepository({
-    required FirestoreService repository
+    required FirestoreService repository,
+    required SessionService sessionService
   })
-      : _repository = repository;
+      : _repository = repository,
+        _sessionService = sessionService;
 
   @override
   Future<QuestionsData> getData({
@@ -63,7 +66,7 @@ class FirestoreDataRepository implements AppDataRepository {
   @override
   Future<int?> getPoints() async {
     final doc = await _repository.getDocument(
-        collectionPath: 'points', docId: AppKeys.uId);
+        collectionPath: 'points', docId: _sessionService.currentUid);
     return PointsConverter
         .fromQuerySnapshot(doc)
         .points;
@@ -72,6 +75,8 @@ class FirestoreDataRepository implements AppDataRepository {
   @override
   Future<void> putPoints({required int points}) async {
     await _repository.setData(
-        docId: AppKeys.uId, collectionPath: 'points', data: {'points': points});
+        docId: _sessionService.currentUid,
+        collectionPath: 'points',
+        data: {'points': points});
   }
 }

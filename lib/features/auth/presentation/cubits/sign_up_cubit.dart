@@ -14,7 +14,6 @@ class SignUpCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
   SignUpCubit({
     required SignUpUseCase useCase,
     required ConnectivityService connectivityService,
-
   })
       : _useCase = useCase,
         _connectivityService = connectivityService,

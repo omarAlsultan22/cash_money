@@ -1,10 +1,11 @@
 import '../../../features/questions/presentation/utils/helpers/pagination_state_manager.dart';
 import '../../../features/questions/data/repositories_impl/firestore_data_repository.dart';
-import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import '../../../features/questions/domain/useCases/questions_data_useCase.dart';
+import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import '../../../features/questions/domain/useCases/points_useCase.dart';
 import '../../../features/questions/presentation/cubits/data_cubit.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
+import 'package:cash_money/core/services/session_service.dart';
 import '../../data/data_sources/remote/firestore.dart';
 import '../service _locator.dart';
 
@@ -14,7 +15,8 @@ class QuestionsDependencies {
     // Repository
     sl.registerLazySingleton(() =>
         FirestoreDataRepository(
-            repository: sl<FirestoreService>()));
+            repository: sl<FirestoreService>(),
+            sessionService: sl<SessionService>()));
 
     // UseCases
     sl.registerLazySingleton(() =>

@@ -1,5 +1,6 @@
 import 'firebase_options.dart';
 import '../di/service _locator.dart';
+import '../services/session_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../data/data_sources/local/cache_helper.dart';
 import 'package:cash_money/core/errors/exceptions/components_exception.dart';
@@ -13,22 +14,26 @@ class InitializationController {
 
   InitializationController._internal();
 
-  late final CacheHelper cacheHelper;
+  late final CacheHelper _cacheHelper;
+  late final SessionService _sessionService;
 
   bool _isInitialized = false;
 
   Future<void> _initializeServices() async {
     await Future.wait([
-      cacheHelper.init(),
+      _cacheHelper.init(),
+      _sessionService.loadFromStorage(),
       Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform)
+          options: DefaultFirebaseOptions.currentPlatform
+      )
     ]);
   }
 
   Future<void> init() async {
     if (_isInitialized) return;
 
-    cacheHelper = sl<CacheHelper>();
+    _cacheHelper = sl<CacheHelper>();
+    _sessionService = sl<SessionService>();
 
     try {
       await _initializeServices();
@@ -42,7 +47,7 @@ class InitializationController {
 
   Future<void> retryInit() async {
     await Future.wait<void>([
-      cacheHelper.init(),
+      _cacheHelper.init(),
       Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform)
     ]);

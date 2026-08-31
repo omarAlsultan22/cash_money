@@ -1,5 +1,5 @@
-import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import 'package:cash_money/features/auth/presentation/cubits/sign_in_cubit.dart';
+import 'package:cash_money/core/services/session_service.dart';
 import '../../../../core/di/service _locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/layouts/sign_in_layout.dart';
@@ -19,7 +19,7 @@ class SignInScreen extends StatelessWidget {
           builder: (context, state) {
             final cubit = SignInCubit.get(context);
             return SignInLayout(
-                cacheHelper: sl<CacheHelper>(),
+                sessionService: sl<SessionService>(),
                 messageResult: state.messageResult!,
                 signIn: ({
                   required String userEmail,
