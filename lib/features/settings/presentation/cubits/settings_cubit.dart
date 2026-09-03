@@ -28,8 +28,8 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
   }) async {
     SettingsState buildState(MessageResult messageResult) {
       return state.copyWith(
-          firstModel: state.userModel,
-          secondModel: messageResult,
+          userModel: state.userModel,
+          messageResult: messageResult,
           subState: const SuccessState()
       );
     }
@@ -64,7 +64,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
   Future<void> getInfo() async {
     final isConnected = await _connectivityService.checkInternetConnection();
 
-    if (!isConnected && state.firstModel == null) {
+    if (!isConnected && state.userNameIsEmpty) {
       throw NetworkAppException();
     }
     emit(
@@ -75,7 +75,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
       final userModel = await _settingsUseCase.getInfoExecute();
       emit(
           state.copyWith(
-              firstModel: userModel,
+              userModel: userModel,
               subState: const SuccessState()));
     }
     catch (e, stackTrace) {

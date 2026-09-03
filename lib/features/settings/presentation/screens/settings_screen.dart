@@ -29,11 +29,11 @@ class SettingsScreen extends StatelessWidget {
                 const LoadingStateWidget(),
                 onLoaded: (data) {
                   return SettingsLayout(
-                    userModel: data.firstModel,
-                    messageResult: data.secondModel,
+                    userModel: data.userModel,
+                    messageResult: data.messageResult,
                     onUpdate: (userModel) async =>
                     await cubit.updateInfo(
-                      userName: userModel.userName,
+                      userName: userModel.userName ?? '',
                     ),
                   );
                 },

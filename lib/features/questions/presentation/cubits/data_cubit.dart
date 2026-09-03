@@ -64,7 +64,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
       }
 
       emit(state.copyWith(
-          firstModel: newData,
+          questionsData: newData,
           subState: const SuccessState())
       );
     }
@@ -110,7 +110,7 @@ class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
       handleError(e, stackTrace,
           onError: (failure) =>
               state.copyWith(
-                  secondModel: MessageResult.error(
+                  messageResult: MessageResult.error(
                     error: failure,
                   )
               )

@@ -1,6 +1,6 @@
+import 'package:cash_money/features/questions/data/models/data_success_state_model.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
 import 'package:cash_money/features/questions/presentation/cubits/data_cubit.dart';
-import 'package:cash_money/core/presentation/states/loaded_states.dart';
 import '../widgets/layouts/questions_layout.dart';
 import 'package:flutter/material.dart';
 import 'base/base_screen.dart';
@@ -16,12 +16,12 @@ class QuestionsScreen extends BaseScreen {
   Widget buildLoadedWidget({
     required DataCubit cubit,
     required VoidCallback loadMoreData,
-    required DoubleModelSuccessState data
+    required DataSuccessStateModel data
   }) =>
       BuildQuestionsScreen(
           isLoading: false,
           loadMoreData: loadMoreData,
-          questionsData: data.firstModel
+          questionsData: data.questionsData
       );
 
   @override

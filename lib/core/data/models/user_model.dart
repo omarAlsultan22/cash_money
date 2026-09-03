@@ -1,12 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class UserModel {
-  final String userName;
+  final String? userName;
 
   UserModel({
-    required this.userName,
+    this.userName,
   });
+
+  bool get isNotEmpty => userName!.isNotEmpty;
 
   factory UserModel.fromDocumentSnapshot(Map<String, dynamic> data) {
     return UserModel(

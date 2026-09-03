@@ -2,7 +2,7 @@ import '../cubits/data_cubit.dart';
 import 'package:flutter/material.dart';
 import '../widgets/layouts/start_layout.dart';
 import '../../../../core/di/service _locator.dart';
-import '../../../../core/presentation/states/loaded_states.dart';
+import '../../data/models/data_success_state_model.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
@@ -22,12 +22,12 @@ class StartScreen extends BaseScreen {
   Widget buildLoadedWidget({
     required DataCubit cubit,
     required VoidCallback loadMoreData,
-    required DoubleModelSuccessState data
+    required DataSuccessStateModel data
   }) {
     return BuildStartScreen(
         cacheHelper: cacheHelper,
         loadMoreData: loadMoreData,
-        questionsData: data.firstModel,
+        questionsData: data.questionsData,
         connectivityService: connectivityService,
         onSave: (points) async =>
             await cubit.putPoints(points: points)
