@@ -1,4 +1,4 @@
-import 'package:cash_money/features/questions/data/models/data_success_state_model.dart';
+import 'package:cash_money/features/questions/data/models/data_success_state.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
 import 'package:cash_money/features/questions/presentation/cubits/data_cubit.dart';
 import '../widgets/layouts/questions_layout.dart';
@@ -16,7 +16,7 @@ class QuestionsScreen extends BaseScreen {
   Widget buildLoadedWidget({
     required DataCubit cubit,
     required VoidCallback loadMoreData,
-    required DataSuccessStateModel data
+    required DataSuccessState data
   }) =>
       BuildQuestionsScreen(
           isLoading: false,

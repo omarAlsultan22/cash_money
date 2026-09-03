@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cash_money/core/presentation/widgets/app_bar_widget.dart';
 import '../../../../../core/presentation/widgets/states/initial_state.dart';
 import '../../../../../core/presentation/widgets/states/loading_state.dart';
-import 'package:cash_money/features/questions/data/models/data_success_state_model.dart';
+import 'package:cash_money/features/questions/data/models/data_success_state.dart';
 
 
 /// Base screen for all question-related screens.
@@ -20,7 +20,7 @@ abstract class BaseScreen extends StatefulWidget {
   Widget buildLoadedWidget({
     required DataCubit cubit,
     required VoidCallback loadMoreData,
-    required DataSuccessStateModel data
+    required DataSuccessState data
   });
 }
 

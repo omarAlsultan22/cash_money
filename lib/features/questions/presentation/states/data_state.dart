@@ -1,4 +1,4 @@
-import 'package:cash_money/features/questions/data/models/data_success_state_model.dart';
+import 'package:cash_money/features/questions/data/models/data_success_state.dart';
 import 'package:cash_money/core/presentation/states/base/main_app_sup_state.dart';
 import '../../../../core/presentation/states/base/main_app_sub_state.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
@@ -65,8 +65,8 @@ class DataState extends MainAppSupState {
 
 
   @override
-  DataSuccessStateModel get dataModels =>
-      DataSuccessStateModel(
+  DataSuccessState get dataModels =>
+      DataSuccessState(
           questionsData: questionsData, messageResult: messageResult);
 
   @override
@@ -74,7 +74,7 @@ class DataState extends MainAppSupState {
     R Function()? onConnection,
     required R Function() onInitial,
     required R Function() onLoading,
-    required R Function(DataSuccessStateModel) onLoaded,
+    required R Function(DataSuccessState) onLoaded,
     required R Function(AppException) onError
   }) {
     return subState.when(

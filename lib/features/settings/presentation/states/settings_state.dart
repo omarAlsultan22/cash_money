@@ -4,7 +4,7 @@ import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import '../../../../core/errors/exceptions/base/app_exception.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/data/models/user_model.dart';
-import '../../data/models/settings_success_state_model.dart';
+import '../../data/models/settings_success_state.dart';
 
 
 class SettingsState extends MainAppSupState {
@@ -40,15 +40,15 @@ class SettingsState extends MainAppSupState {
   }
 
   @override
-  SettingsSuccessStateModel get dataModels =>
-      SettingsSuccessStateModel(
+  SettingsSuccessState get dataModels =>
+      SettingsSuccessState(
           userModel: userModel, messageResult: messageResult);
 
   @override
   R when<R>({
     required R Function() onInitial,
     required R Function() onLoading,
-    required R Function(SettingsSuccessStateModel) onLoaded,
+    required R Function(SettingsSuccessState) onLoaded,
     required R Function(AppException) onError
   }) {
     return subState.when(
