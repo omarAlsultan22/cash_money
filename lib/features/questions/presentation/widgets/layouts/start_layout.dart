@@ -5,7 +5,6 @@ import '../../../../../core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
-import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
@@ -151,7 +150,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
   }
 
   Future<void> _getUserName() async {
-    _userName = await widget.cacheHelper.getString(key: 'userName') ?? 'Sir';
+    _userName = await widget.cacheHelper.getString(key: 'userName');
     setState(() => _userName);
   }
 

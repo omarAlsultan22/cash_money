@@ -38,9 +38,6 @@ class SignUpUseCase {
           userModel: userModel, userCredential: userCredential)
           .whenComplete(() async =>
       await _cacheHelper.setString(key: 'userName', value: userName));
-      final g = await _cacheHelper.getString(key: 'userName');
-      print(g);
-
     } catch (e) {
       rethrow;
     }
