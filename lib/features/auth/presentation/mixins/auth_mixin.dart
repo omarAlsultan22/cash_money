@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import '../widgets/loading_widget.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_paddings.dart';
 import '../../../../core/constants/app_text_styles.dart';
 import '../widgets/navigation/navigator_with_delay.dart';
 import '../../../../core/data/models/message_result.dart';
-import '../../../../core/presentation/widgets/loading_widget.dart';
 import '../../../../core/presentation/widgets/build_snack_bar.dart';
 
 
