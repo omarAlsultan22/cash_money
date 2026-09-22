@@ -4,7 +4,7 @@ import '../../../../core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import 'package:cash_money/core/errors/exceptions/network_app_exception.dart';
-import 'package:cash_money/features/auth/domain/useCases/sign_up_useCase.dart';
+import 'package:cash_money/features/auth/domain/use_cases/sign_up_use_case.dart';
 
 
 class SignUpCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {

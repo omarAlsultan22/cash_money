@@ -4,13 +4,13 @@ import '../enums/questions_keys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import '../../../../core/data/models/message_result.dart';
-import '../../domain/useCases/questions_data_useCase.dart';
+import '../../domain/use_cases/questions_data_use_case.dart';
 import '../../../../core/services/connectivity_service.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
-import 'package:cash_money/features/questions/domain/useCases/points_useCase.dart';
+import 'package:cash_money/features/questions/domain/use_cases/points_use_case.dart';
 
 
 class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {

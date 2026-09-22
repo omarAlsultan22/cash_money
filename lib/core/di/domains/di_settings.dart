@@ -1,6 +1,6 @@
 import '../../../features/settings/data/repositories_impl/firestore_settings_repository.dart';
 import 'package:cash_money/features/settings/presentation/cubits/settings_cubit.dart';
-import '../../../features/settings/domain/useCases/settings_useCase.dart';
+import '../../../features/settings/domain/use_cases/settings_use_case.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
 import 'package:cash_money/core/services/session_service.dart';
 import '../../data/data_sources/remote/firestore.dart';

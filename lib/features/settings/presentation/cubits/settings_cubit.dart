@@ -1,6 +1,6 @@
 import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/useCases/settings_useCase.dart';
+import '../../domain/use_cases/settings_use_case.dart';
 import '../../../../core/services/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
