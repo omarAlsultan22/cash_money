@@ -23,8 +23,8 @@ class StartScreen extends BaseScreen {
     required DataCubit cubit,
     required VoidCallback loadMoreData,
     required DataSuccessState data
-  }) {
-    return BuildStartScreen(
+  }) =>
+    BuildStartScreen(
         cacheHelper: cacheHelper,
         loadMoreData: loadMoreData,
         questionsData: data.questionsData,
@@ -32,7 +32,6 @@ class StartScreen extends BaseScreen {
         onSave: (points) async =>
             await cubit.putPoints(points: points)
     );
-  }
 
   @override
   State<StartScreen> createState() => _StartScreenState();

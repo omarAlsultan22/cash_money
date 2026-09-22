@@ -50,13 +50,12 @@ abstract class BaseScreenState<T extends BaseScreen>
             onInitial: () =>
             const InitialStateWidget(text: 'Data', icon: Icons.menu),
             onLoading: () => const LoadingStateWidget(),
-            onLoaded: (data) {
-              return widget.buildLoadedWidget(
-                  data: data,
-                  cubit: cubit,
-                  loadMoreData: () => cubit.loadMoreData()
-              );
-            },
+            onLoaded: (data) =>
+                widget.buildLoadedWidget(
+                    data: data,
+                    cubit: cubit,
+                    loadMoreData: () => cubit.loadMoreData()
+                ),
             onError: (error) =>
                 error.buildErrorWidget(
                     appBar: AppBarWidget.build(),

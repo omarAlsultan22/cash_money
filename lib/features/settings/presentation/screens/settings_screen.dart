@@ -27,16 +27,15 @@ class SettingsScreen extends StatelessWidget {
                     text: 'Info', icon: Icons.info_outline),
                 onLoading: () =>
                 const LoadingStateWidget(),
-                onLoaded: (data) {
-                  return SettingsLayout(
-                    userModel: data.userModel,
-                    messageResult: data.messageResult,
-                    onUpdate: (userModel) async =>
-                    await cubit.updateInfo(
-                      userName: userModel.userName ?? '',
+                onLoaded: (data) =>
+                    SettingsLayout(
+                      userModel: data.userModel,
+                      messageResult: data.messageResult,
+                      onUpdate: (userModel) async =>
+                      await cubit.updateInfo(
+                        userName: userModel.userName ?? '',
+                      ),
                     ),
-                  );
-                },
                 onError: (error) =>
                     error.buildErrorWidget(
                       appBar: AppBarWidget.build(),
