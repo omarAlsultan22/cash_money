@@ -22,8 +22,8 @@ class SettingsState extends MainAppSupState {
   factory SettingsState.initial(){
     return SettingsState(
         userModel: UserModel(),
+        subState: const InitialState(),
         messageResult: MessageResult.initial(),
-        subState: const InitialState()
     );
   }
 

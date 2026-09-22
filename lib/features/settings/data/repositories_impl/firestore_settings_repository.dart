@@ -33,7 +33,7 @@ class FirebaseSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> updateUserInfo({
-    required String userName,
+    required String? userName,
   }) async {
     try {
       final userModel = UserModel(

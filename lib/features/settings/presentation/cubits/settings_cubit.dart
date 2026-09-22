@@ -24,7 +24,7 @@ class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<Settings
   static SettingsCubit get(context) => BlocProvider.of(context);
 
   Future<void> updateInfo({
-    required String userName,
+    required String? userName,
   }) async {
     SettingsState buildState(MessageResult messageResult) {
       return state.copyWith(

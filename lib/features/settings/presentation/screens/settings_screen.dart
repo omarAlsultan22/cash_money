@@ -33,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
                       messageResult: data.messageResult,
                       onUpdate: (userModel) async =>
                       await cubit.updateInfo(
-                        userName: userModel.userName ?? '',
+                        userName: userModel.userName,
                       ),
                     ),
                 onError: (error) =>

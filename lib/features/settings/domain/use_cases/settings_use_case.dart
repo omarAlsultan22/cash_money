@@ -22,7 +22,7 @@ class SettingsUseCase {
   }
 
   Future<void> updateInfoExecute({
-    required String userName,
+    required String? userName,
   }) async {
     try {
       await _repository.updateUserInfo(
