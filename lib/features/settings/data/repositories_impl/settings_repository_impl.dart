@@ -6,11 +6,11 @@ import 'package:cash_money/core/services/session_service.dart';
 import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
 
 
-class FirebaseSettingsRepository implements SettingsRepository {
+class SettingsRepositoryImpl implements SettingsRepository {
   final FirestoreService _repository;
   final SessionService _sessionService;
 
-  FirebaseSettingsRepository({
+  SettingsRepositoryImpl({
     required FirestoreService repository,
     required SessionService sessionService
   })

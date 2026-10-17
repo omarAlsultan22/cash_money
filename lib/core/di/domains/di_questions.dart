@@ -1,5 +1,5 @@
 import '../../../features/questions/presentation/utils/helpers/pagination_state_manager.dart';
-import '../../../features/questions/data/repositories_impl/firestore_data_repository.dart';
+import '../../../features/questions/data/repositories_impl/app_data_repository_impl.dart';
 import '../../../features/questions/domain/use_cases/questions_data_use_case.dart';
 import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import '../../../features/questions/domain/use_cases/points_use_case.dart';
@@ -14,17 +14,17 @@ class QuestionsDependencies {
   static void register() {
     // Repository
     sl.registerLazySingleton(() =>
-        FirestoreDataRepository(
+        AppDataRepositoryImpl(
             repository: sl<FirestoreService>(),
             sessionService: sl<SessionService>()));
 
     // UseCases
     sl.registerLazySingleton(() =>
-        PointsUseCase(repository: sl<FirestoreDataRepository>()));
+        PointsUseCase(repository: sl<AppDataRepositoryImpl>()));
 
     sl.registerLazySingleton(() =>
         QuestionsDataUseCase(
-            repository: sl<FirestoreDataRepository>(),
+            repository: sl<AppDataRepositoryImpl>(),
             paginationHandler: sl<PaginationHandler>()));
 
     // Cubit

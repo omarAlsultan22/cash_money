@@ -1,12 +1,12 @@
-import 'package:cash_money/core/data/data_sources/remote/firebase_auth.dart';
-import '../../domain/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../domain/repositories/auth_repository.dart';
+import 'package:cash_money/core/data/data_sources/remote/firebase_auth.dart';
 
 
-class FirebaseAuthRepository implements AuthRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuthService _auth;
 
-  FirebaseAuthRepository({required FirebaseAuthService auth}) : _auth = auth;
+  AuthRepositoryImpl({required FirebaseAuthService auth}) : _auth = auth;
 
   @override
   Future<UserCredential> signIn({
@@ -54,7 +54,7 @@ class FirebaseAuthRepository implements AuthRepository {
     required String newPassword
   }) async {
     try {
-      final user = _auth.updateProfile(
+      final user = await _auth.updateProfile(
           newEmail: newEmail,
           currentPassword: currentPassword,
           newPassword: newPassword);
@@ -70,7 +70,7 @@ class FirebaseAuthRepository implements AuthRepository {
     required String userEmail,
     required ActionCodeSettings actionCodeSettings
   }) async {
-    _auth.sendPasswordResetEmail(
+    await _auth.sendPasswordResetEmail(
         userEmail: userEmail,
         actionCodeSettings: actionCodeSettings
     );

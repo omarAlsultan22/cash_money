@@ -5,10 +5,10 @@ import '../../../../core/data/data_sources/remote/firestore.dart';
 import 'package:cash_money/features/auth/domain/repositories/sign_up_repository.dart';
 
 
-class FirebaseSignUpRepository implements SignUpRepository {
+class SignUpRepositoryImpl implements SignUpRepository {
   final FirestoreService _repository;
 
-  FirebaseSignUpRepository({
+  SignUpRepositoryImpl({
     required FirestoreService repository
   }) : _repository = repository;
 

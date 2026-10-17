@@ -42,8 +42,4 @@ class FirebaseAuthService {
         email: userEmail, actionCodeSettings: actionCodeSettings).timeout(
         AppDurations.seconds);
   }
-
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut().timeout(AppDurations.seconds);
-  }
 }

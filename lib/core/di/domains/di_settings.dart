@@ -1,4 +1,4 @@
-import '../../../features/settings/data/repositories_impl/firestore_settings_repository.dart';
+import '../../../features/settings/data/repositories_impl/settings_repository_impl.dart';
 import 'package:cash_money/features/settings/presentation/cubits/settings_cubit.dart';
 import '../../../features/settings/domain/use_cases/settings_use_case.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
@@ -11,7 +11,7 @@ class SettingsDependencies {
   static void register() {
     // Repository
     sl.registerLazySingleton(() =>
-        FirebaseSettingsRepository(
+        SettingsRepositoryImpl(
             repository: sl<FirestoreService>(),
             sessionService: sl<SessionService>()
         )
@@ -20,7 +20,7 @@ class SettingsDependencies {
     // UseCase
     sl.registerLazySingleton(() =>
         SettingsUseCase(
-            repository: sl<FirebaseSettingsRepository>()));
+            repository: sl<SettingsRepositoryImpl>()));
 
     // Cubit
     sl.registerFactory(() =>

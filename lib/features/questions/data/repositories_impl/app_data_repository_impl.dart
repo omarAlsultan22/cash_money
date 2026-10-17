@@ -8,11 +8,11 @@ import '../../../../core/data/data_sources/remote/firestore.dart';
 import 'package:cash_money/features/questions/data/converters/points_converter.dart';
 
 
-class FirestoreDataRepository implements AppDataRepository {
+class AppDataRepositoryImpl implements AppDataRepository {
   final FirestoreService _repository;
   final SessionService _sessionService;
 
-  FirestoreDataRepository({
+  AppDataRepositoryImpl({
     required FirestoreService repository,
     required SessionService sessionService
   })

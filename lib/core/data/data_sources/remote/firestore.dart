@@ -6,18 +6,6 @@ class FirestoreService {
   static const _duration = AppDurations.seconds;
   static final _firestore = FirebaseFirestore.instance;
 
-  // إضافة بيانات مع إنشاء معرف تلقائي
-  Future<String> addData({
-    required String collectionPath,
-    required Map<String, dynamic> data
-  }) async {
-    final docRef = await _firestore.collection(collectionPath)
-        .add(data)
-        .timeout(_duration);
-    return docRef.id;
-  }
-
-  // إضافة بيانات بمعرف محدد
   Future<void> setData({
     required String docId,
     required String collectionPath,
@@ -27,7 +15,6 @@ class FirestoreService {
         _duration);
   }
 
-  // الحصول على مستند محدد
   Future<DocumentSnapshot<Map<String, dynamic>>> getDocument({
     required String? docId,
     required String collectionPath
@@ -47,22 +34,12 @@ class FirestoreService {
         .collection(subCollectionPath);
   }
 
-  // تحديث مستند محدد
   Future<void> updateDocument({
     required String? docId,
     required String collectionPath,
     required Map<String, dynamic> data
   }) async {
     await _firestore.collection(collectionPath).doc(docId).update(data).timeout(
-        _duration);
-  }
-
-  // حذف مستند محدد
-  Future<void> deleteDocument({
-    required String docId,
-    required String collectionPath
-  }) async {
-    await _firestore.collection(collectionPath).doc(docId).delete().timeout(
         _duration);
   }
 }

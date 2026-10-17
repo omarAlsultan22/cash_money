@@ -1,7 +1,7 @@
 import '../../../features/auth/presentation/cubits/change_email_and_password_cubit.dart';
-import '../../../features/auth/data/repositories_impl/firebase_sign_up_repository.dart';
+import '../../../features/auth/data/repositories_impl/sign_up_repository_impl.dart';
 import '../../../features/auth/domain/use_cases/change_email_and_password_use_case.dart';
-import '../../../features/auth/data/repositories_impl/firebase_auth_repository.dart';
+import '../../../features/auth/data/repositories_impl/auth_repository_impl.dart';
 import 'package:cash_money/core/data/data_sources/local/cache_helper.dart';
 import '../../../features/auth/presentation/cubits/sign_in_cubit.dart';
 import '../../../features/auth/presentation/cubits/sign_up_cubit.dart';
@@ -18,26 +18,26 @@ class AuthDependencies {
   static void register() {
     // Repositories
     sl.registerLazySingleton(() =>
-        FirebaseAuthRepository(auth: sl<FirebaseAuthService>()));
+        AuthRepositoryImpl(auth: sl<FirebaseAuthService>()));
 
     sl.registerLazySingleton(() =>
-        FirebaseSignUpRepository(repository: sl<FirestoreService>()));
+        SignUpRepositoryImpl(repository: sl<FirestoreService>()));
 
     // UseCases
     sl.registerLazySingleton(() =>
         SignInUseCase(
             sessionService: sl<SessionService>(),
-            authRepository: sl<FirebaseAuthRepository>()));
+            authRepository: sl<AuthRepositoryImpl>()));
 
     sl.registerLazySingleton(() =>
         SignUpUseCase(
             cacheHelper: sl<CacheHelper>(),
-            authRepository: sl<FirebaseAuthRepository>(),
-            signUpRepository: sl<FirebaseSignUpRepository>()));
+            authRepository: sl<AuthRepositoryImpl>(),
+            signUpRepository: sl<SignUpRepositoryImpl>()));
 
     sl.registerLazySingleton(() =>
         ChangeEmailAndPasswordUseCase(
-            authRepository: sl<FirebaseAuthRepository>()));
+            authRepository: sl<AuthRepositoryImpl>()));
 
     // Cubits
     sl.registerFactory(() =>
