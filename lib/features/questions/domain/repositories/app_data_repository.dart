@@ -8,9 +8,9 @@ abstract class AppDataRepository {
     required int limit
   });
 
-  Future<int?> getPoints();
-
   Future<void> putPoints({
     required int points
   });
+
+  Future<int?> getPoints();
 }
