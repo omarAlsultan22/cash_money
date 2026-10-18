@@ -12,21 +12,11 @@ class PointsUseCase {
 
 
   Future<void> putPointsExecute({required int points}) async {
-    try {
-      await _repository.putPoints(points: points);
-    }
-    catch (e) {
-      rethrow;
-    }
+    await _repository.putPoints(points: points);
   }
 
   Future<int?> getPointsExecute() async {
-    try {
-      return await _repository.getPoints();
-    }
-    catch (e) {
-      rethrow;
-    }
+    return await _repository.getPoints();
   }
 }
 

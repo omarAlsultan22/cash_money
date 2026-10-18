@@ -17,13 +17,9 @@ class SignUpRepositoryImpl implements SignUpRepository {
     required UserModel userModel,
     required UserCredential userCredential
   }) async {
-    try {
-      await _repository.setData(
-          collectionPath: AppKeys.users,
-          docId: userCredential.user!.uid,
-          data: userModel.toJson());
-    } catch (e) {
-      rethrow;
-    }
+    await _repository.setData(
+        collectionPath: AppKeys.users,
+        docId: userCredential.user!.uid,
+        data: userModel.toJson());
   }
 }

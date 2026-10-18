@@ -11,27 +11,17 @@ class SettingsUseCase {
       :_repository = repository;
 
   Future<UserModel> getInfoExecute() async {
-    try {
-      final jsonData = await _repository.getUserInfo();
-      final docData = jsonData.data() as Map<String, dynamic>;
-      return UserModel.fromDocumentSnapshot(docData);
-    }
-    catch (e) {
-      rethrow;
-    }
+    final jsonData = await _repository.getUserInfo();
+    final docData = jsonData.data() as Map<String, dynamic>;
+    return UserModel.fromDocumentSnapshot(docData);
   }
 
   Future<void> updateInfoExecute({
     required String? userName,
   }) async {
-    try {
-      await _repository.updateUserInfo(
-          userName: userName,
-      );
-    }
-    catch (e) {
-      rethrow;
-    }
+    await _repository.updateUserInfo(
+      userName: userName,
+    );
   }
 }
 

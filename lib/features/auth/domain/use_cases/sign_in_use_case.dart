@@ -18,16 +18,12 @@ class SignInUseCase {
     required String userEmail,
     required String userPassword,
   }) async {
-    try {
-      final userCredential = await _authRepository.signIn(
-          userEmail: userEmail,
-          userPassword: userPassword
-      );
+    final userCredential = await _authRepository.signIn(
+        userEmail: userEmail,
+        userPassword: userPassword
+    );
 
-      await _sessionService.login(userCredential.user!.uid);
-    } catch (e) {
-      rethrow;
-    }
+    await _sessionService.login(userCredential.user!.uid);
   }
 }
 

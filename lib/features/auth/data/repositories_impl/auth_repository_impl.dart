@@ -13,7 +13,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required String userEmail,
     required String userPassword
   }) async {
-    try {
       final userCredential = await _auth.signIn(
         email: userEmail,
         password: userPassword,
@@ -22,10 +21,6 @@ class AuthRepositoryImpl implements AuthRepository {
         throw();
       }
       return userCredential;
-    }
-    catch (e) {
-      rethrow;
-    }
   }
 
   @override
@@ -33,7 +28,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required String userEmail,
     required String userPassword
   }) async {
-    try {
       return await _auth
           .signUp(
           email: userEmail,
@@ -41,10 +35,6 @@ class AuthRepositoryImpl implements AuthRepository {
       ).then((value) {
         return value;
       });
-    }
-    catch (e) {
-      rethrow;
-    }
   }
 
   @override
@@ -53,17 +43,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required String currentPassword,
     required String newPassword
   }) async {
-    try {
       final user = await _auth.updateProfile(
           newEmail: newEmail,
           currentPassword: currentPassword,
           newPassword: newPassword);
       return user;
     }
-    catch (e) {
-      rethrow;
-    }
-  }
 
   @override
   Future<void> sendPasswordResetEmail({

@@ -24,23 +24,19 @@ class SignUpUseCase {
     required String userEmail,
     required String userPassword,
   }) async {
-    try {
-      final userCredential = await _authRepository.signUp(
-        userEmail: userEmail,
-        userPassword: userPassword,
-      );
+    final userCredential = await _authRepository.signUp(
+      userEmail: userEmail,
+      userPassword: userPassword,
+    );
 
-      UserModel userModel = UserModel(
-        userName: userName,
-      );
+    UserModel userModel = UserModel(
+      userName: userName,
+    );
 
-      await _signUpRepository.createUserInfo(
-          userModel: userModel, userCredential: userCredential)
-          .whenComplete(() async =>
-      await _cacheHelper.setString(key: 'userName', value: userName));
-    } catch (e) {
-      rethrow;
-    }
+    await _signUpRepository.createUserInfo(
+        userModel: userModel, userCredential: userCredential)
+        .whenComplete(() async =>
+    await _cacheHelper.setString(key: 'userName', value: userName));
   }
 }
 

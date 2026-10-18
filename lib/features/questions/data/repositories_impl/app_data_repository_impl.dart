@@ -24,7 +24,6 @@ class AppDataRepositoryImpl implements AppDataRepository {
     required DocumentSnapshot? lastDocument,
     required int limit
   }) async {
-    try {
       Query query = _repository.getCollection(
         superCollectionPath: 'data',
         docId: '0Hv1zUWKuetw3eP7Nplt',
@@ -58,9 +57,6 @@ class AppDataRepositoryImpl implements AppDataRepository {
         lastDocument: newLastDocument,
         hasMore: true,
       );
-    } catch (e) {
-      rethrow;
-    }
   }
 
   @override

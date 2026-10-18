@@ -19,33 +19,23 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
-    try {
-      final jsonData = await _repository.getDocument(
-          docId: _sessionService.currentUid,
-          collectionPath: AppKeys.users
-      );
-      return jsonData;
-    }
-    catch (e) {
-      rethrow;
-    }
+    final jsonData = await _repository.getDocument(
+        docId: _sessionService.currentUid,
+        collectionPath: AppKeys.users
+    );
+    return jsonData;
   }
 
   @override
   Future<void> updateUserInfo({
     required String? userName,
   }) async {
-    try {
-      final userModel = UserModel(
-        userName: userName,
-      );
-      await _repository.updateDocument(
-          docId: _sessionService.currentUid,
-          collectionPath: AppKeys.users,
-          data: userModel.toJson());
-    }
-    catch (e) {
-      rethrow;
-    }
+    final userModel = UserModel(
+      userName: userName,
+    );
+    await _repository.updateDocument(
+        docId: _sessionService.currentUid,
+        collectionPath: AppKeys.users,
+        data: userModel.toJson());
   }
 }

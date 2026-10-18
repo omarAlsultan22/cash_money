@@ -22,16 +22,11 @@ class QuestionsDataUseCase {
     required List<QuestionModel> questions,
     required GetQuestionsParams params
   }) async {
-    try {
-      final newData = await _repository.getData(
-          lastDocument: params.lastDocument,
-          limit: params.limit
-      );
-      return _paginationHandler.updateWithNewData(questions, newData);
-    }
-    catch (e) {
-      rethrow;
-    }
+    final newData = await _repository.getData(
+        lastDocument: params.lastDocument,
+        limit: params.limit
+    );
+    return _paginationHandler.updateWithNewData(questions, newData);
   }
 }
 
