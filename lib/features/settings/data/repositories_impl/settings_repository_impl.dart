@@ -3,7 +3,7 @@ import '../../../../core/data/models/user_model.dart';
 import 'package:cash_money/core/constants/app_keys.dart';
 import '../../domain/repositories/settings_repository.dart';
 import 'package:cash_money/core/services/session_service.dart';
-import 'package:cash_money/core/data/data_sources/remote/firestore.dart';
+import '../../../../core/domain/services/firestore_service.dart';
 
 
 class SettingsRepositoryImpl implements SettingsRepository {

@@ -1,10 +1,12 @@
 import '../../../constants/app_durations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cash_money/core/domain/services/auth_service.dart';
 
 
-class FirebaseAuthService {
+class AuthServiceImpl implements AuthService{
   static final _firebaseAuth = FirebaseAuth.instance;
 
+  @override
   Future<UserCredential> signIn({
     required String email,
     required String password,
@@ -15,6 +17,7 @@ class FirebaseAuthService {
     ).timeout(AppDurations.seconds);
   }
 
+  @override
   Future<UserCredential> signUp({
     required String email,
     required String password
@@ -25,6 +28,7 @@ class FirebaseAuthService {
     ).timeout(AppDurations.seconds);
   }
 
+  @override
   Future<User?> updateProfile({
     required String newEmail,
     required String newPassword,
@@ -34,6 +38,7 @@ class FirebaseAuthService {
     return user;
   }
 
+  @override
   Future<void> sendPasswordResetEmail({
     required String userEmail,
     required ActionCodeSettings actionCodeSettings

@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/repositories/auth_repository.dart';
-import 'package:cash_money/core/data/data_sources/remote/firebase_auth.dart';
+import '../../../../core/domain/services/auth_service.dart';
 
 
 class AuthRepositoryImpl implements AuthRepository {
-  final FirebaseAuthService _auth;
+  final AuthService _auth;
 
-  AuthRepositoryImpl({required FirebaseAuthService auth}) : _auth = auth;
+  AuthRepositoryImpl({required AuthService auth}) : _auth = auth;
 
   @override
   Future<UserCredential> signIn({

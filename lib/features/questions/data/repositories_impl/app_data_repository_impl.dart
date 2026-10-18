@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/repositories/app_data_repository.dart';
 import 'package:cash_money/core/constants/app_durations.dart';
 import 'package:cash_money/core/services/session_service.dart';
-import '../../../../core/data/data_sources/remote/firestore.dart';
+import '../../../../core/domain/services/firestore_service.dart';
 import 'package:cash_money/features/questions/data/converters/points_converter.dart';
 
 

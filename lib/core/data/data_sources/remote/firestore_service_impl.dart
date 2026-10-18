@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../domain/services/firestore_service.dart';
 import 'package:cash_money/core/constants/app_durations.dart';
 
 
-class FirestoreService {
+class FirestoreServiceImpl implements FirestoreService{
   static const _duration = AppDurations.seconds;
   static final _firestore = FirebaseFirestore.instance;
 
+  @override
   Future<void> setData({
     required String docId,
     required String collectionPath,
@@ -15,6 +17,7 @@ class FirestoreService {
         _duration);
   }
 
+  @override
   Future<DocumentSnapshot<Map<String, dynamic>>> getDocument({
     required String? docId,
     required String collectionPath
@@ -23,6 +26,7 @@ class FirestoreService {
         _duration);
   }
 
+  @override
   Query<Map<String, dynamic>> getCollection({
     required String docId,
     required String subCollectionPath,
@@ -34,6 +38,7 @@ class FirestoreService {
         .collection(subCollectionPath);
   }
 
+  @override
   Future<void> updateDocument({
     required String? docId,
     required String collectionPath,
