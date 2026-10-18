@@ -1,6 +1,6 @@
 import 'package:cash_money/features/questions/constants/questions_text_styles.dart';
 import 'package:cash_money/features/questions/data/models/questions_result.dart';
-import '../../../../../core/data/data_sources/local/cache_helper_impl.dart';
+import '../../../../../core/data/data_sources/local/cache_helper_service_impl.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
 import 'package:cash_money/core/services/connectivity_service.dart';
@@ -18,7 +18,7 @@ import 'dart:async';
 
 class BuildStartScreen extends StatefulWidget {
   final VoidCallback loadMoreData;
-  final CacheHelperImpl cacheHelper;
+  final CacheHelperServiceImpl cacheHelper;
   final void Function(int) onSave;
   final QuestionsData questionsData;
   final MessageResult? messageResult;

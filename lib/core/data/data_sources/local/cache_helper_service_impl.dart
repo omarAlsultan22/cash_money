@@ -1,15 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../errors/exceptions/shared_prefs_app_exceptions.dart';
-import 'package:cash_money/core/domain/repositories/cache_helper.dart';
+import 'package:cash_money/core/domain/services/cache_helper_service.dart';
 
 
-class CacheHelperImpl implements CacheHelper{
+class CacheHelperServiceImpl implements CacheHelperService{
 
-  static final CacheHelperImpl _instance = CacheHelperImpl._internal();
+  static final CacheHelperServiceImpl _instance = CacheHelperServiceImpl._internal();
 
-  factory CacheHelperImpl() => _instance;
+  factory CacheHelperServiceImpl() => _instance;
 
-  CacheHelperImpl._internal();
+  CacheHelperServiceImpl._internal();
 
   static late SharedPreferences sharedPreferences;
 

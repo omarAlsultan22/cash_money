@@ -2,7 +2,7 @@ import '../../../features/auth/presentation/cubits/change_email_and_password_cub
 import '../../../features/auth/domain/use_cases/change_email_and_password_use_case.dart';
 import '../../../features/auth/data/repositories_impl/sign_up_repository_impl.dart';
 import '../../../features/auth/data/repositories_impl/auth_repository_impl.dart';
-import 'package:cash_money/core/data/data_sources/local/cache_helper_impl.dart';
+import 'package:cash_money/core/data/data_sources/local/cache_helper_service_impl.dart';
 import '../../../features/auth/presentation/cubits/sign_in_cubit.dart';
 import '../../../features/auth/presentation/cubits/sign_up_cubit.dart';
 import '../../../features/auth/domain/use_cases/sign_in_use_case.dart';
@@ -31,7 +31,7 @@ class AuthDependencies {
 
     sl.registerLazySingleton(() =>
         SignUpUseCase(
-            cacheHelper: sl<CacheHelperImpl>(),
+            cacheHelper: sl<CacheHelperServiceImpl>(),
             authRepository: sl<AuthRepositoryImpl>(),
             signUpRepository: sl<SignUpRepositoryImpl>()));
 

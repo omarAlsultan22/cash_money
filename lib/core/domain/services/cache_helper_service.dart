@@ -1,4 +1,4 @@
-abstract class CacheHelper {
+abstract class CacheHelperService {
   Future<void> init();
   Future<bool> setString({required String key, required String value});
   Future<String> getString({required String key});

@@ -2,7 +2,7 @@ import 'firebase_options.dart';
 import '../di/service _locator.dart';
 import '../services/session_service.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../data/data_sources/local/cache_helper_impl.dart';
+import '../data/data_sources/local/cache_helper_service_impl.dart';
 import 'package:cash_money/core/errors/exceptions/components_exception.dart';
 
 
@@ -14,7 +14,7 @@ class InitializationController {
 
   InitializationController._internal();
 
-  late final CacheHelperImpl _cacheHelper;
+  late final CacheHelperServiceImpl _cacheHelper;
   late final SessionService _sessionService;
 
   bool _isInitialized = false;
@@ -32,7 +32,7 @@ class InitializationController {
   Future<void> init() async {
     if (_isInitialized) return;
 
-    _cacheHelper = sl<CacheHelperImpl>();
+    _cacheHelper = sl<CacheHelperServiceImpl>();
     _sessionService = sl<SessionService>();
 
     try {
