@@ -7,19 +7,19 @@ import '../../../../core/domain/services/firestore_service.dart';
 
 
 class SettingsRepositoryImpl implements SettingsRepository {
-  final FirestoreService _repository;
+  final FirestoreService _dataSource;
   final SessionService _sessionService;
 
   SettingsRepositoryImpl({
-    required FirestoreService repository,
+    required FirestoreService dataSource,
     required SessionService sessionService
   })
-      : _repository = repository,
+      : _dataSource = dataSource,
         _sessionService = sessionService;
 
   @override
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
-    final jsonData = await _repository.getDocument(
+    final jsonData = await _dataSource.getDocument(
         docId: _sessionService.currentUid,
         collectionPath: AppKeys.users
     );
@@ -33,7 +33,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     final userModel = UserModel(
       userName: userName,
     );
-    await _repository.updateDocument(
+    await _dataSource.updateDocument(
         docId: _sessionService.currentUid,
         collectionPath: AppKeys.users,
         data: userModel.toJson());

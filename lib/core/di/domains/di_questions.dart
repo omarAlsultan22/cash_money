@@ -15,7 +15,7 @@ class QuestionsDependencies {
     // Repository
     sl.registerLazySingleton(() =>
         AppDataRepositoryImpl(
-            repository: sl<FirestoreServiceImpl>(),
+            dataSource: sl<FirestoreServiceImpl>(),
             sessionService: sl<SessionService>()));
 
     // UseCases

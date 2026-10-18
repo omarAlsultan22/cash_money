@@ -12,7 +12,7 @@ class SettingsDependencies {
     // Repository
     sl.registerLazySingleton(() =>
         SettingsRepositoryImpl(
-            repository: sl<FirestoreServiceImpl>(),
+            dataSource: sl<FirestoreServiceImpl>(),
             sessionService: sl<SessionService>()
         )
     );

@@ -6,18 +6,18 @@ import 'package:cash_money/features/auth/domain/repositories/sign_up_repository.
 
 
 class SignUpRepositoryImpl implements SignUpRepository {
-  final FirestoreService _repository;
+  final FirestoreService _service;
 
   SignUpRepositoryImpl({
     required FirestoreService repository
-  }) : _repository = repository;
+  }) : _service = repository;
 
   @override
   Future<void> createUserInfo({
     required UserModel userModel,
     required UserCredential userCredential
   }) async {
-    await _repository.setData(
+    await _service.setData(
         collectionPath: AppKeys.users,
         docId: userCredential.user!.uid,
         data: userModel.toJson());

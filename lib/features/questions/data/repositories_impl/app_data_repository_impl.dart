@@ -9,14 +9,14 @@ import 'package:cash_money/features/questions/data/converters/points_converter.d
 
 
 class AppDataRepositoryImpl implements AppDataRepository {
-  final FirestoreService _repository;
+  final FirestoreService _dataSource;
   final SessionService _sessionService;
 
   AppDataRepositoryImpl({
-    required FirestoreService repository,
+    required FirestoreService dataSource,
     required SessionService sessionService
   })
-      : _repository = repository,
+      : _dataSource = dataSource,
         _sessionService = sessionService;
 
   @override
@@ -24,7 +24,7 @@ class AppDataRepositoryImpl implements AppDataRepository {
     required DocumentSnapshot? lastDocument,
     required int limit
   }) async {
-      Query query = _repository.getCollection(
+      Query query = _dataSource.getCollection(
         superCollectionPath: 'data',
         docId: '0Hv1zUWKuetw3eP7Nplt',
         subCollectionPath: 'userData',
@@ -61,7 +61,7 @@ class AppDataRepositoryImpl implements AppDataRepository {
 
   @override
   Future<int?> getPoints() async {
-    final doc = await _repository.getDocument(
+    final doc = await _dataSource.getDocument(
         collectionPath: 'points', docId: _sessionService.currentUid);
     return PointsConverter
         .fromQuerySnapshot(doc)
@@ -70,7 +70,7 @@ class AppDataRepositoryImpl implements AppDataRepository {
 
   @override
   Future<void> putPoints({required int points}) async {
-    await _repository.setData(
+    await _dataSource.setData(
         docId: _sessionService.currentUid,
         collectionPath: 'points',
         data: {'points': points});
