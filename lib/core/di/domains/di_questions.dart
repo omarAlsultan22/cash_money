@@ -30,7 +30,7 @@ class QuestionsDependencies {
     // Cubit
     sl.registerFactory(() =>
         DataCubit(
-            cacheHelper: sl<CacheHelperServiceImpl>(),
+            cacheHelper: sl<CacheHelperImpl>(),
             pointsUseCase: sl<PointsUseCase>(),
             connectivityService: sl<ConnectivityService>(),
             questionsDataUseCase: sl<QuestionsDataUseCase>()));

@@ -18,7 +18,7 @@ import 'dart:async';
 
 class BuildStartScreen extends StatefulWidget {
   final VoidCallback loadMoreData;
-  final CacheHelperServiceImpl cacheHelper;
+  final CacheHelperImpl cacheHelper;
   final void Function(int) onSave;
   final QuestionsData questionsData;
   final MessageResult? messageResult;

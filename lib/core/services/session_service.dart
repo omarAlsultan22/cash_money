@@ -10,7 +10,7 @@ class SessionService {
 
   SessionService._internal();
 
-  static final _cacheHelper = sl<CacheHelperServiceImpl>();
+  static final _cacheHelper = sl<CacheHelperImpl>();
 
   static const _uId = 'user_id';
 

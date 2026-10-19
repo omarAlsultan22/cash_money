@@ -9,7 +9,7 @@ import '../../../features/questions/presentation/utils/helpers/pagination_state_
 
 class CoreDependencies {
   static void register() {
-    sl.registerLazySingleton(() => CacheHelperServiceImpl());
+    sl.registerLazySingleton(() => CacheHelperImpl());
     sl.registerLazySingleton(() => SessionService());
     sl.registerLazySingleton(() => FirestoreServiceImpl());
     sl.registerLazySingleton(() => PaginationHandler());

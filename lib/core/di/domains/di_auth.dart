@@ -18,7 +18,7 @@ class AuthDependencies {
   static void register() {
     // Repositories
     sl.registerLazySingleton(() =>
-        AuthRepositoryImpl(auth: sl<AuthServiceImpl>()));
+        AuthRepositoryImpl(service: sl<AuthServiceImpl>()));
 
     sl.registerLazySingleton(() =>
         SignUpRepositoryImpl(service: sl<FirestoreServiceImpl>()));
@@ -31,7 +31,7 @@ class AuthDependencies {
 
     sl.registerLazySingleton(() =>
         SignUpUseCase(
-            cacheHelper: sl<CacheHelperServiceImpl>(),
+            cacheHelper: sl<CacheHelperImpl>(),
             authRepository: sl<AuthRepositoryImpl>(),
             signUpRepository: sl<SignUpRepositoryImpl>()));
 

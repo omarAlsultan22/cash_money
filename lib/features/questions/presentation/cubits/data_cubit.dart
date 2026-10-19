@@ -14,13 +14,13 @@ import 'package:cash_money/features/questions/domain/use_cases/points_use_case.d
 
 
 class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
-  final CacheHelperServiceImpl _cacheHelper;
+  final CacheHelperImpl _cacheHelper;
   final PointsUseCase _pointsUseCase;
   final ConnectivityService _connectivityService;
   final QuestionsDataUseCase _questionsDataUseCase;
 
   DataCubit({
-    required CacheHelperServiceImpl cacheHelper,
+    required CacheHelperImpl cacheHelper,
     required PointsUseCase pointsUseCase,
     required ConnectivityService connectivityService,
     required QuestionsDataUseCase questionsDataUseCase

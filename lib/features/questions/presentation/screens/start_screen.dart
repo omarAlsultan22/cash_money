@@ -12,7 +12,7 @@ import 'package:cash_money/features/questions/presentation/screens/base/base_scr
 class StartScreen extends BaseScreen {
   const StartScreen({super.key});
 
-  static final cacheHelper = sl<CacheHelperServiceImpl>();
+  static final cacheHelper = sl<CacheHelperImpl>();
   static final connectivityService = sl<ConnectivityService>();
 
   @override

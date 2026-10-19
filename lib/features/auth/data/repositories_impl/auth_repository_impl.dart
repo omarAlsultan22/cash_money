@@ -1,19 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/repositories/auth_repository.dart';
-import '../../../../core/domain/services/auth_service.dart';
+import '../../../../core/domain/data_sources/auth_service.dart';
 
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthService _auth;
+  final AuthService _service;
 
-  AuthRepositoryImpl({required AuthService auth}) : _auth = auth;
+  AuthRepositoryImpl({required AuthService service}) : _service = service;
 
   @override
   Future<UserCredential> signIn({
     required String userEmail,
     required String userPassword
   }) async {
-      final userCredential = await _auth.signIn(
+      final userCredential = await _service.signIn(
         email: userEmail,
         password: userPassword,
       );
@@ -28,7 +28,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String userEmail,
     required String userPassword
   }) async {
-      return await _auth
+      return await _service
           .signUp(
           email: userEmail,
           password: userPassword
@@ -43,7 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String currentPassword,
     required String newPassword
   }) async {
-      final user = await _auth.updateProfile(
+      final user = await _service.updateProfile(
           newEmail: newEmail,
           currentPassword: currentPassword,
           newPassword: newPassword);
@@ -55,7 +55,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String userEmail,
     required ActionCodeSettings actionCodeSettings
   }) async {
-    await _auth.sendPasswordResetEmail(
+    await _service.sendPasswordResetEmail(
         userEmail: userEmail,
         actionCodeSettings: actionCodeSettings
     );

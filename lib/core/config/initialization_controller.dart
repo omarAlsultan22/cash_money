@@ -14,7 +14,7 @@ class InitializationController {
 
   InitializationController._internal();
 
-  late final CacheHelperServiceImpl _cacheHelper;
+  late final CacheHelperImpl _cacheHelper;
   late final SessionService _sessionService;
 
   bool _isInitialized = false;
@@ -32,7 +32,7 @@ class InitializationController {
   Future<void> init() async {
     if (_isInitialized) return;
 
-    _cacheHelper = sl<CacheHelperServiceImpl>();
+    _cacheHelper = sl<CacheHelperImpl>();
     _sessionService = sl<SessionService>();
 
     try {
