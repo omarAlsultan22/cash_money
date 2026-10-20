@@ -7,7 +7,7 @@ import '../../../features/auth/presentation/cubits/sign_in_cubit.dart';
 import '../../../features/auth/presentation/cubits/sign_up_cubit.dart';
 import '../../../features/auth/domain/use_cases/sign_in_use_case.dart';
 import '../../../features/auth/domain/use_cases/sign_up_use_case.dart';
-import 'package:cash_money/core/services/connectivity_service.dart';
+import 'package:cash_money/core/network/data/connectivity_service.dart';
 import '../../data/data_sources/remote/firestore_service_impl.dart';
 import 'package:cash_money/core/services/session_service.dart';
 import '../../data/data_sources/remote/auth_service_impl.dart';

@@ -4,7 +4,7 @@ import '../exceptions/base/app_exception.dart';
 import '../exceptions/client_app_exception.dart';
 import '../exceptions/components_exception.dart';
 import '../exceptions/validation_exception.dart';
-import '../../services/connectivity_service.dart';
+import '../../network/data/connectivity_service.dart';
 import '../exceptions/network_app_exception.dart';
 import '../exceptions/firebase_app_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

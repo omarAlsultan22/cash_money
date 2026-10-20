@@ -4,7 +4,7 @@ import '../../../features/questions/domain/use_cases/questions_data_use_case.dar
 import 'package:cash_money/core/data/data_sources/local/cache_helper_service_impl.dart';
 import '../../../features/questions/domain/use_cases/points_use_case.dart';
 import '../../../features/questions/presentation/cubits/data_cubit.dart';
-import 'package:cash_money/core/services/connectivity_service.dart';
+import 'package:cash_money/core/network/data/connectivity_service.dart';
 import '../../data/data_sources/remote/firestore_service_impl.dart';
 import 'package:cash_money/core/services/session_service.dart';
 import '../service _locator.dart';

@@ -1,7 +1,7 @@
 import 'icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
-import 'package:cash_money/core/services/connectivity_service.dart';
+import 'package:cash_money/core/network/data/connectivity_service.dart';
 
 
 class InternetUnavailability extends StatelessWidget {

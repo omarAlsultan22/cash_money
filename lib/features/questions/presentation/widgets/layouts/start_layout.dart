@@ -3,7 +3,7 @@ import 'package:cash_money/features/questions/data/models/questions_result.dart'
 import '../../../../../core/data/data_sources/local/cache_helper_service_impl.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
-import 'package:cash_money/core/services/connectivity_service.dart';
+import 'package:cash_money/core/network/data/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';

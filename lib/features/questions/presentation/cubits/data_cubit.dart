@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import '../../../../core/data/models/message_result.dart';
 import '../../domain/use_cases/questions_data_use_case.dart';
-import '../../../../core/services/connectivity_service.dart';
+import '../../../../core/network/data/connectivity_service.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
