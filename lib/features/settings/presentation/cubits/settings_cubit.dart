@@ -1,8 +1,8 @@
 import '../states/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/use_cases/settings_use_case.dart';
-import '../../../../core/network/data/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
+import '../../../../core/network/domain/i_connectivity_service.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
 import 'package:cash_money/core/errors/exceptions/network_app_exception.dart';
@@ -10,11 +10,11 @@ import 'package:cash_money/core/errors/exceptions/network_app_exception.dart';
 
 class SettingsCubit extends Cubit<SettingsState> with ErrorHandlerMixin<SettingsState> {
   final SettingsUseCase _settingsUseCase;
-  final ConnectivityService _connectivityService;
+  final IConnectivityService _connectivityService;
 
   SettingsCubit({
     required SettingsUseCase settingsUseCase,
-    required ConnectivityService connectivityService
+    required IConnectivityService connectivityService
   })
       : _settingsUseCase = settingsUseCase,
         _connectivityService = connectivityService,

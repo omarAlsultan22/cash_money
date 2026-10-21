@@ -1,7 +1,7 @@
 import '../states/auth_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/network/data/connectivity_service.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
+import '../../../../core/network/domain/i_connectivity_service.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import 'package:cash_money/core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/features/auth/domain/use_cases/sign_up_use_case.dart';
@@ -9,11 +9,11 @@ import 'package:cash_money/features/auth/domain/use_cases/sign_up_use_case.dart'
 
 class SignUpCubit extends Cubit<AuthState> with ErrorHandlerMixin<AuthState> {
   final SignUpUseCase _useCase;
-  final ConnectivityService _connectivityService;
+  final IConnectivityService _connectivityService;
 
   SignUpCubit({
     required SignUpUseCase useCase,
-    required ConnectivityService connectivityService,
+    required IConnectivityService connectivityService,
   })
       : _useCase = useCase,
         _connectivityService = connectivityService,

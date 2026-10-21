@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:async';
+import '../../di/service _locator.dart';
 import '../exceptions/base/app_exception.dart';
 import '../exceptions/client_app_exception.dart';
 import '../exceptions/components_exception.dart';
 import '../exceptions/validation_exception.dart';
-import '../../network/data/connectivity_service.dart';
 import '../exceptions/network_app_exception.dart';
 import '../exceptions/firebase_app_exception.dart';
+import '../../network/data/connectivity_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../exceptions/shared_prefs_app_exceptions.dart';
 
@@ -16,7 +17,7 @@ class ExceptionMapper {
 
   ExceptionMapper({required this.error});
 
-  static final _connectivityService = ConnectivityService();
+  static final _connectivityService = sl<ConnectivityService>();
 
   static final Map<Object, AppException? Function(dynamic)> _typePatterns = {
     ValidationException: (error) => error,

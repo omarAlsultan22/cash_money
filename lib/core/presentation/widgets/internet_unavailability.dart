@@ -1,14 +1,13 @@
-import 'icon_button_widget.dart';
 import 'package:flutter/material.dart';
+import '../../network/domain/i_connectivity_service.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
-import 'package:cash_money/core/network/data/connectivity_service.dart';
 
 
 class InternetUnavailability extends StatelessWidget {
   final String? message;
   final VoidCallback? onRetry;
   final PreferredSizeWidget? appBar;
-  final ConnectivityService? connectivityProvider;
+  final IConnectivityService? connectivityProvider;
 
   const InternetUnavailability({
     super.key,

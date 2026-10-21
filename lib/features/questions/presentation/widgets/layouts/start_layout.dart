@@ -1,9 +1,9 @@
 import 'package:cash_money/features/questions/constants/questions_text_styles.dart';
 import 'package:cash_money/features/questions/data/models/questions_result.dart';
-import '../../../../../core/data/data_sources/local/cache_helper_service_impl.dart';
 import '../../../../../core/presentation/widgets/icon_button_widget.dart';
+import '../../../../../core/network/domain/i_connectivity_service.dart';
 import '../../../../../core/presentation/widgets/build_snack_bar.dart';
-import 'package:cash_money/core/network/data/connectivity_service.dart';
+import '../../../../../core/domain/data_sources/cache_helper.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_spaces.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
@@ -18,11 +18,11 @@ import 'dart:async';
 
 class BuildStartScreen extends StatefulWidget {
   final VoidCallback loadMoreData;
-  final CacheHelperImpl cacheHelper;
+  final CacheHelper cacheHelper;
   final void Function(int) onSave;
   final QuestionsData questionsData;
   final MessageResult? messageResult;
-  final ConnectivityService connectivityService;
+  final IConnectivityService connectivityService;
 
   const BuildStartScreen({
     super.key,
@@ -103,6 +103,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
         : 'No Internet Connection';
 
     if (isCorrect) {
+      if (!mounted) return;
       QuickAlert.show(
           context: context,
           text: text,
@@ -111,6 +112,7 @@ class _BuildStartScreenState extends State<BuildStartScreen> {
           showConfirmBtn: true,
           confirmBtnText: 'Okay'
       ).whenComplete(() {
+        if (!mounted) return;
         Navigator.pop(context);
         _savePoints(_points);
       });

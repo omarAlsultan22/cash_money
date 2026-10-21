@@ -5,24 +5,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/questions_params.dart';
 import '../../../../core/data/models/message_result.dart';
 import '../../domain/use_cases/questions_data_use_case.dart';
-import '../../../../core/network/data/connectivity_service.dart';
+import '../../../../core/domain/data_sources/cache_helper.dart';
+import '../../../../core/network/domain/i_connectivity_service.dart';
 import '../../../../core/presentation/mixins/error_handler_mixin.dart';
 import '../../../../core/errors/exceptions/network_app_exception.dart';
 import 'package:cash_money/core/presentation/states/app_sub_states.dart';
-import 'package:cash_money/core/data/data_sources/local/cache_helper_service_impl.dart';
 import 'package:cash_money/features/questions/domain/use_cases/points_use_case.dart';
 
 
 class DataCubit extends Cubit<DataState> with ErrorHandlerMixin<DataState> {
-  final CacheHelperImpl _cacheHelper;
+  final CacheHelper _cacheHelper;
   final PointsUseCase _pointsUseCase;
-  final ConnectivityService _connectivityService;
+  final IConnectivityService _connectivityService;
   final QuestionsDataUseCase _questionsDataUseCase;
 
   DataCubit({
-    required CacheHelperImpl cacheHelper,
+    required CacheHelper cacheHelper,
     required PointsUseCase pointsUseCase,
-    required ConnectivityService connectivityService,
+    required IConnectivityService connectivityService,
     required QuestionsDataUseCase questionsDataUseCase
   })
       : _cacheHelper = cacheHelper,
