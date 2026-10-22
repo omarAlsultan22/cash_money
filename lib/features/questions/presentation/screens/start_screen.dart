@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import '../widgets/layouts/start_layout.dart';
 import '../../../../core/di/service _locator.dart';
 import '../../data/models/data_success_state.dart';
+import '../../../../core/domain/data_sources/cache_helper.dart';
 import 'package:cash_money/core/network/data/connectivity_service.dart';
 import 'package:cash_money/features/questions/presentation/enums/questions_keys.dart';
-import 'package:cash_money/core/data/data_sources/local/cache_helper_impl.dart';
 import 'package:cash_money/features/questions/presentation/screens/base/base_screen.dart';
 
 
 class StartScreen extends BaseScreen {
   const StartScreen({super.key});
 
-  static final cacheHelper = sl<CacheHelperImpl>();
+  static final cacheHelper = sl<CacheHelper>();
   static final connectivityService = sl<ConnectivityService>();
 
   @override

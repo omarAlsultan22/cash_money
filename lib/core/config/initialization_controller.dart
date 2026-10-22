@@ -3,7 +3,6 @@ import '../di/service _locator.dart';
 import '../services/session_service.dart';
 import '../domain/data_sources/cache_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../data/data_sources/local/cache_helper_impl.dart';
 import 'package:cash_money/core/errors/exceptions/components_exception.dart';
 
 
@@ -33,7 +32,7 @@ class InitializationController {
   Future<void> init() async {
     if (_isInitialized) return;
 
-    _cacheHelper = sl<CacheHelperImpl>();
+    _cacheHelper = sl<CacheHelper>();
     _sessionService = sl<SessionService>();
 
     try {
