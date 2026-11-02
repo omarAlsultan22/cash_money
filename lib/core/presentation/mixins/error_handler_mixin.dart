@@ -4,11 +4,11 @@ import '../../errors/exceptions/base/app_exception.dart';
 
 
 mixin ErrorHandlerMixin<State> on Cubit<State> {
-  void handleError(Object e, StackTrace stackTrace, {
+  void handleError(Object error, StackTrace stackTrace, {
     required State Function(AppException failure) onError,
   }) {
     final errorHandler = ErrorHandler(
-      error: e,
+      error: error,
       stackTrace: stackTrace,
     );
     final exception = errorHandler.handleException();
