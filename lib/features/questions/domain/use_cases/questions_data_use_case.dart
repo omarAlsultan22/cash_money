@@ -2,7 +2,7 @@ import '../../data/models/questions_params.dart';
 import '../../data/models/questions_result.dart';
 import '../repositories/app_data_repository.dart';
 import 'package:cash_money/features/questions/data/models/question_model.dart';
-import 'package:cash_money/features/questions/presentation/utils/helpers/pagination_state_manager.dart';
+import 'package:cash_money/features/questions/domain/use_cases/pagination_state_manager.dart';
 
 
 class QuestionsDataUseCase {

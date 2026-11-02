@@ -7,9 +7,9 @@ import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
+import '../../../utils/validate/validate_password.dart';
 import '../../../../../core/constants/app_spaces.dart';
-import '../../utils/validate/validate_password.dart';
-import '../../utils/validate/validate_email.dart';
+import '../../../utils/validate/validate_email.dart';
 import 'package:flutter/material.dart';
 
 

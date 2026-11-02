@@ -1,5 +1,5 @@
-import '../../../features/questions/presentation/utils/helpers/pagination_state_manager.dart';
 import '../../../features/questions/data/repositories_impl/app_data_repository_impl.dart';
+import '../../../features/questions/domain/use_cases/pagination_state_manager.dart';
 import '../../../features/questions/domain/use_cases/questions_data_use_case.dart';
 import '../../../features/questions/domain/repositories/app_data_repository.dart';
 import '../../../features/questions/domain/use_cases/points_use_case.dart';

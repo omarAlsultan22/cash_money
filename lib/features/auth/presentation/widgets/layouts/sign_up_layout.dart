@@ -1,4 +1,3 @@
-import 'package:cash_money/features/auth/presentation/utils/validate/validate_email.dart';
 import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
@@ -9,8 +8,9 @@ import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
+import '../../../utils/validate/validate_password.dart';
 import '../../../../../core/constants/app_spaces.dart';
-import '../../utils/validate/validate_password.dart';
+import '../../../utils/validate/validate_email.dart';
 import '../../../constants/auth_lables_texts.dart';
 import 'package:flutter/material.dart';
 

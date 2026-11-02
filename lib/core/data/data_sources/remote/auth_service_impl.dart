@@ -4,8 +4,11 @@ import '../../../domain/data_sources/auth_service.dart';
 
 
 class AuthServiceImpl implements AuthService{
-  static final _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth;
+  static const _duration = AppDurations.seconds;
 
+  AuthServiceImpl({FirebaseAuth? auth})
+      : _firebaseAuth = auth ?? FirebaseAuth.instance;
   @override
   Future<UserCredential> signIn({
     required String email,
@@ -14,7 +17,7 @@ class AuthServiceImpl implements AuthService{
     return await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password
-    ).timeout(AppDurations.seconds);
+    ).timeout(_duration);
   }
 
   @override
@@ -25,7 +28,7 @@ class AuthServiceImpl implements AuthService{
     return await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password
-    ).timeout(AppDurations.seconds);
+    ).timeout(_duration);
   }
 
   @override
@@ -45,6 +48,6 @@ class AuthServiceImpl implements AuthService{
   }) async {
     await _firebaseAuth.sendSignInLinkToEmail(
         email: userEmail, actionCodeSettings: actionCodeSettings).timeout(
-        AppDurations.seconds);
+        _duration);
   }
 }

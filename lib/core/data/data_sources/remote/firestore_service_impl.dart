@@ -4,8 +4,11 @@ import 'package:cash_money/core/constants/app_durations.dart';
 
 
 class FirestoreServiceImpl implements FirestoreService{
-  static const _duration = AppDurations.seconds;
-  static final _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
+  final _duration = AppDurations.seconds;
+
+  FirestoreServiceImpl({FirebaseFirestore? firestore})
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   @override
   Future<void> setData({

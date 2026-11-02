@@ -4,24 +4,8 @@ import '../../../errors/exceptions/shared_prefs_app_exceptions.dart';
 
 
 class CacheHelperImpl implements CacheHelper{
-
-  static final CacheHelperImpl _instance = CacheHelperImpl._internal();
-
-  factory CacheHelperImpl() => _instance;
-
-  CacheHelperImpl._internal();
-
-  static late SharedPreferences sharedPreferences;
-
-  @override
-  Future<void> init() async {
-    try {
-      sharedPreferences = await SharedPreferences.getInstance();
-    }
-    catch (e) {
-      throw SharedPrefsInitializeException(error: e);
-    }
-  }
+  final SharedPreferences _prefs;
+  CacheHelperImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   @override
   Future<bool> setString({
@@ -29,7 +13,7 @@ class CacheHelperImpl implements CacheHelper{
     required String value,
   }) async {
     try {
-      return await sharedPreferences.setString(key, value);
+      return await _prefs.setString(key, value);
     }
     catch (e) {
       throw SharedPrefsSaveException(error: e);
@@ -41,7 +25,7 @@ class CacheHelperImpl implements CacheHelper{
     required String key,
   }) async {
     try {
-      return sharedPreferences.getString(key) ?? '';
+      return _prefs.getString(key) ?? '';
     }
     catch (e) {
       throw SharedPrefsReadException(error: e);
@@ -54,7 +38,7 @@ class CacheHelperImpl implements CacheHelper{
     required int value,
   }) async {
     try {
-      return await sharedPreferences.setInt(key, value);
+      return await _prefs.setInt(key, value);
     }
     catch (e) {
       throw SharedPrefsSaveException(error: e);
@@ -66,7 +50,7 @@ class CacheHelperImpl implements CacheHelper{
     required String key,
   }) async {
     try {
-      return sharedPreferences.getInt(key);
+      return _prefs.getInt(key);
     }
     catch (e) {
       throw SharedPrefsReadException(error: e);
@@ -79,7 +63,7 @@ class CacheHelperImpl implements CacheHelper{
   }) async
   {
     try {
-      return await sharedPreferences.remove(key);
+      return await _prefs.remove(key);
     }
     catch (e) {
       throw SharedPrefsRemoveException(error: e);
