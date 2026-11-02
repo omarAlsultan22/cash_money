@@ -1,7 +1,7 @@
-import 'package:cash_money/core/data/data_sources/remote/auth_service_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:cash_money/core/domain/data_sources/auth_service.dart';
+import 'package:cash_money/core/data/data_sources/remote/auth_service_impl.dart';
 
 
 void main() {
