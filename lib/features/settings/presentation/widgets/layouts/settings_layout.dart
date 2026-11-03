@@ -1,7 +1,7 @@
 import '../../../../auth/presentation/screens/change_email_and_password_screen.dart';
 import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
-import '../../../../../shared/utils/helpers/validate/validator_input.dart';
+import '../../../../../shared/utils/helpers/validate/input_validation.dart';
 import '../../../../../core/presentation/widgets/build_input_field.dart';
 import 'package:cash_money/core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
@@ -149,7 +149,7 @@ class _SettingsLayoutState extends State<SettingsLayout> with AuthMixin {
       hint: AppStrings.nameHint,
       icon: Icons.person,
       validator: (value) =>
-          ValidateInput.validator(value, AppStrings.nameLabel),
+          InputValidation.validator(value, AppStrings.nameLabel),
     );
   }
 

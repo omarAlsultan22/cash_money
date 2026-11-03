@@ -1,16 +1,16 @@
 import 'package:cash_money/features/auth/presentation/mixins/auth_mixin.dart';
 import 'package:cash_money/core/presentation/widgets/icon_button_widget.dart';
 import 'package:cash_money/core/presentation/widgets/build_input_field.dart';
-import '../../../../../shared/utils/helpers/validate/validator_input.dart';
+import '../../../../../shared/utils/helpers/validate/input_validation.dart';
 import 'package:cash_money/features/auth/constants/auth_hints_texts.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_strings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
-import '../../../utils/validate/validate_password.dart';
+import '../../../utils/validate/password_validation.dart';
 import '../../../../../core/constants/app_spaces.dart';
-import '../../../utils/validate/validate_email.dart';
+import '../../../utils/validate/email_validation.dart';
 import '../../../constants/auth_lables_texts.dart';
 import 'package:flutter/material.dart';
 
@@ -160,7 +160,7 @@ class _SignUpLayoutState extends State<SignUpLayout> with AuthMixin<SignUpLayout
         hintText: AppStrings.nameHint,
         autofillHints: const [AutofillHints.name],
         validator: (value) =>
-            ValidateInput.validator(value!, AppStrings.nameLabel)
+            InputValidation.validator(value!, AppStrings.nameLabel)
     );
   }
 
@@ -173,7 +173,7 @@ class _SignUpLayoutState extends State<SignUpLayout> with AuthMixin<SignUpLayout
         helperText: 'For example: example@gmail.com',
         keyboardType: TextInputType.emailAddress,
         autofillHints: const [AutofillHints.email],
-        validator: (value) => ValidateEmail.validator(value!)
+        validator: (value) => EmailValidation.validator(value!)
     );
   }
 
@@ -192,7 +192,7 @@ class _SignUpLayoutState extends State<SignUpLayout> with AuthMixin<SignUpLayout
                 })
         ),
         autofillHints: const [AutofillHints.newPassword],
-        validator: (value) => ValidatePassword.validator(value!)
+        validator: (value) => PasswordValidation.validator(value!)
     );
   }
 

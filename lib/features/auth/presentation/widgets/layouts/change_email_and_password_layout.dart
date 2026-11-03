@@ -7,9 +7,9 @@ import '../../../../../core/data/models/message_result.dart';
 import 'package:cash_money/core/constants/app_paddings.dart';
 import 'package:cash_money/core/constants/app_colors.dart';
 import 'package:cash_money/core/constants/app_sizes.dart';
-import '../../../utils/validate/validate_password.dart';
+import '../../../utils/validate/password_validation.dart';
 import '../../../../../core/constants/app_spaces.dart';
-import '../../../utils/validate/validate_email.dart';
+import '../../../utils/validate/email_validation.dart';
 import 'package:flutter/material.dart';
 
 
@@ -152,7 +152,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
       controller: _newEmailController,
       hintText: 'You can add a new email',
       prefixIcon: Icons.email,
-      validator: (value) => ValidateEmail.validator(value),
+      validator: (value) => EmailValidation.validator(value),
     );
   }
 
@@ -165,7 +165,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
       suffixIcon: buildPasswordVisibilityToggle(isObscure: _isObscureCurrent,
           onToggle: () =>
               setState(() => _isObscureCurrent = !_isObscureCurrent)),
-      validator: (value) => ValidatePassword.validator(value),
+      validator: (value) => PasswordValidation.validator(value),
     );
   }
 
@@ -179,7 +179,7 @@ class _ChangeEmailAndPasswordLayoutState extends State<ChangeEmailAndPasswordLay
           isObscure: _isObscureNew,
           onToggle: () =>
               setState(() => _isObscureNew = !_isObscureNew)),
-      validator: (value) => ValidatePassword.validator(value),
+      validator: (value) => PasswordValidation.validator(value),
     );
   }
 
