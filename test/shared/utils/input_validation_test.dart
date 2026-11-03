@@ -3,7 +3,7 @@ import 'package:cash_money/shared/utils/helpers/validate/input_validation.dart';
 
 
 void main() {
-  group('ValidateInput.validator', () {
+  group('InputValidation.validator', () {
     test('returns error message when value is null', () {
       final result = InputValidation.validator(null, 'Name');
 
